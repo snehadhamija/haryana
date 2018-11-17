@@ -28,8 +28,60 @@ public class ElectricityMeterDetails {
 	@JoinColumn(name = "ELECTRICITY_METER_SUB_CATEGORY_ID")
 	private ElectricityMeterSubCategory electricityMeterSubCategory;
 
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "HOSTEL_ID")
+	private Hostel hostel;
+
 	@ManyToOne(fetch = FetchType.EAGER, optional = true)
 	@JoinColumn(name = "FLOOR_ID", nullable = true)
 	private Floor floor;
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public String getMaterName() {
+		return materName;
+	}
+
+	public void setMaterName(String materName) {
+		this.materName = materName;
+	}
+
+	public String getMaterNumber() {
+		return materNumber;
+	}
+
+	public void setMaterNumber(String materNumber) {
+		this.materNumber = materNumber;
+	}
+
+	public ElectricityMeterSubCategory getElectricityMeterSubCategory() {
+		return electricityMeterSubCategory;
+	}
+
+	public void setElectricityMeterSubCategory(ElectricityMeterSubCategory electricityMeterSubCategory) {
+		this.electricityMeterSubCategory = electricityMeterSubCategory;
+	}
+
+	public Hostel getHostel() {
+		return hostel;
+	}
+
+	public void setHostel(Hostel hostel) {
+		this.hostel = hostel;
+	}
+
+	public Floor getFloor() {
+		return floor;
+	}
+
+	public void setFloor(Floor floor) {
+		this.floor = floor;
+	}
 
 }
