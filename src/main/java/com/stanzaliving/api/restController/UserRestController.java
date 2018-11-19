@@ -19,7 +19,7 @@ public class UserRestController {
 	UserService userService;
 
 	@PreAuthorize("hasAnyRole('ADMIN', 'SUPERADMIN')")
-	@RequestMapping(value = { "/feedback/login" }, method = RequestMethod.POST)
+	@RequestMapping(value = { "/electricity/login" }, method = RequestMethod.POST)
 	public ResponseEntity feedbackHomePage(ModelMap model) {
 		return new ResponseEntity(HttpStatus.OK);
 	}
