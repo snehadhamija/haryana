@@ -31,4 +31,10 @@ public class ElectricityMeterReadingsServiceImpl implements ElectricityMeterRead
 		return dao.findAllElectricityMeterReadingsForMeter(electricityMeterDetails);
 	}
 
+	@Override
+	public ElectricityMeterReadings findLastElectricityMeterReadingsForMeter(
+			ElectricityMeterDetails electricityMeterDetails) {
+		return dao.findLastElectricityMeterReadingsForMeter(electricityMeterDetails);
+	}
+
 }

@@ -14,4 +14,5 @@ public interface ElectricityMeterReadingsService {
 	List<ElectricityMeterReadings> findAllElectricityMeterReadingsForMeter(
 			ElectricityMeterDetails electricityMeterDetails);
 
+	ElectricityMeterReadings findLastElectricityMeterReadingsForMeter(ElectricityMeterDetails electricityMeterDetails);
 }

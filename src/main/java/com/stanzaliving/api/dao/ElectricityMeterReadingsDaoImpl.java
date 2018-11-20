@@ -3,6 +3,7 @@ package com.stanzaliving.api.dao;
 import java.util.List;
 
 import org.hibernate.Criteria;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
@@ -30,6 +31,19 @@ public class ElectricityMeterReadingsDaoImpl extends AbstractDao<Integer, Electr
 		Criteria crit = createEntityCriteria();
 		crit.add(Restrictions.eq("electricityMeterDetails", electricityMeterDetails));
 		return (List<ElectricityMeterReadings>) crit.setResultTransformer(crit.DISTINCT_ROOT_ENTITY).list();
+	}
+
+	@Override
+	public ElectricityMeterReadings findLastElectricityMeterReadingsForMeter(
+			ElectricityMeterDetails electricityMeterDetails) {
+		Criteria crit = createEntityCriteria();
+		crit.add(Restrictions.eq("electricityMeterDetails", electricityMeterDetails));
+		crit.addOrder(Order.desc("id"));
+		crit.setMaxResults(1);
+		if (crit.uniqueResult() != null) {
+			return (ElectricityMeterReadings) crit.uniqueResult();
+		}
+		return null;
 	}
 
 }

@@ -14,4 +14,6 @@ public interface ElectricityMeterReadingsDao {
 	List<ElectricityMeterReadings> findAllElectricityMeterReadingsForMeter(
 			ElectricityMeterDetails electricityMeterDetails);
 
+	ElectricityMeterReadings findLastElectricityMeterReadingsForMeter(ElectricityMeterDetails electricityMeterDetails);
+
 }
