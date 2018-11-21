@@ -32,10 +32,6 @@ public class ElectricityMeterDetails {
 	@JoinColumn(name = "HOSTEL_ID")
 	private Hostel hostel;
 
-	@ManyToOne(fetch = FetchType.EAGER, optional = true)
-	@JoinColumn(name = "FLOOR_ID", nullable = true)
-	private Floor floor;
-
 	public int getId() {
 		return id;
 	}
@@ -74,14 +70,6 @@ public class ElectricityMeterDetails {
 
 	public void setHostel(Hostel hostel) {
 		this.hostel = hostel;
-	}
-
-	public Floor getFloor() {
-		return floor;
-	}
-
-	public void setFloor(Floor floor) {
-		this.floor = floor;
 	}
 
 }

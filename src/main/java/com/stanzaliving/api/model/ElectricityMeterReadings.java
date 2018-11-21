@@ -1,5 +1,7 @@
 package com.stanzaliving.api.model;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -26,6 +28,9 @@ public class ElectricityMeterReadings {
 
 	@Column(name = "READING_KWH", nullable = false)
 	private String readingKwh;
+
+	@Column(name = "READING_DATE", nullable = false)
+	private Date readingDate;
 
 	public int getId() {
 		return id;
@@ -57,5 +62,13 @@ public class ElectricityMeterReadings {
 
 	public void setReadingKwh(String readingKwh) {
 		this.readingKwh = readingKwh;
+	}
+
+	public Date getReadingDate() {
+		return readingDate;
+	}
+
+	public void setReadingDate(Date readingDate) {
+		this.readingDate = readingDate;
 	}
 }

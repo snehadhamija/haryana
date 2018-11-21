@@ -70,6 +70,7 @@ public class ElectricityMeterDetailsRestContoller {
 				if (electricityMeterReadings != null) {
 					ElectricityMeterReadingsDto electricityMeterReadingsDto = new ElectricityMeterReadingsDto();
 					electricityMeterReadingsDto.setElectricityMeterDetails(ed);
+					electricityMeterReadingsDto.setLastReadingdate(electricityMeterReadings.getReadingDate());
 					electricityMeterReadingsDto.setLastReadingKwah(electricityMeterReadings.getReadingKwah());
 					electricityMeterReadingsDto.setLastReadingKwh(electricityMeterReadings.getReadingKwh());
 					electricityMeterReadingsDtos.add(electricityMeterReadingsDto);

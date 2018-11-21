@@ -1,5 +1,7 @@
 package com.stanzaliving.api.dto;
 
+import java.util.Date;
+
 import com.stanzaliving.api.model.ElectricityMeterDetails;
 
 public class ElectricityMeterReadingsDto {
@@ -9,6 +11,8 @@ public class ElectricityMeterReadingsDto {
 	private String lastReadingKwah;
 
 	private String lastReadingKwh;
+
+	private Date lastReadingdate;
 
 	public ElectricityMeterDetails getElectricityMeterDetails() {
 		return electricityMeterDetails;
@@ -34,18 +38,27 @@ public class ElectricityMeterReadingsDto {
 		this.lastReadingKwh = lastReadingKwh;
 	}
 
+	public Date getLastReadingdate() {
+		return lastReadingdate;
+	}
+
+	public void setLastReadingdate(Date lastReadingdate) {
+		this.lastReadingdate = lastReadingdate;
+	}
+
 	@Override
 	public String toString() {
 		return "ElectricityMeterReadingsDto [electricityMeterDetails=" + electricityMeterDetails + ", lastReadingKwah="
-				+ lastReadingKwah + ", lastReadingKwh=" + lastReadingKwh + "]";
+				+ lastReadingKwah + ", lastReadingKwh=" + lastReadingKwh + ", lastReadingdate=" + lastReadingdate + "]";
 	}
 
 	public ElectricityMeterReadingsDto(ElectricityMeterDetails electricityMeterDetails, String lastReadingKwah,
-			String lastReadingKwh) {
+			String lastReadingKwh, Date lastReadingdate) {
 		super();
 		this.electricityMeterDetails = electricityMeterDetails;
 		this.lastReadingKwah = lastReadingKwah;
 		this.lastReadingKwh = lastReadingKwh;
+		this.lastReadingdate = lastReadingdate;
 	}
 
 	public ElectricityMeterReadingsDto() {
