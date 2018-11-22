@@ -65,16 +65,16 @@ public class ElectricityMeterDetailsRestContoller {
 		List<ElectricityMeterReadingsDto> electricityMeterReadingsDtos = new ArrayList<>();
 		if (!electricityMeterDetails.isEmpty()) {
 			for (ElectricityMeterDetails ed : electricityMeterDetails) {
+				ElectricityMeterReadingsDto electricityMeterReadingsDto = new ElectricityMeterReadingsDto();
+				electricityMeterReadingsDto.setElectricityMeterDetails(ed);
 				ElectricityMeterReadings electricityMeterReadings = electricityMeterReadingsService
 						.findLastElectricityMeterReadingsForMeter(ed);
 				if (electricityMeterReadings != null) {
-					ElectricityMeterReadingsDto electricityMeterReadingsDto = new ElectricityMeterReadingsDto();
-					electricityMeterReadingsDto.setElectricityMeterDetails(ed);
 					electricityMeterReadingsDto.setLastReadingdate(electricityMeterReadings.getReadingDate());
 					electricityMeterReadingsDto.setLastReadingKwah(electricityMeterReadings.getReadingKwah());
 					electricityMeterReadingsDto.setLastReadingKwh(electricityMeterReadings.getReadingKwh());
-					electricityMeterReadingsDtos.add(electricityMeterReadingsDto);
 				}
+				electricityMeterReadingsDtos.add(electricityMeterReadingsDto);
 			}
 		}
 		return new ResponseEntity<List<ElectricityMeterReadingsDto>>(electricityMeterReadingsDtos, HttpStatus.OK);
