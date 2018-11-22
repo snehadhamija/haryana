@@ -7,13 +7,14 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
 import com.stanzaliving.api.model.ElectricityMeterDetails;
+import com.stanzaliving.api.model.ElectricityMeterReadings;
 import com.stanzaliving.api.model.ElectricityMeterSubCategory;
 import com.stanzaliving.api.model.Hostel;
 
 @Repository("electricityMeterDetailsDao")
 public class ElectricityMeterDetailsDaoImpl extends AbstractDao<Integer, ElectricityMeterDetails>
 		implements ElectricityMeterDetailsDao {
-
+	
 	public ElectricityMeterDetails findById(int id) {
 		return getByKey(id);
 	}

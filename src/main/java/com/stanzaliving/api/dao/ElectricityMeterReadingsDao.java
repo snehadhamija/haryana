@@ -7,6 +7,8 @@ import com.stanzaliving.api.model.ElectricityMeterReadings;
 
 public interface ElectricityMeterReadingsDao {
 
+	void save(ElectricityMeterReadings electricityMeterReadings);
+
 	ElectricityMeterReadings findById(int id);
 
 	List<ElectricityMeterReadings> findAllElectricityMeterReadings();

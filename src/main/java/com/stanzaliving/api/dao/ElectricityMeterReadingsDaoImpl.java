@@ -15,6 +15,11 @@ public class ElectricityMeterReadingsDaoImpl extends AbstractDao<Integer, Electr
 		implements ElectricityMeterReadingsDao {
 
 	@Override
+	public void save(ElectricityMeterReadings electricityMeterReadings) {
+		persist(electricityMeterReadings);
+	}
+
+	@Override
 	public ElectricityMeterReadings findById(int id) {
 		return getByKey(id);
 	}
