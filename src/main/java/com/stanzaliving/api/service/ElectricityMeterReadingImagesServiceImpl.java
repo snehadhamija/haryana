@@ -19,9 +19,9 @@ public class ElectricityMeterReadingImagesServiceImpl implements ElectricityMete
 
 	@Override
 	public void save(ElectricityMeterReadings electricityMeterReadings, List<String> imgUrls) {
-		ElectricityMeterReadingImages electricityMeterReadingImages = new ElectricityMeterReadingImages();
-		electricityMeterReadingImages.setElectricityMeterReadings(electricityMeterReadings);
 		for (String imgUrl : imgUrls) {
+			ElectricityMeterReadingImages electricityMeterReadingImages = new ElectricityMeterReadingImages();
+			electricityMeterReadingImages.setElectricityMeterReadings(electricityMeterReadings);
 			electricityMeterReadingImages.setImgUrl(imgUrl);
 			dao.save(electricityMeterReadingImages);
 		}

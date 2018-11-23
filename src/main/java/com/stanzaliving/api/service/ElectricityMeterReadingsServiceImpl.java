@@ -21,13 +21,15 @@ public class ElectricityMeterReadingsServiceImpl implements ElectricityMeterRead
 
 	@Override
 	public ElectricityMeterReadings save(ElectricityMeterDetails electricityMeterDetails, String readingKwah,
-			String readingKwh, String readingDate) {
+			String readingKwh, String meterReading, String unitBalance, String readingDate) {
 		ElectricityMeterReadings electricityMeterReadings = new ElectricityMeterReadings();
 		electricityMeterReadings.setElectricityMeterDetails(electricityMeterDetails);
 		Date readingDateFormatted = DateUtil.returnStringInDateFormat(readingDate);
 		electricityMeterReadings.setReadingDate(readingDateFormatted);
 		electricityMeterReadings.setReadingKwah(readingKwah);
 		electricityMeterReadings.setReadingKwh(readingKwh);
+		electricityMeterReadings.setMeterReading(meterReading);
+		electricityMeterReadings.setUnitBalance(unitBalance);
 		dao.save(electricityMeterReadings);
 		return electricityMeterReadings;
 	}

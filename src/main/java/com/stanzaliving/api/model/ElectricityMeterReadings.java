@@ -23,11 +23,17 @@ public class ElectricityMeterReadings {
 	@JoinColumn(name = "ELECTRICITY_METER_DETAILS_ID")
 	private ElectricityMeterDetails electricityMeterDetails;
 
-	@Column(name = "READING_KWAH", nullable = false)
+	@Column(name = "READING_KWAH", nullable = true)
 	private String readingKwah;
 
-	@Column(name = "READING_KWH", nullable = false)
+	@Column(name = "READING_KWH", nullable = true)
 	private String readingKwh;
+
+	@Column(name = "METER_READING", nullable = true)
+	private String meterReading;
+
+	@Column(name = "UNIT_BALANCE", nullable = true)
+	private String unitBalance;
 
 	@Column(name = "READING_DATE", nullable = false)
 	private Date readingDate;
@@ -70,5 +76,21 @@ public class ElectricityMeterReadings {
 
 	public void setReadingDate(Date readingDate) {
 		this.readingDate = readingDate;
+	}
+
+	public String getMeterReading() {
+		return meterReading;
+	}
+
+	public void setMeterReading(String meterReading) {
+		this.meterReading = meterReading;
+	}
+
+	public String getUnitBalance() {
+		return unitBalance;
+	}
+
+	public void setUnitBalance(String unitBalance) {
+		this.unitBalance = unitBalance;
 	}
 }

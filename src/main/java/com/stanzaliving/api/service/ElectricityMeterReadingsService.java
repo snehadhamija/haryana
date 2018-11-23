@@ -8,7 +8,7 @@ import com.stanzaliving.api.model.ElectricityMeterReadings;
 public interface ElectricityMeterReadingsService {
 
 	ElectricityMeterReadings save(ElectricityMeterDetails electricityMeterDetails, String readingKwah,
-			String readingKwh, String readingDate);
+			String readingKwh, String meterReading, String unitBalance, String readingDate);
 
 	ElectricityMeterReadings findById(int id);
 

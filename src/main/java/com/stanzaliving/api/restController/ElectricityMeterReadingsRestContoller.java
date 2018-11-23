@@ -101,12 +101,14 @@ public class ElectricityMeterReadingsRestContoller {
 			Integer meterDetailsId = (Integer) entry.get("id");
 			String readingKwh = (String) entry.get("readingKwh");
 			String readingKwah = (String) entry.get("readingKwah");
+			String meterReading = (String) entry.get("meterReading");
+			String unitBalance = (String) entry.get("unitBalance");
 			String readingDate = (String) entry.get("readingDate");
 			List<String> imgUrls = (List<String>) entry.get("imgUrls");
 			ElectricityMeterDetails electricityMeterDetails = electricityMeterDetailsService.findById(meterDetailsId);
 			if (electricityMeterDetails != null) {
 				ElectricityMeterReadings electricityMeterReadings = electricityMeterReadingsService
-						.save(electricityMeterDetails, readingKwah, readingKwh, readingDate);
+						.save(electricityMeterDetails, readingKwah, readingKwh, meterReading, unitBalance, readingDate);
 				electricityMeterReadingsList.add(electricityMeterReadings);
 				if (imgUrls != null && !imgUrls.isEmpty()) {
 					electricityMeterReadingImagesService.save(electricityMeterReadings, imgUrls);
