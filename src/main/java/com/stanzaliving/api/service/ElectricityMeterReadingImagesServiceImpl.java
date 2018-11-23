@@ -23,8 +23,8 @@ public class ElectricityMeterReadingImagesServiceImpl implements ElectricityMete
 		electricityMeterReadingImages.setElectricityMeterReadings(electricityMeterReadings);
 		for (String imgUrl : imgUrls) {
 			electricityMeterReadingImages.setImgUrl(imgUrl);
+			dao.save(electricityMeterReadingImages);
 		}
-		dao.save(electricityMeterReadingImages);
 	}
 
 }
