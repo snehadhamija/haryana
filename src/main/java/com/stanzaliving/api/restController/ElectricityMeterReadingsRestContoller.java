@@ -78,6 +78,19 @@ public class ElectricityMeterReadingsRestContoller {
 	// -------------------Save
 	// electricityMeterReadings for a
 	// Meter
+	// Sample Request Payload
+	// [
+	// {
+	// "id":7,
+	// "imgUrls":[
+	// "https://stanza-website.s3.ap-south-1.amazonaws.com/2DB40E68-0185-437A-9767-0564B3AD1693.jpg",
+	// "https://stanza-website.s3.ap-south-1.amazonaws.com/33A49592-22EA-4DC8-ABE9-4E617258679B.jpg"
+	// ],
+	// "readingKwah":"1",
+	// "readingKwh":"2",
+	// "readingDate":"2018-11-23 09:38:43"
+	// }
+	// ]
 	@RequestMapping(value = "/electricityMeterReadings", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public ResponseEntity<List<ElectricityMeterReadings>> saveElectricityMeterReadingsForMeter(
