@@ -72,6 +72,8 @@ public class ElectricityMeterDetailsRestContoller {
 				if (electricityMeterReadings != null) {
 					electricityMeterReadingsDto.setLastReadingdate(electricityMeterReadings.getReadingDate());
 					electricityMeterReadingsDto.setLastReadingKwah(electricityMeterReadings.getReadingKwah());
+					electricityMeterReadingsDto.setLastMeterReading(electricityMeterReadings.getMeterReading());
+					electricityMeterReadingsDto.setLastunitBalance(electricityMeterReadings.getUnitBalance());
 					electricityMeterReadingsDto.setLastReadingKwh(electricityMeterReadings.getReadingKwh());
 				}
 				electricityMeterReadingsDtos.add(electricityMeterReadingsDto);

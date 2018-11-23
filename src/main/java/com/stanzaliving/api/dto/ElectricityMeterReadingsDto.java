@@ -14,6 +14,10 @@ public class ElectricityMeterReadingsDto {
 
 	private Date lastReadingdate;
 
+	private String lastMeterReading;
+
+	private String lastunitBalance;
+
 	public ElectricityMeterDetails getElectricityMeterDetails() {
 		return electricityMeterDetails;
 	}
@@ -46,19 +50,38 @@ public class ElectricityMeterReadingsDto {
 		this.lastReadingdate = lastReadingdate;
 	}
 
+	public String getLastMeterReading() {
+		return lastMeterReading;
+	}
+
+	public void setLastMeterReading(String lastMeterReading) {
+		this.lastMeterReading = lastMeterReading;
+	}
+
+	public String getLastunitBalance() {
+		return lastunitBalance;
+	}
+
+	public void setLastunitBalance(String lastunitBalance) {
+		this.lastunitBalance = lastunitBalance;
+	}
+
 	@Override
 	public String toString() {
 		return "ElectricityMeterReadingsDto [electricityMeterDetails=" + electricityMeterDetails + ", lastReadingKwah="
-				+ lastReadingKwah + ", lastReadingKwh=" + lastReadingKwh + ", lastReadingdate=" + lastReadingdate + "]";
+				+ lastReadingKwah + ", lastReadingKwh=" + lastReadingKwh + ", lastReadingdate=" + lastReadingdate
+				+ ", lastMeterReading=" + lastMeterReading + ", lastunitBalance=" + lastunitBalance + "]";
 	}
 
 	public ElectricityMeterReadingsDto(ElectricityMeterDetails electricityMeterDetails, String lastReadingKwah,
-			String lastReadingKwh, Date lastReadingdate) {
+			String lastReadingKwh, Date lastReadingdate, String lastMeterReading, String lastunitBalance) {
 		super();
 		this.electricityMeterDetails = electricityMeterDetails;
 		this.lastReadingKwah = lastReadingKwah;
 		this.lastReadingKwh = lastReadingKwh;
 		this.lastReadingdate = lastReadingdate;
+		this.lastMeterReading = lastMeterReading;
+		this.lastunitBalance = lastunitBalance;
 	}
 
 	public ElectricityMeterReadingsDto() {
