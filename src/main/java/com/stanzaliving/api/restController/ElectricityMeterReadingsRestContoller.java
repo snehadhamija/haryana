@@ -18,11 +18,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.stanzaliving.api.model.ElectricityMeterDetails;
 import com.stanzaliving.api.model.ElectricityMeterReadings;
+import com.stanzaliving.api.model.User;
 import com.stanzaliving.api.service.ElectricityMeterDetailsService;
 import com.stanzaliving.api.service.ElectricityMeterReadingImagesService;
 import com.stanzaliving.api.service.ElectricityMeterReadingsService;
 import com.stanzaliving.api.service.ElectricityMeterSubCategoryService;
 import com.stanzaliving.api.service.UserService;
+import com.stanzaliving.api.util.BaseUtil;
 
 @RestController
 public class ElectricityMeterReadingsRestContoller {
@@ -95,6 +97,8 @@ public class ElectricityMeterReadingsRestContoller {
 	@ResponseBody
 	public ResponseEntity<List<ElectricityMeterReadings>> saveElectricityMeterReadingsForMeter(
 			@RequestBody List<HashMap<String, Object>> request) {
+		String currentUser = BaseUtil.getPrincipal();
+		User user = userService.findByMobileNumber(currentUser);
 		List<ElectricityMeterReadings> electricityMeterReadingsList = new ArrayList<>();
 		for (HashMap<String, Object> entry : request) {
 			System.out.println(entry);
@@ -107,8 +111,8 @@ public class ElectricityMeterReadingsRestContoller {
 			List<String> imgUrls = (List<String>) entry.get("imgUrls");
 			ElectricityMeterDetails electricityMeterDetails = electricityMeterDetailsService.findById(meterDetailsId);
 			if (electricityMeterDetails != null) {
-				ElectricityMeterReadings electricityMeterReadings = electricityMeterReadingsService
-						.save(electricityMeterDetails, readingKwah, readingKwh, meterReading, unitBalance, readingDate);
+				ElectricityMeterReadings electricityMeterReadings = electricityMeterReadingsService.save(
+						electricityMeterDetails, user, readingKwah, readingKwh, meterReading, unitBalance, readingDate);
 				electricityMeterReadingsList.add(electricityMeterReadings);
 				if (imgUrls != null && !imgUrls.isEmpty()) {
 					electricityMeterReadingImagesService.save(electricityMeterReadings, imgUrls);

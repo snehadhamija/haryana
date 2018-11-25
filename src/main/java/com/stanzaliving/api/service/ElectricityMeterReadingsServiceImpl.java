@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.stanzaliving.api.dao.ElectricityMeterReadingsDao;
 import com.stanzaliving.api.model.ElectricityMeterDetails;
 import com.stanzaliving.api.model.ElectricityMeterReadings;
+import com.stanzaliving.api.model.User;
 import com.stanzaliving.api.util.DateUtil;
 
 @Service("electricityMeterReadingsService")
@@ -20,8 +21,8 @@ public class ElectricityMeterReadingsServiceImpl implements ElectricityMeterRead
 	private ElectricityMeterReadingsDao dao;
 
 	@Override
-	public ElectricityMeterReadings save(ElectricityMeterDetails electricityMeterDetails, String readingKwah,
-			String readingKwh, String meterReading, String unitBalance, String readingDate) {
+	public ElectricityMeterReadings save(ElectricityMeterDetails electricityMeterDetails, User recordedBy,
+			String readingKwah, String readingKwh, String meterReading, String unitBalance, String readingDate) {
 		ElectricityMeterReadings electricityMeterReadings = new ElectricityMeterReadings();
 		electricityMeterReadings.setElectricityMeterDetails(electricityMeterDetails);
 		Date readingDateFormatted = DateUtil.returnStringInDateFormat(readingDate);
@@ -30,6 +31,7 @@ public class ElectricityMeterReadingsServiceImpl implements ElectricityMeterRead
 		electricityMeterReadings.setReadingKwh(readingKwh);
 		electricityMeterReadings.setMeterReading(meterReading);
 		electricityMeterReadings.setUnitBalance(unitBalance);
+		electricityMeterReadings.setRecordedBy(recordedBy);
 		dao.save(electricityMeterReadings);
 		return electricityMeterReadings;
 	}

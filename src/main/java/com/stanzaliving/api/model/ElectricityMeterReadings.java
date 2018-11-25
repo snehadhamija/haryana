@@ -23,6 +23,10 @@ public class ElectricityMeterReadings {
 	@JoinColumn(name = "ELECTRICITY_METER_DETAILS_ID")
 	private ElectricityMeterDetails electricityMeterDetails;
 
+	@ManyToOne
+	@JoinColumn(name = "RECORDED_BY")
+	private User recordedBy;
+
 	@Column(name = "READING_KWAH", nullable = true)
 	private String readingKwah;
 
@@ -92,5 +96,13 @@ public class ElectricityMeterReadings {
 
 	public void setUnitBalance(String unitBalance) {
 		this.unitBalance = unitBalance;
+	}
+
+	public User getRecordedBy() {
+		return recordedBy;
+	}
+
+	public void setRecordedBy(User recordedBy) {
+		this.recordedBy = recordedBy;
 	}
 }
