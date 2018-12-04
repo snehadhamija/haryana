@@ -15,15 +15,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.stanzaliving.api.dto.ElectricityMeterReadingsDto;
+import com.stanzaliving.api.dto.UserDto;
 import com.stanzaliving.api.model.ElectricityMeterDetails;
 import com.stanzaliving.api.model.ElectricityMeterReadings;
 import com.stanzaliving.api.model.ElectricityMeterSubCategory;
-import com.stanzaliving.api.model.User;
 import com.stanzaliving.api.service.ElectricityMeterDetailsService;
 import com.stanzaliving.api.service.ElectricityMeterReadingsService;
 import com.stanzaliving.api.service.ElectricityMeterSubCategoryService;
 import com.stanzaliving.api.service.SpringRestClientService;
-import com.stanzaliving.api.service.UserService;
 
 @RestController
 public class ElectricityMeterDetailsRestContoller {
@@ -55,14 +54,15 @@ public class ElectricityMeterDetailsRestContoller {
 	@RequestMapping(value = "/electricityMeterDetails/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<ElectricityMeterReadingsDto>> getElectricityMeterDetailsForelectricityMeterSubCategoryInHostel(
 			@PathVariable("id") int id, HttpServletRequest request) {
-		User user = springRestClientService.getUser(request);
+		UserDto userDto = springRestClientService.getUserDto(request);
 		ElectricityMeterSubCategory electricityMeterSubCategory = electricityMeterSubCategoryService.findById(id);
 		if (electricityMeterSubCategory == null) {
 			System.out.println("electricityMeterSubCategory with id " + id + " not found");
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 		List<ElectricityMeterDetails> electricityMeterDetails = electricityMeterDetailsService
-				.findAllElectricityMeterDetailsForSubCategoryInHostel(electricityMeterSubCategory, user.getHostel());
+				.findAllElectricityMeterDetailsForSubCategoryInHostel(electricityMeterSubCategory,
+						userDto.getHostelID());
 		List<ElectricityMeterReadingsDto> electricityMeterReadingsDtos = new ArrayList<>();
 		if (!electricityMeterDetails.isEmpty()) {
 			for (ElectricityMeterDetails ed : electricityMeterDetails) {

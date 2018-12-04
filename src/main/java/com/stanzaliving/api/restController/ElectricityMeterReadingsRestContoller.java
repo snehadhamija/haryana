@@ -18,9 +18,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.stanzaliving.api.dto.UserDto;
 import com.stanzaliving.api.model.ElectricityMeterDetails;
 import com.stanzaliving.api.model.ElectricityMeterReadings;
-import com.stanzaliving.api.model.User;
 import com.stanzaliving.api.service.ElectricityMeterDetailsService;
 import com.stanzaliving.api.service.ElectricityMeterReadingImagesService;
 import com.stanzaliving.api.service.ElectricityMeterReadingsService;
@@ -98,7 +98,7 @@ public class ElectricityMeterReadingsRestContoller {
 	@ResponseBody
 	public ResponseEntity<List<ElectricityMeterReadings>> saveElectricityMeterReadingsForMeter(
 			@RequestBody List<HashMap<String, Object>> request, HttpServletRequest req) {
-		User user = springRestClientService.getUser(req);
+		UserDto userDto = springRestClientService.getUserDto(req);
 		List<ElectricityMeterReadings> electricityMeterReadingsList = new ArrayList<>();
 		for (HashMap<String, Object> entry : request) {
 			System.out.println(entry);
@@ -112,7 +112,8 @@ public class ElectricityMeterReadingsRestContoller {
 			ElectricityMeterDetails electricityMeterDetails = electricityMeterDetailsService.findById(meterDetailsId);
 			if (electricityMeterDetails != null) {
 				ElectricityMeterReadings electricityMeterReadings = electricityMeterReadingsService.save(
-						electricityMeterDetails, user, readingKwah, readingKwh, meterReading, unitBalance, readingDate);
+						electricityMeterDetails, userDto.getUserId(), readingKwah, readingKwh, meterReading,
+						unitBalance, readingDate);
 				electricityMeterReadingsList.add(electricityMeterReadings);
 				if (imgUrls != null && !imgUrls.isEmpty()) {
 					electricityMeterReadingImagesService.save(electricityMeterReadings, imgUrls);

@@ -8,6 +8,11 @@ import java.util.StringTokenizer;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.codec.binary.Base64;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -21,25 +26,28 @@ import org.springframework.web.client.RestTemplate;
 
 import com.stanzaliving.api.constants.Constants;
 import com.stanzaliving.api.dto.UserDto;
-import com.stanzaliving.api.model.User;
 import com.stanzaliving.api.util.BaseUtil;
 
 @Service("springRestClientService")
 @Transactional
 public class SpringRestClientServiceImpl implements SpringRestClientService {
 
-	@Override
-	public User getUser(HttpServletRequest request) {
-		RestTemplate restTemplate = new RestTemplate();
-		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		String authCredentials = request.getHeader("Authorization");
-		String currentUser = BaseUtil.getPrincipal();
-		HttpEntity<String> req = new HttpEntity<String>(getHeaders(principal, authCredentials));
-		ResponseEntity<User> response = restTemplate.exchange(Constants.COREUSERFETCHURL + currentUser, HttpMethod.GET,
-				req, User.class);
-		User user = response.getBody();
-		return user;
-	}
+	// @Override
+	// public User getUser(HttpServletRequest request) {
+	// RestTemplate restTemplate = new RestTemplate();
+	// Object principal =
+	// SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+	// String authCredentials = request.getHeader("Authorization");
+	// String currentUser = BaseUtil.getPrincipal();
+	// HttpEntity<String> req = new HttpEntity<String>(getHeaders(principal,
+	// authCredentials));
+	// ResponseEntity<User> response =
+	// restTemplate.exchange(Constants.COREUSERFETCHURL + currentUser,
+	// HttpMethod.GET,
+	// req, User.class);
+	// User user = response.getBody();
+	// return user;
+	// }
 
 	public HttpHeaders getHeaders(Object principal, String authCredentials) {
 		String plainCredentials = decodeAuthorizationHeader(authCredentials);
@@ -85,6 +93,7 @@ public class SpringRestClientServiceImpl implements SpringRestClientService {
 
 	@Override
 	public UserDto getUserDto(HttpServletRequest request) {
+
 		RestTemplate restTemplate = new RestTemplate();
 		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		String authCredentials = request.getHeader("Authorization");
@@ -96,4 +105,22 @@ public class SpringRestClientServiceImpl implements SpringRestClientService {
 		return userDto;
 	}
 
+	public HttpHeaders getDefaultHeaders() {
+		String plainCredentials = "9906000101:NIPU9906";
+		String base64Credentials = new String(Base64.encodeBase64(plainCredentials.getBytes()));
+		HttpHeaders headers = new HttpHeaders();
+		headers.add("Authorization", "Basic " + base64Credentials);
+		headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
+		return headers;
+	}
+
+	@Override
+	public UserDto getUserDtoUsingDefaultHeaders(String mobileNumber) {
+		RestTemplate restTemplate = new RestTemplate();
+		HttpEntity<String> req = new HttpEntity<String>(getDefaultHeaders());
+		ResponseEntity<UserDto> response = restTemplate.exchange(Constants.COREUSERFETCHURL + mobileNumber,
+				HttpMethod.GET, req, UserDto.class);
+		UserDto userDto = response.getBody();
+		return userDto;
+	}
 }

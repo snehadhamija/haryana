@@ -14,43 +14,45 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.stanzaliving.api.model.User;
-import com.stanzaliving.api.model.UserProfile;
+import com.stanzaliving.api.dto.UserDto;
 
 @Service("customUserDetailsService")
 public class CustomUserDetailsService implements UserDetailsService {
 
+	// @Autowired
+	// private UserService userService;
+
 	@Autowired
-	private UserService userService;
+	SpringRestClientService springRestClientService;
 
 	// @Autowired
 	private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();;
 
 	@Transactional(readOnly = true)
 	public UserDetails loadUserByUsername(String mobileNumber) throws UsernameNotFoundException {
-		User user = userService.findByMobileNumber(mobileNumber);
+		UserDto user = springRestClientService.getUserDtoUsingDefaultHeaders(mobileNumber);
 		if (user == null) {
 			System.out.println("User not found");
 			throw new UsernameNotFoundException("Username not found");
 		}
 		if (user.getPassword() == null || user.getPassword().equals("")) {
-			UserDetails userDetails = new org.springframework.security.core.userdetails.User(user.getMobileNumber(),
+			UserDetails userDetails = new org.springframework.security.core.userdetails.User(user.getMobileNo(),
 					passwordEncoder.encode(
-							user.getFullName().substring(0, 4).toUpperCase() + user.getMobileNumber().substring(0, 4)),
-					user.getState().equals("Active"), true, true, true, getGrantedAuthorities(user));
+							user.getUserName().substring(0, 4).toUpperCase() + user.getMobileNo().substring(0, 4)),
+					user.getStatus().equals("Active"), true, true, true, getGrantedAuthorities(user));
 			return userDetails;
 		}
-		UserDetails userDetails = new org.springframework.security.core.userdetails.User(user.getMobileNumber(),
-				user.getPassword(), user.getState().equals("Active"), true, true, true, getGrantedAuthorities(user));
+		UserDetails userDetails = new org.springframework.security.core.userdetails.User(user.getMobileNo(),
+				user.getPassword(), user.getStatus().equals("Active"), true, true, true, getGrantedAuthorities(user));
 		return userDetails;
 	}
 
 	@Transactional
-	private List<GrantedAuthority> getGrantedAuthorities(User user) {
+	private List<GrantedAuthority> getGrantedAuthorities(UserDto user) {
 		List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
-		for (UserProfile userProfile : user.getUserProfiles()) {
-			System.out.println("UserProfile : " + userProfile);
-			authorities.add(new SimpleGrantedAuthority("ROLE_" + userProfile.getType()));
+		for (Object obj : user.getUserProfiles()) {
+			System.out.println("UserProfile : " + obj);
+			authorities.add(new SimpleGrantedAuthority("ROLE_" + obj));
 		}
 		System.out.print("authorities :" + authorities);
 		return authorities;
