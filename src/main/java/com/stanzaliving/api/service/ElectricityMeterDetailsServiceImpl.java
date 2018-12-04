@@ -9,7 +9,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.stanzaliving.api.dao.ElectricityMeterDetailsDao;
 import com.stanzaliving.api.model.ElectricityMeterDetails;
 import com.stanzaliving.api.model.ElectricityMeterSubCategory;
-import com.stanzaliving.api.model.Hostel;
 
 @Service("electricityMeterDetailsService")
 @Transactional
@@ -28,8 +27,8 @@ public class ElectricityMeterDetailsServiceImpl implements ElectricityMeterDetai
 
 	@Override
 	public List<ElectricityMeterDetails> findAllElectricityMeterDetailsForSubCategoryInHostel(
-			ElectricityMeterSubCategory electricityMeterSubCategory, Hostel hostel) {
-		return dao.findAllElectricityMeterDetailsForSubCategoryInHostel(electricityMeterSubCategory, hostel);
+			ElectricityMeterSubCategory electricityMeterSubCategory, int hostelId) {
+		return dao.findAllElectricityMeterDetailsForSubCategoryInHostel(electricityMeterSubCategory, hostelId);
 	}
 
 }

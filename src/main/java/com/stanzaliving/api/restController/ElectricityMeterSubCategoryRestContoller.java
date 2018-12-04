@@ -15,10 +15,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.stanzaliving.api.dto.ElectricityMeterSubCategoryDto;
+import com.stanzaliving.api.dto.UserDto;
 import com.stanzaliving.api.model.ElectricityMeterCategory;
 import com.stanzaliving.api.model.ElectricityMeterDetails;
 import com.stanzaliving.api.model.ElectricityMeterSubCategory;
-import com.stanzaliving.api.model.User;
 import com.stanzaliving.api.service.ElectricityMeterCategoryService;
 import com.stanzaliving.api.service.ElectricityMeterDetailsService;
 import com.stanzaliving.api.service.ElectricityMeterSubCategoryService;
@@ -62,11 +62,11 @@ public class ElectricityMeterSubCategoryRestContoller {
 				.findAllElectricityMeterSubCategoriesForElectricityMeterCategory(electricityMeterCategory);
 		List<ElectricityMeterSubCategoryDto> electricityMeterSubCategoryDtos = new ArrayList<>();
 		if (!electricityMeterSubCategories.isEmpty()) {
+			UserDto userDto = springRestClientService.getUserDto(request);
 			for (ElectricityMeterSubCategory electricityMeterSubCategory : electricityMeterSubCategories) {
-				User user = springRestClientService.getUser(request);
 				List<ElectricityMeterDetails> electricityMeterDetails = electricityMeterDetailsService
 						.findAllElectricityMeterDetailsForSubCategoryInHostel(electricityMeterSubCategory,
-								user.getHostel());
+								userDto.getHostelID());
 				ElectricityMeterSubCategoryDto electricityMeterSubCategoryDto = new ElectricityMeterSubCategoryDto();
 				electricityMeterSubCategoryDto.setElectricityMeterSubCategory(electricityMeterSubCategory);
 				electricityMeterSubCategoryDto.setCount(electricityMeterDetails.size());

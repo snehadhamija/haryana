@@ -9,6 +9,6 @@ public class Constants {
 	public static final String PUT = "put";
 	public static final String FRESHDESK_DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ssXXX";
 	public static final String ASSOCIATED_USER = "Room";
-	public static final String COREUSERFETCHURL = "https://core.stanzaliving.com/core/user/mobile/";
+	public static final String COREUSERFETCHURL = "https://core.stanzaliving.com/core/userdto/mobile/";
 
 }

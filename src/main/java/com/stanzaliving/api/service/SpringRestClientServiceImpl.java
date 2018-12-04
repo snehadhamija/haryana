@@ -2,11 +2,13 @@ package com.stanzaliving.api.service;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Map;
 import java.util.StringTokenizer;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.codec.binary.Base64;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -18,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
 import com.stanzaliving.api.constants.Constants;
+import com.stanzaliving.api.dto.UserDto;
 import com.stanzaliving.api.model.User;
 import com.stanzaliving.api.util.BaseUtil;
 
@@ -64,6 +67,33 @@ public class SpringRestClientServiceImpl implements SpringRestClientService {
 		final String password = tokenizer.nextToken();
 		final String finalString = username + ":" + password;
 		return finalString;
+	}
+
+	@Override
+	public Map<Object, Object> getUserMap(HttpServletRequest request) {
+		RestTemplate restTemplate = new RestTemplate();
+		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		String authCredentials = request.getHeader("Authorization");
+		String currentUser = BaseUtil.getPrincipal();
+		HttpEntity<String> req = new HttpEntity<String>(getHeaders(principal, authCredentials));
+		ParameterizedTypeReference<Map<Object, Object>> responseType = new ParameterizedTypeReference<Map<Object, Object>>() {
+		};
+		ResponseEntity<Map<Object, Object>> response = restTemplate.exchange(Constants.COREUSERFETCHURL + currentUser,
+				HttpMethod.GET, req, responseType);
+		return response.getBody();
+	}
+
+	@Override
+	public UserDto getUserDto(HttpServletRequest request) {
+		RestTemplate restTemplate = new RestTemplate();
+		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		String authCredentials = request.getHeader("Authorization");
+		String currentUser = BaseUtil.getPrincipal();
+		HttpEntity<String> req = new HttpEntity<String>(getHeaders(principal, authCredentials));
+		ResponseEntity<UserDto> response = restTemplate.exchange(Constants.COREUSERFETCHURL + currentUser,
+				HttpMethod.GET, req, UserDto.class);
+		UserDto userDto = response.getBody();
+		return userDto;
 	}
 
 }

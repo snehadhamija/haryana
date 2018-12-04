@@ -13,6 +13,6 @@ public interface ElectricityMeterDetailsService {
 	List<ElectricityMeterDetails> findAllElectricityMeterDetails();
 
 	List<ElectricityMeterDetails> findAllElectricityMeterDetailsForSubCategoryInHostel(
-			ElectricityMeterSubCategory electricityMeterSubCategory, Hostel hostel);
+			ElectricityMeterSubCategory electricityMeterSubCategory, int hostelId);
 
 }

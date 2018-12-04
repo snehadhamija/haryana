@@ -7,14 +7,12 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
 import com.stanzaliving.api.model.ElectricityMeterDetails;
-import com.stanzaliving.api.model.ElectricityMeterReadings;
 import com.stanzaliving.api.model.ElectricityMeterSubCategory;
-import com.stanzaliving.api.model.Hostel;
 
 @Repository("electricityMeterDetailsDao")
 public class ElectricityMeterDetailsDaoImpl extends AbstractDao<Integer, ElectricityMeterDetails>
 		implements ElectricityMeterDetailsDao {
-	
+
 	public ElectricityMeterDetails findById(int id) {
 		return getByKey(id);
 	}
@@ -26,10 +24,10 @@ public class ElectricityMeterDetailsDaoImpl extends AbstractDao<Integer, Electri
 
 	@Override
 	public List<ElectricityMeterDetails> findAllElectricityMeterDetailsForSubCategoryInHostel(
-			ElectricityMeterSubCategory electricityMeterSubCategory, Hostel hostel) {
+			ElectricityMeterSubCategory electricityMeterSubCategory, int hostelId) {
 		Criteria crit = createEntityCriteria();
 		crit.add(Restrictions.eq("electricityMeterSubCategory", electricityMeterSubCategory));
-		crit.add(Restrictions.eq("hostel", hostel));
+		crit.add(Restrictions.eq("hostel.id", hostelId));
 		return (List<ElectricityMeterDetails>) crit.setResultTransformer(crit.DISTINCT_ROOT_ENTITY).list();
 	}
 
