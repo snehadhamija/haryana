@@ -35,9 +35,6 @@ public class ElectricityMeterDetailsRestContoller {
 	ElectricityMeterSubCategoryService electricityMeterSubCategoryService;
 
 	@Autowired
-	UserService userService;
-
-	@Autowired
 	ElectricityMeterReadingsService electricityMeterReadingsService;
 
 	@Autowired

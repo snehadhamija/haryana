@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -23,8 +25,7 @@ import com.stanzaliving.api.service.ElectricityMeterDetailsService;
 import com.stanzaliving.api.service.ElectricityMeterReadingImagesService;
 import com.stanzaliving.api.service.ElectricityMeterReadingsService;
 import com.stanzaliving.api.service.ElectricityMeterSubCategoryService;
-import com.stanzaliving.api.service.UserService;
-import com.stanzaliving.api.util.BaseUtil;
+import com.stanzaliving.api.service.SpringRestClientService;
 
 @RestController
 public class ElectricityMeterReadingsRestContoller {
@@ -36,13 +37,13 @@ public class ElectricityMeterReadingsRestContoller {
 	ElectricityMeterSubCategoryService electricityMeterSubCategoryService;
 
 	@Autowired
-	UserService userService;
-
-	@Autowired
 	ElectricityMeterReadingsService electricityMeterReadingsService;
 
 	@Autowired
 	ElectricityMeterReadingImagesService electricityMeterReadingImagesService;
+
+	@Autowired
+	SpringRestClientService springRestClientService;
 
 	// -------------------Retrieve All electricityMeterDetails
 	@RequestMapping(value = { "/electricityMeterReadings" }, method = RequestMethod.GET)
@@ -96,9 +97,8 @@ public class ElectricityMeterReadingsRestContoller {
 	@RequestMapping(value = "/electricityMeterReadings", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public ResponseEntity<List<ElectricityMeterReadings>> saveElectricityMeterReadingsForMeter(
-			@RequestBody List<HashMap<String, Object>> request) {
-		String currentUser = BaseUtil.getPrincipal();
-		User user = userService.findByMobileNumber(currentUser);
+			@RequestBody List<HashMap<String, Object>> request, HttpServletRequest req) {
+		User user = springRestClientService.getUser(req);
 		List<ElectricityMeterReadings> electricityMeterReadingsList = new ArrayList<>();
 		for (HashMap<String, Object> entry : request) {
 			System.out.println(entry);
