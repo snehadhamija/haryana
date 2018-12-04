@@ -3,6 +3,8 @@ package com.stanzaliving.api.restController;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -20,8 +22,8 @@ import com.stanzaliving.api.model.User;
 import com.stanzaliving.api.service.ElectricityMeterDetailsService;
 import com.stanzaliving.api.service.ElectricityMeterReadingsService;
 import com.stanzaliving.api.service.ElectricityMeterSubCategoryService;
+import com.stanzaliving.api.service.SpringRestClientService;
 import com.stanzaliving.api.service.UserService;
-import com.stanzaliving.api.util.BaseUtil;
 
 @RestController
 public class ElectricityMeterDetailsRestContoller {
@@ -38,6 +40,9 @@ public class ElectricityMeterDetailsRestContoller {
 	@Autowired
 	ElectricityMeterReadingsService electricityMeterReadingsService;
 
+	@Autowired
+	SpringRestClientService springRestClientService;
+
 	// -------------------Retrieve All electricityMeterDetails
 	@RequestMapping(value = { "/electricityMeterDetails" }, method = RequestMethod.GET)
 	public ResponseEntity<List<ElectricityMeterDetails>> getElectricityMeterDetails() {
@@ -52,10 +57,9 @@ public class ElectricityMeterDetailsRestContoller {
 	// Hostel--------------------------------------------------------
 	@RequestMapping(value = "/electricityMeterDetails/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<ElectricityMeterReadingsDto>> getElectricityMeterDetailsForelectricityMeterSubCategoryInHostel(
-			@PathVariable("id") int id) {
+			@PathVariable("id") int id, HttpServletRequest request) {
+		User user = springRestClientService.getUser(request);
 		ElectricityMeterSubCategory electricityMeterSubCategory = electricityMeterSubCategoryService.findById(id);
-		String currentUser = BaseUtil.getPrincipal();
-		User user = userService.findByMobileNumber(currentUser);
 		if (electricityMeterSubCategory == null) {
 			System.out.println("electricityMeterSubCategory with id " + id + " not found");
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
