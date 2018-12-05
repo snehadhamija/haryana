@@ -19,13 +19,9 @@ import com.stanzaliving.api.dto.UserDto;
 @Service("customUserDetailsService")
 public class CustomUserDetailsService implements UserDetailsService {
 
-	// @Autowired
-	// private UserService userService;
-
 	@Autowired
 	SpringRestClientService springRestClientService;
 
-	// @Autowired
 	private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();;
 
 	@Transactional(readOnly = true)

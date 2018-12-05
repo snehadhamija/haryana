@@ -28,10 +28,6 @@ public class ElectricityMeterDetails {
 	@JoinColumn(name = "ELECTRICITY_METER_SUB_CATEGORY_ID")
 	private ElectricityMeterSubCategory electricityMeterSubCategory;
 
-	// @ManyToOne(fetch = FetchType.EAGER)
-	// @JoinColumn(name = "HOSTEL_ID")
-	// private Hostel hostel;
-
 	@Column(name = "HOSTEL_ID", nullable = false)
 	private int hostelId;
 

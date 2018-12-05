@@ -8,8 +8,6 @@ import com.stanzaliving.api.dto.UserDto;
 
 public interface SpringRestClientService {
 
-	// User getUser(HttpServletRequest request);
-
 	Map<Object, Object> getUserMap(HttpServletRequest request);
 
 	UserDto getUserDto(HttpServletRequest request);
