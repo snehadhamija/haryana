@@ -1,6 +1,6 @@
 package com.stanzaliving.api.dto;
 
-import java.util.Set;
+import java.util.List;
 
 public class UserDto {
 
@@ -18,7 +18,7 @@ public class UserDto {
 
 	private int hostelID;
 
-	private Set<?> userProfiles;
+	private List<String> userProfiles;
 
 	public String getPassword() {
 		return password;
@@ -76,16 +76,23 @@ public class UserDto {
 		this.userId = userId;
 	}
 
-	public Set<?> getUserProfiles() {
+	public List<String> getUserProfiles() {
 		return userProfiles;
 	}
 
-	public void setUserProfiles(Set<?> userProfiles) {
+	public void setUserProfiles(List<String> userProfiles) {
 		this.userProfiles = userProfiles;
 	}
 
+	@Override
+	public String toString() {
+		return "UserDto [userId=" + userId + ", userName=" + userName + ", password=" + password + ", status=" + status
+				+ ", mobileNo=" + mobileNo + ", hostel=" + hostel + ", hostelID=" + hostelID + ", userProfiles="
+				+ userProfiles + "]";
+	}
+
 	public UserDto(int userId, String userName, String password, String status, String mobileNo, String hostel,
-			int hostelID, Set<?> userProfiles) {
+			int hostelID, List<String> userProfiles) {
 		super();
 		this.userId = userId;
 		this.userName = userName;
@@ -95,13 +102,6 @@ public class UserDto {
 		this.hostel = hostel;
 		this.hostelID = hostelID;
 		this.userProfiles = userProfiles;
-	}
-
-	@Override
-	public String toString() {
-		return "UserDto [userId=" + userId + ", userName=" + userName + ", password=" + password + ", status=" + status
-				+ ", mobileNo=" + mobileNo + ", hostel=" + hostel + ", hostelID=" + hostelID + ", userProfiles="
-				+ userProfiles + "]";
 	}
 
 	public UserDto() {

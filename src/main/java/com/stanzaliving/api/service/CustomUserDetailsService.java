@@ -46,9 +46,10 @@ public class CustomUserDetailsService implements UserDetailsService {
 	@Transactional
 	private List<GrantedAuthority> getGrantedAuthorities(UserDto user) {
 		List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
-		for (Object obj : user.getUserProfiles()) {
-			System.out.println("UserProfile : " + obj);
-			authorities.add(new SimpleGrantedAuthority("ROLE_" + obj));
+		System.out.println(user.getUserProfiles());
+		for (String type : user.getUserProfiles()) {
+			System.out.println("UserProfile : " + type);
+			authorities.add(new SimpleGrantedAuthority("ROLE_" + type));
 		}
 		System.out.print("authorities :" + authorities);
 		return authorities;

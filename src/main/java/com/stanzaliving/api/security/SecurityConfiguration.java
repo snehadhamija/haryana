@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -46,15 +45,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.csrf().disable()
-		.authorizeRequests()
-		.antMatchers("/**").permitAll()
-		.antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-		//.antMatchers("/**").hasRole("ADMIN")
-		.antMatchers("/welcome").permitAll()
-		.and().formLogin().loginPage("/login.html")
-		.and().httpBasic().realmName(REALM).authenticationEntryPoint(getBasicAuthEntryPoint()).and()
-		.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.ALWAYS);
+		http.csrf().disable().authorizeRequests().antMatchers("/**")
+				.access("hasRole('SUPERADMIN') or hasRole('RC') or hasRole('ADMIN')").and().formLogin()
+				.loginPage("/login.html").and().httpBasic().realmName(REALM)
+				.authenticationEntryPoint(getBasicAuthEntryPoint()).and().sessionManagement()
+				.sessionCreationPolicy(SessionCreationPolicy.ALWAYS);
 	}
 
 	@Bean
