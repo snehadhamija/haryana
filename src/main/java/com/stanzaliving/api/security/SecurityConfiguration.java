@@ -45,9 +45,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.csrf().disable().authorizeRequests().antMatchers("/**")
-				.access("hasRole('SUPERADMIN') or hasRole('RC') or hasRole('ADMIN')").and().formLogin()
-				.loginPage("/login.html").and().httpBasic().realmName(REALM)
+		http.csrf().disable().authorizeRequests().antMatchers("/**").access("hasAnyRole('SUPERADMIN','RC','ADMIN')")
+				// .access("hasRole('SUPERADMIN') or hasRole('RC') or
+				// hasRole('ADMIN')")
+				.and().formLogin().loginPage("/login.html").and().httpBasic().realmName(REALM)
 				.authenticationEntryPoint(getBasicAuthEntryPoint()).and().sessionManagement()
 				.sessionCreationPolicy(SessionCreationPolicy.ALWAYS);
 	}
