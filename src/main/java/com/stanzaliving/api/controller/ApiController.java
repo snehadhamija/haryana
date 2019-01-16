@@ -3,6 +3,8 @@ package com.stanzaliving.api.controller;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -96,6 +98,11 @@ public class ApiController {
 	@RequestMapping(value = "/welcome", method = RequestMethod.GET)
 	public String welcomePage() {
 		return "welcome";
+	}
+
+	@RequestMapping(value = "/beat", method = RequestMethod.GET)
+	public ResponseEntity<String> beat() {
+		return new ResponseEntity<>("SUCCESS", HttpStatus.OK);
 	}
 
 }
