@@ -36,6 +36,9 @@ public class ElectricityMeterDetails {
 	@Column(name = "HOSTEL_ID", nullable = false)
 	private int hostelId;
 
+	@Column(name = "IS_ACTIVE", nullable = false)
+	private Boolean isActive;
+
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "ELECTRICITY_METER_DETAILS_ELECTRICITY_METER_READINGS_UNIT", joinColumns = {
 			@JoinColumn(name = "ELECTRICITY_METER_DETAILS_ID") }, inverseJoinColumns = {
@@ -88,5 +91,13 @@ public class ElectricityMeterDetails {
 
 	public void setElectricityMeterReadingsUnits(Set<ElectricityMeterReadingsUnit> electricityMeterReadingsUnits) {
 		this.electricityMeterReadingsUnits = electricityMeterReadingsUnits;
+	}
+
+	public Boolean getIsActive() {
+		return isActive;
+	}
+
+	public void setIsActive(Boolean isActive) {
+		this.isActive = isActive;
 	}
 }

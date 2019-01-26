@@ -28,6 +28,7 @@ public class ElectricityMeterDetailsDaoImpl extends AbstractDao<Integer, Electri
 		Criteria crit = createEntityCriteria();
 		crit.add(Restrictions.eq("electricityMeterSubCategory", electricityMeterSubCategory));
 		crit.add(Restrictions.eq("hostelId", hostelId));
+		crit.add(Restrictions.eq("isActive", true));
 		return (List<ElectricityMeterDetails>) crit.setResultTransformer(crit.DISTINCT_ROOT_ENTITY).list();
 	}
 
