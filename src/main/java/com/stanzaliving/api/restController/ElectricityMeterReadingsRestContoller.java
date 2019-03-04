@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.stanzaliving.api.constants.Constants;
 import com.stanzaliving.api.dto.UserDto;
 import com.stanzaliving.api.model.ElectricityMeterDetails;
 import com.stanzaliving.api.model.ElectricityMeterReadings;
@@ -59,7 +60,9 @@ public class ElectricityMeterReadingsRestContoller {
 	@RequestMapping(value = "/electricityMeterReadings/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<ElectricityMeterReadings>> getElectricityMeterReadingsForMeter(
 			@PathVariable("id") int id,
-			@RequestParam(value = "last", required = false, defaultValue = "false") boolean last) {
+			@RequestParam(value = "last", required = false, defaultValue = "false") boolean last,
+			@RequestParam(value = "numberOfReadings", required = false, defaultValue = "1") String numberOfReadings) {
+		System.out.println(numberOfReadings);
 		ElectricityMeterDetails electricityMeterDetails = electricityMeterDetailsService.findById(id);
 		if (electricityMeterDetails == null) {
 			System.out.println("electricityMeterDetails with id " + id + " not found");
@@ -69,6 +72,12 @@ public class ElectricityMeterReadingsRestContoller {
 				.findAllElectricityMeterReadingsForMeter(electricityMeterDetails);
 		if (electricityMeterReadings.isEmpty()) {
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		}
+		if (!numberOfReadings.equals("1")) {
+			List<ElectricityMeterReadings> electricityMeterReadingsForAskedNumber = electricityMeterReadingsService
+					.findAskedNumberElectricityMeterReadingsForMeter(electricityMeterDetails, numberOfReadings);
+			return new ResponseEntity<List<ElectricityMeterReadings>>(electricityMeterReadingsForAskedNumber,
+					HttpStatus.OK);
 		}
 		if (last) {
 			List<ElectricityMeterReadings> emr = new ArrayList<ElectricityMeterReadings>();
@@ -110,6 +119,8 @@ public class ElectricityMeterReadingsRestContoller {
 			String readingDate = (String) entry.get("readingDate");
 			List<String> imgUrls = (List<String>) entry.get("imgUrls");
 			ElectricityMeterDetails electricityMeterDetails = electricityMeterDetailsService.findById(meterDetailsId);
+			// electricityMeterDetails.getElectricityMeterSubCategory().getElectricityMeterCategory()
+			// electricityMeterDetails.getHostelId()
 			if (electricityMeterDetails != null) {
 				ElectricityMeterReadings electricityMeterReadings = electricityMeterReadingsService.save(
 						electricityMeterDetails, userDto.getUserId(), readingKwah, readingKwh, meterReading,
@@ -119,9 +130,16 @@ public class ElectricityMeterReadingsRestContoller {
 					electricityMeterReadingImagesService.save(electricityMeterReadings, imgUrls);
 				}
 			}
-
 		}
 		return new ResponseEntity<List<ElectricityMeterReadings>>(electricityMeterReadingsList, HttpStatus.OK);
+	}
+
+	@RequestMapping(value = "/demoCall", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Object> demoCall() {
+		Constants.ELECTRICITY_READING_RULES.forEach(rule -> {
+			System.out.println(rule);
+		});
+		return new ResponseEntity<Object>(Constants.ELECTRICITY_READING_RULES, HttpStatus.OK);
 	}
 
 }

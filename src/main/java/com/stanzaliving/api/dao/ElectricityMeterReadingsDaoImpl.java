@@ -39,6 +39,19 @@ public class ElectricityMeterReadingsDaoImpl extends AbstractDao<Integer, Electr
 	}
 
 	@Override
+	public List<ElectricityMeterReadings> findAskedNumberElectricityMeterReadingsForMeter(
+			ElectricityMeterDetails electricityMeterDetails, String numberOfReadings) {
+		Criteria crit = createEntityCriteria();
+		crit.add(Restrictions.eq("electricityMeterDetails", electricityMeterDetails));
+		crit.addOrder(Order.desc("id"));
+		crit.setMaxResults(Integer.valueOf(numberOfReadings));
+		if (!crit.list().isEmpty()) {
+			return (List<ElectricityMeterReadings>) crit.setResultTransformer(crit.DISTINCT_ROOT_ENTITY).list();
+		}
+		return null;
+	}
+
+	@Override
 	public ElectricityMeterReadings findLastElectricityMeterReadingsForMeter(
 			ElectricityMeterDetails electricityMeterDetails) {
 		Criteria crit = createEntityCriteria();

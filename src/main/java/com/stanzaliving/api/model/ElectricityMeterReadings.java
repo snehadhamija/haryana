@@ -24,7 +24,7 @@ public class ElectricityMeterReadings {
 	private ElectricityMeterDetails electricityMeterDetails;
 
 	@Column(name = "RECORDED_BY", nullable = false)
-	private int recordedBy;
+	private Integer recordedBy;
 
 	@Column(name = "READING_KWAH", nullable = true)
 	private String readingKwah;
@@ -97,11 +97,12 @@ public class ElectricityMeterReadings {
 		this.unitBalance = unitBalance;
 	}
 
-	public int getRecordedBy() {
+	public Integer getRecordedBy() {
 		return recordedBy;
 	}
 
-	public void setRecordedBy(int recordedBy) {
+	public void setRecordedBy(Integer recordedBy) {
 		this.recordedBy = recordedBy;
 	}
+
 }
