@@ -110,6 +110,10 @@ public class ElectricityMeterReadingsRestContoller {
 	@ResponseBody
 	public ResponseEntity<Object> saveElectricityMeterReadingsForMeter(
 			@RequestBody List<HashMap<String, Object>> request, HttpServletRequest req) {
+		HashMap<String, Object> ruleStatusHashMap = validateElectricityReadingRules(request);
+		if (ruleStatusHashMap.get("rulesPassed").equals(false)) {
+			return new ResponseEntity<Object>(ruleStatusHashMap.get("ruleStatus"), HttpStatus.CONFLICT);
+		}
 		UserDto userDto = springRestClientService.getUserDto(req);
 		List<ElectricityMeterReadings> electricityMeterReadingsList = new ArrayList<>();
 		for (HashMap<String, Object> entry : request) {
@@ -166,4 +170,24 @@ public class ElectricityMeterReadingsRestContoller {
 		return new ResponseEntity<Object>(ruleStatus, HttpStatus.OK);
 	}
 
+	public HashMap<String, Object> validateElectricityReadingRules(List<HashMap<String, Object>> request) {
+		String ruleStatus = "";
+		boolean rulesPassed = true;
+		for (HashMap<String, Object> entry : request) {
+			for (String rule : Constants.ELECTRICITY_READING_RULES) {
+				boolean isRulePassed = electricityReadingRuleFactory.runRule(rule, entry);
+				if (isRulePassed) {
+					ruleStatus += "Rule " + rule + " pass.\n";
+				} else {
+					ruleStatus += "Rule " + rule + " fail.\n";
+					rulesPassed = false;
+					break;
+				}
+			}
+		}
+		HashMap<String, Object> ruleStatusHashMap = new HashMap<>();
+		ruleStatusHashMap.put("ruleStatus", ruleStatus);
+		ruleStatusHashMap.put("rulesPassed", rulesPassed);
+		return ruleStatusHashMap;
+	}
 }

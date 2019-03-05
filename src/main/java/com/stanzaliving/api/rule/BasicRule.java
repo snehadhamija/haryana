@@ -33,8 +33,6 @@ public class BasicRule extends AbstractRule {
 		ElectricityMeterDetails electricityMeterDetails = electricityMeterDetailsService.findById(meterDetailsId);
 		if (mainMeterCategories.contains(
 				electricityMeterDetails.getElectricityMeterSubCategory().getElectricityMeterCategory().getId())) {
-			System.out.println("Found meter with category id: "
-					+ electricityMeterDetails.getElectricityMeterSubCategory().getElectricityMeterCategory().getId());
 			if (mainMeterBasicRule(electricityMeterDetails, entry)) {
 				setPassed(true);
 			} else {
