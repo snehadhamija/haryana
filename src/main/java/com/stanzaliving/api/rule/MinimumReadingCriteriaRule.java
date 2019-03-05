@@ -1,5 +1,6 @@
 package com.stanzaliving.api.rule;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -25,17 +26,33 @@ public class MinimumReadingCriteriaRule extends AbstractRule {
 
 	private static Logger logger = LoggerFactory.getLogger(MinimumReadingCriteriaRule.class);
 
+	private List<Integer> mainMeterCategories = Arrays.asList(1, 3);
+	private List<Integer> roomMeterCategories = Arrays.asList(2, 4);
+
 	public void run(HashMap<String, Object> entry) {
 		Integer meterDetailsId = (Integer) entry.get("id");
 		ElectricityMeterDetails electricityMeterDetails = electricityMeterDetailsService.findById(meterDetailsId);
+		if (mainMeterCategories.contains(
+				electricityMeterDetails.getElectricityMeterSubCategory().getElectricityMeterCategory().getId())) {
+			if (mainMeterMinimumReadingCriteriaRule(electricityMeterDetails, entry)) {
+				setPassed(true);
+			} else {
+				setPassed(false);
+			}
+		} else {
+			setPassed(true);
+		}
+	}
+
+	public boolean mainMeterMinimumReadingCriteriaRule(ElectricityMeterDetails electricityMeterDetails,
+			HashMap<String, Object> entry) {
 		List<ElectricityMeterReadings> electricityMeterReadingsForAskedNumber = electricityMeterReadingsService
 				.findAskedNumberElectricityMeterReadingsForMeter(electricityMeterDetails,
 						Constants.MINIMUM_READING_CRITERIA_VALUE);
 		if (electricityMeterReadingsForAskedNumber.size() >= Integer
 				.valueOf(Constants.MINIMUM_READING_CRITERIA_VALUE)) {
-			setPassed(true);
-		} else {
-			setPassed(false);
+			return true;
 		}
+		return false;
 	}
 }

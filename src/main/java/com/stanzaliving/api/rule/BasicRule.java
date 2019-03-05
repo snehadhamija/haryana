@@ -57,23 +57,23 @@ public class BasicRule extends AbstractRule {
 		ElectricityMeterReadings lastElectricityMeterReading = electricityMeterReadingsService
 				.findLastElectricityMeterReadingsForMeter(electricityMeterDetails);
 		// compare respective kwah and kvh readings
-		Integer readingKwhInt = null;
-		Integer readingKwahInt = null;
-		Integer lastReadingKwhInt = null;
-		Integer lastReadingKwahInt = null;
+		Double readingKwhInt = null;
+		Double readingKwahInt = null;
+		Double lastReadingKwhInt = null;
+		Double lastReadingKwahInt = null;
 		String readingKwh = (String) entry.get("readingKwh");
 		if (readingKwh != null) {
-			readingKwhInt = Integer.valueOf(readingKwh);
+			readingKwhInt = Double.valueOf(readingKwh);
 		}
 		String readingKwah = (String) entry.get("readingKwah");
 		if (readingKwah != null) {
-			readingKwahInt = Integer.valueOf(readingKwah);
+			readingKwahInt = Double.valueOf(readingKwah);
 		}
 		if (lastElectricityMeterReading.getReadingKwh() != null) {
-			lastReadingKwhInt = Integer.valueOf(lastElectricityMeterReading.getReadingKwh());
+			lastReadingKwhInt = Double.valueOf(lastElectricityMeterReading.getReadingKwh());
 		}
 		if (lastElectricityMeterReading.getReadingKwah() != null) {
-			lastReadingKwahInt = Integer.valueOf(lastElectricityMeterReading.getReadingKwah());
+			lastReadingKwahInt = Double.valueOf(lastElectricityMeterReading.getReadingKwah());
 		}
 		// if found greater fail
 		if (readingKwhInt != null && lastReadingKwhInt != null) {
@@ -94,14 +94,14 @@ public class BasicRule extends AbstractRule {
 		ElectricityMeterReadings lastElectricityMeterReading = electricityMeterReadingsService
 				.findLastElectricityMeterReadingsForMeter(electricityMeterDetails);
 		// compare respective meter readings
-		Integer meterReadingInt = null;
-		Integer lastMeterReadingInt = null;
+		Double meterReadingInt = null;
+		Double lastMeterReadingInt = null;
 		String meterReading = (String) entry.get("meterReading");
 		if (meterReading != null) {
-			meterReadingInt = Integer.valueOf(meterReading);
+			meterReadingInt = Double.valueOf(meterReading);
 		}
 		if (lastElectricityMeterReading.getMeterReading() != null) {
-			lastMeterReadingInt = Integer.valueOf(lastElectricityMeterReading.getMeterReading());
+			lastMeterReadingInt = Double.valueOf(lastElectricityMeterReading.getMeterReading());
 		}
 		// if found greater fail
 		if (meterReadingInt != null && lastMeterReadingInt != null)
@@ -111,8 +111,8 @@ public class BasicRule extends AbstractRule {
 		return true;
 	}
 
-	public boolean checkGreaterThanLastReading(Integer newReading, Integer lastReading) {
-		if (lastReading > newReading) {
+	public boolean checkGreaterThanLastReading(Double newReading, Double lastReading) {
+		if (Double.compare(lastReading, newReading) > 0) {
 			return true;
 		}
 		return false;

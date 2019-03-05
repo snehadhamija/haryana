@@ -8,8 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 
 import com.stanzaliving.api.rule.AbstractRule;
+import com.stanzaliving.api.rule.AverageCriteriaRule;
 import com.stanzaliving.api.rule.BasicRule;
 import com.stanzaliving.api.rule.MinimumReadingCriteriaRule;
+import com.stanzaliving.api.rule.MultipleCriteriaRule;
 
 @Configuration
 public class ElectricityReadingRuleFactory {
@@ -22,6 +24,12 @@ public class ElectricityReadingRuleFactory {
 	@Autowired
 	MinimumReadingCriteriaRule minimumReadingCriteriaRule;
 
+	@Autowired
+	MultipleCriteriaRule multipleCriteriaRule;
+
+	@Autowired
+	AverageCriteriaRule averageCriteriaRule;
+
 	public AbstractRule getRuleByName(String ruleName) {
 		AbstractRule rule;
 		switch (ruleName) {
@@ -30,6 +38,12 @@ public class ElectricityReadingRuleFactory {
 			break;
 		case "minimum-reading-criteria-rule":
 			rule = minimumReadingCriteriaRule;
+			break;
+		case "multiple-criteria-rule":
+			rule = multipleCriteriaRule;
+			break;
+		case "average-criteria-rule":
+			rule = averageCriteriaRule;
 			break;
 		default:
 			rule = null;
