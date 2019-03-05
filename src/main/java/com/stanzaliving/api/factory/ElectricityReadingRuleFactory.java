@@ -36,9 +36,6 @@ public class ElectricityReadingRuleFactory {
 		case "basic-rule":
 			rule = basicRule;
 			break;
-		case "minimum-reading-criteria-rule":
-			rule = minimumReadingCriteriaRule;
-			break;
 		case "multiple-criteria-rule":
 			rule = multipleCriteriaRule;
 			break;

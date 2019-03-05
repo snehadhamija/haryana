@@ -34,7 +34,7 @@ public class MinimumReadingCriteriaRule extends AbstractRule {
 		ElectricityMeterDetails electricityMeterDetails = electricityMeterDetailsService.findById(meterDetailsId);
 		if (mainMeterCategories.contains(
 				electricityMeterDetails.getElectricityMeterSubCategory().getElectricityMeterCategory().getId())) {
-			if (mainMeterMinimumReadingCriteriaRule(electricityMeterDetails, entry)) {
+			if (mainMeterMinimumReadingCriteriaRule(electricityMeterDetails)) {
 				setPassed(true);
 			} else {
 				setPassed(false);
@@ -44,8 +44,7 @@ public class MinimumReadingCriteriaRule extends AbstractRule {
 		}
 	}
 
-	public boolean mainMeterMinimumReadingCriteriaRule(ElectricityMeterDetails electricityMeterDetails,
-			HashMap<String, Object> entry) {
+	public boolean mainMeterMinimumReadingCriteriaRule(ElectricityMeterDetails electricityMeterDetails) {
 		List<ElectricityMeterReadings> electricityMeterReadingsForAskedNumber = electricityMeterReadingsService
 				.findAskedNumberElectricityMeterReadingsForMeter(electricityMeterDetails,
 						Constants.MINIMUM_READING_CRITERIA_VALUE);

@@ -24,6 +24,9 @@ public class MultipleCriteriaRule extends AbstractRule {
 	@Autowired
 	ElectricityMeterDetailsService electricityMeterDetailsService;
 
+	@Autowired
+	MinimumReadingCriteriaRule minimumReadingCriteriaRule;
+
 	private static Logger logger = LoggerFactory.getLogger(MultipleCriteriaRule.class);
 
 	private List<Integer> mainMeterCategories = Arrays.asList(1, 3);
@@ -34,10 +37,18 @@ public class MultipleCriteriaRule extends AbstractRule {
 		ElectricityMeterDetails electricityMeterDetails = electricityMeterDetailsService.findById(meterDetailsId);
 		if (mainMeterCategories.contains(
 				electricityMeterDetails.getElectricityMeterSubCategory().getElectricityMeterCategory().getId())) {
-			if (mainMeterMultipleRule(electricityMeterDetails, entry)) {
-				setPassed(true);
+			boolean isEligibilityCriteriaMet = false;
+			if (minimumReadingCriteriaRule.mainMeterMinimumReadingCriteriaRule(electricityMeterDetails)) {
+				isEligibilityCriteriaMet = true;
+			}
+			if (isEligibilityCriteriaMet) {
+				if (mainMeterMultipleRule(electricityMeterDetails, entry)) {
+					setPassed(true);
+				} else {
+					setPassed(false);
+				}
 			} else {
-				setPassed(false);
+				setPassed(true);
 			}
 		} else {
 			setPassed(true);

@@ -51,7 +51,7 @@ public class ElectricityMeterReadingsServiceImpl implements ElectricityMeterRead
 		electricityMeterReadings.setMeterReading(meterReading);
 		electricityMeterReadings.setUnitBalance(unitBalance);
 		electricityMeterReadings.setRecordedBy(recordedBy);
-		dao.save(electricityMeterReadings);
+		dao.saveOrUpdateElectricityMeterReadings(electricityMeterReadings);
 		return electricityMeterReadings;
 	}
 
