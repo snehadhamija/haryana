@@ -13,6 +13,11 @@ public class Constants {
 	public static final String ASSOCIATED_USER = "Room";
 	public static final String COREUSERFETCHURL = "https://core.stanzaliving.com/core/userdto/mobile/";
 	public static final String DEFAULTCREDENTIALS = "9906000101:NIPU9906";
+	// public static final List<String> ELECTRICITY_READING_RULES =
+	// Arrays.asList("basic-rule",
+	// "minimum-reading-criteria-rule", "average-reading-rule",
+	// "multiple-rule");
 	public static final List<String> ELECTRICITY_READING_RULES = Arrays.asList("basic-rule",
-			"minimum-reading-criteria-rule", "average-reading-rule", "multiple-rule");
+			"minimum-reading-criteria-rule");
+	public static final String MINIMUM_READING_CRITERIA_VALUE = "30";
 }

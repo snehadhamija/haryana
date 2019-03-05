@@ -35,6 +35,26 @@ public class ElectricityMeterReadingsServiceImpl implements ElectricityMeterRead
 		return electricityMeterReadings;
 	}
 
+	@Override
+	public ElectricityMeterReadings saveOrUpdateElectricityMeterReadings(Integer readingId,
+			ElectricityMeterDetails electricityMeterDetails, int recordedBy, String readingKwah, String readingKwh,
+			String meterReading, String unitBalance, String readingDate) {
+		ElectricityMeterReadings electricityMeterReadings = findById(readingId);
+		if (electricityMeterReadings == null) {
+			return null;
+		}
+		electricityMeterReadings.setElectricityMeterDetails(electricityMeterDetails);
+		Date readingDateFormatted = DateUtil.returnStringInDateFormat(readingDate);
+		electricityMeterReadings.setReadingDate(readingDateFormatted);
+		electricityMeterReadings.setReadingKwah(readingKwah);
+		electricityMeterReadings.setReadingKwh(readingKwh);
+		electricityMeterReadings.setMeterReading(meterReading);
+		electricityMeterReadings.setUnitBalance(unitBalance);
+		electricityMeterReadings.setRecordedBy(recordedBy);
+		dao.save(electricityMeterReadings);
+		return electricityMeterReadings;
+	}
+
 	public ElectricityMeterReadings findById(int id) {
 		return dao.findById(id);
 	}

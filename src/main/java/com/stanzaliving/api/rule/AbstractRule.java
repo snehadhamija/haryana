@@ -1,6 +1,6 @@
 package com.stanzaliving.api.rule;
 
-import com.stanzaliving.api.model.ElectricityMeterDetails;
+import java.util.HashMap;
 
 public abstract class AbstractRule {
 
@@ -14,6 +14,6 @@ public abstract class AbstractRule {
 		this.passed = passed;
 	}
 
-	public abstract void run(ElectricityMeterDetails electricityMeterDetails);
+	public abstract void run(HashMap<String, Object> entry);
 
 }

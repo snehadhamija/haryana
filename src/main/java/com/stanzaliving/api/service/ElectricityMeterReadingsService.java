@@ -10,6 +10,10 @@ public interface ElectricityMeterReadingsService {
 	ElectricityMeterReadings save(ElectricityMeterDetails electricityMeterDetails, int recordedBy, String readingKwah,
 			String readingKwh, String meterReading, String unitBalance, String readingDate);
 
+	ElectricityMeterReadings saveOrUpdateElectricityMeterReadings(Integer readingId,
+			ElectricityMeterDetails electricityMeterDetails, int recordedBy, String readingKwah, String readingKwh,
+			String meterReading, String unitBalance, String readingDate);
+
 	ElectricityMeterReadings findById(int id);
 
 	List<ElectricityMeterReadings> findAllElectricityMeterReadings();

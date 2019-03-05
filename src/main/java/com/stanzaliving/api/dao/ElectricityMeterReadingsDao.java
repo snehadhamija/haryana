@@ -9,6 +9,8 @@ public interface ElectricityMeterReadingsDao {
 
 	void save(ElectricityMeterReadings electricityMeterReadings);
 
+	void saveOrUpdateElectricityMeterReadings(ElectricityMeterReadings electricityMeterReadings);
+
 	ElectricityMeterReadings findById(int id);
 
 	List<ElectricityMeterReadings> findAllElectricityMeterReadings();
