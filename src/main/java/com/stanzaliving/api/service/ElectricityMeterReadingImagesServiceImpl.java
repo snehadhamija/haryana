@@ -27,4 +27,14 @@ public class ElectricityMeterReadingImagesServiceImpl implements ElectricityMete
 		}
 	}
 
+	@Override
+	public void deleteElectricityMeterReadingImages(ElectricityMeterReadingImages electricityMeterReadingImages) {
+		dao.deleteElectricityMeterReadingImages(electricityMeterReadingImages);
+	}
+
+	@Override
+	public List<ElectricityMeterReadingImages> findElectricityMeterReadingImagesForElectricityMeterReadings(
+			ElectricityMeterReadings electricityMeterReadings) {
+		return dao.findElectricityMeterReadingImagesForElectricityMeterReadings(electricityMeterReadings);
+	}
 }
