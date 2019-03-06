@@ -6,14 +6,8 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.stanzaliving.api.constants.Constants;
 import com.stanzaliving.api.dto.UserDto;
@@ -38,9 +32,7 @@ public class ElectricityMeterReadingsUtil {
 	@Autowired
 	ElectricityMeterReadingsImagesUtil electricityMeterReadingsImagesUtil;
 
-	@RequestMapping(value = "/demoCall", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-	@ResponseBody
-	public ResponseEntity<Object> demoCall(@RequestBody List<HashMap<String, Object>> request, HttpServletRequest req) {
+	public Object demoCall(@RequestBody List<HashMap<String, Object>> request, HttpServletRequest req) {
 		String ruleStatus = "";
 		boolean rulesPassed = true;
 		for (HashMap<String, Object> entry : request) {
@@ -57,21 +49,22 @@ public class ElectricityMeterReadingsUtil {
 			}
 		}
 		System.out.println(ruleStatus);
-		return new ResponseEntity<Object>(ruleStatus, HttpStatus.OK);
+		return ruleStatus;
 	}
 
 	public HashMap<String, Object> validateElectricityReadingRules(List<HashMap<String, Object>> request) {
 		String ruleStatus = "";
 		boolean rulesPassed = true;
-		for (HashMap<String, Object> entry : request) {
+		outerLoop: for (HashMap<String, Object> entry : request) {
 			for (String rule : Constants.ELECTRICITY_READING_RULES) {
 				boolean isRulePassed = electricityReadingRuleFactory.runRule(rule, entry);
 				if (isRulePassed) {
-					ruleStatus += "Rule " + rule + " pass.\n";
+					// ruleStatus += "Rule " + rule + " passed .\n";
+					System.out.println("Rule " + rule + " passed .\n");
 				} else {
-					ruleStatus += "Rule " + rule + " fail.\n";
+					ruleStatus += "Rule " + rule + " failed.\n";
 					rulesPassed = false;
-					break;
+					break outerLoop;
 				}
 			}
 		}

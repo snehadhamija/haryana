@@ -31,6 +31,7 @@ public class BasicRule extends AbstractRule {
 	public void run(HashMap<String, Object> entry) {
 		Integer meterDetailsId = (Integer) entry.get("id");
 		ElectricityMeterDetails electricityMeterDetails = electricityMeterDetailsService.findById(meterDetailsId);
+		String meterName = electricityMeterDetails.getMaterName();
 		if (mainMeterCategories.contains(
 				electricityMeterDetails.getElectricityMeterSubCategory().getElectricityMeterCategory().getId())) {
 			if (mainMeterBasicRule(electricityMeterDetails, entry)) {
@@ -40,8 +41,6 @@ public class BasicRule extends AbstractRule {
 			}
 		} else if (roomMeterCategories.contains(
 				electricityMeterDetails.getElectricityMeterSubCategory().getElectricityMeterCategory().getId())) {
-			System.out.println("Found meter with category id: "
-					+ electricityMeterDetails.getElectricityMeterSubCategory().getElectricityMeterCategory().getId());
 			if (roomMeterBasicRule(electricityMeterDetails, entry)) {
 				setPassed(true);
 			} else {
