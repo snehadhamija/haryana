@@ -24,5 +24,11 @@ public interface ElectricityMeterReadingsService {
 	List<ElectricityMeterReadings> findAskedNumberElectricityMeterReadingsForMeter(
 			ElectricityMeterDetails electricityMeterDetails, String numberOfReadings);
 
+	List<ElectricityMeterReadings> findAskedNumberElectricityMeterReadingsForMeterWithInitialValue(
+			ElectricityMeterDetails electricityMeterDetails, String numberOfReadings, Integer readingId);
+
 	ElectricityMeterReadings findLastElectricityMeterReadingsForMeter(ElectricityMeterDetails electricityMeterDetails);
+
+	ElectricityMeterReadings findLastElectricityMeterReadingsForMeterWithInitialValue(
+			ElectricityMeterDetails electricityMeterDetails, Integer readingId);
 }

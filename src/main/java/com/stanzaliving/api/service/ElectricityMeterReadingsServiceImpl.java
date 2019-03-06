@@ -70,15 +70,28 @@ public class ElectricityMeterReadingsServiceImpl implements ElectricityMeterRead
 	}
 
 	@Override
+	public List<ElectricityMeterReadings> findAskedNumberElectricityMeterReadingsForMeter(
+			ElectricityMeterDetails electricityMeterDetails, String numberOfReadings) {
+		return dao.findAskedNumberElectricityMeterReadingsForMeter(electricityMeterDetails, numberOfReadings);
+	}
+
+	@Override
+	public List<ElectricityMeterReadings> findAskedNumberElectricityMeterReadingsForMeterWithInitialValue(
+			ElectricityMeterDetails electricityMeterDetails, String numberOfReadings, Integer readingId) {
+		return dao.findAskedNumberElectricityMeterReadingsForMeterWithInitialValue(electricityMeterDetails,
+				numberOfReadings, readingId);
+	}
+
+	@Override
 	public ElectricityMeterReadings findLastElectricityMeterReadingsForMeter(
 			ElectricityMeterDetails electricityMeterDetails) {
 		return dao.findLastElectricityMeterReadingsForMeter(electricityMeterDetails);
 	}
 
 	@Override
-	public List<ElectricityMeterReadings> findAskedNumberElectricityMeterReadingsForMeter(
-			ElectricityMeterDetails electricityMeterDetails, String numberOfReadings) {
-		return dao.findAskedNumberElectricityMeterReadingsForMeter(electricityMeterDetails, numberOfReadings);
+	public ElectricityMeterReadings findLastElectricityMeterReadingsForMeterWithInitialValue(
+			ElectricityMeterDetails electricityMeterDetails, Integer readingId) {
+		return dao.findLastElectricityMeterReadingsForMeterWithInitialValue(electricityMeterDetails, readingId);
 	}
 
 }

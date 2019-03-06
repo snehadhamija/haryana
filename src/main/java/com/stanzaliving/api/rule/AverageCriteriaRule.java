@@ -58,9 +58,20 @@ public class AverageCriteriaRule extends AbstractRule {
 
 	public boolean mainMeterMultipleRule(ElectricityMeterDetails electricityMeterDetails,
 			HashMap<String, Object> entry) {
-		List<ElectricityMeterReadings> electricityMeterReadingsForAskedNumber = electricityMeterReadingsService
-				.findAskedNumberElectricityMeterReadingsForMeter(electricityMeterDetails,
-						Constants.AVERAGE_CRITERIA_AVERAGE_VALUE);
+		Integer readingId = null;
+		if (entry.containsKey("readingId")) {
+			readingId = (Integer) entry.get("readingId");
+		}
+		List<ElectricityMeterReadings> electricityMeterReadingsForAskedNumber = null;
+		if (readingId != null) {
+			electricityMeterReadingsForAskedNumber = electricityMeterReadingsService
+					.findAskedNumberElectricityMeterReadingsForMeterWithInitialValue(electricityMeterDetails,
+							Constants.AVERAGE_CRITERIA_AVERAGE_VALUE, readingId);
+		} else {
+			electricityMeterReadingsForAskedNumber = electricityMeterReadingsService
+					.findAskedNumberElectricityMeterReadingsForMeter(electricityMeterDetails,
+							Constants.AVERAGE_CRITERIA_AVERAGE_VALUE);
+		}
 		Double readingKwhDouble = null;
 		Double readingKwahDouble = null;
 		Double totalReadingKwhDouble = 0.00d;

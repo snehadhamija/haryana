@@ -57,8 +57,19 @@ public class MultipleCriteriaRule extends AbstractRule {
 
 	public boolean mainMeterMultipleRule(ElectricityMeterDetails electricityMeterDetails,
 			HashMap<String, Object> entry) {
-		ElectricityMeterReadings lastElectricityMeterReading = electricityMeterReadingsService
-				.findLastElectricityMeterReadingsForMeter(electricityMeterDetails);
+		Integer readingId = null;
+		if (entry.containsKey("readingId")) {
+			readingId = (Integer) entry.get("readingId");
+		}
+		// find last reading for this electricity meter
+		ElectricityMeterReadings lastElectricityMeterReading = null;
+		if (readingId != null) {
+			lastElectricityMeterReading = electricityMeterReadingsService
+					.findLastElectricityMeterReadingsForMeterWithInitialValue(electricityMeterDetails, readingId);
+		} else {
+			lastElectricityMeterReading = electricityMeterReadingsService
+					.findLastElectricityMeterReadingsForMeter(electricityMeterDetails);
+		}
 		Double readingKwhDouble = null;
 		Double readingKwahDouble = null;
 		Double lastReadingKwhDouble = null;

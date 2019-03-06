@@ -50,9 +50,19 @@ public class BasicRule extends AbstractRule {
 	}
 
 	public boolean mainMeterBasicRule(ElectricityMeterDetails electricityMeterDetails, HashMap<String, Object> entry) {
+		Integer readingId = null;
+		if (entry.containsKey("readingId")) {
+			readingId = (Integer) entry.get("readingId");
+		}
 		// find last reading for this electricity meter
-		ElectricityMeterReadings lastElectricityMeterReading = electricityMeterReadingsService
-				.findLastElectricityMeterReadingsForMeter(electricityMeterDetails);
+		ElectricityMeterReadings lastElectricityMeterReading = null;
+		if (readingId != null) {
+			lastElectricityMeterReading = electricityMeterReadingsService
+					.findLastElectricityMeterReadingsForMeterWithInitialValue(electricityMeterDetails, readingId);
+		} else {
+			lastElectricityMeterReading = electricityMeterReadingsService
+					.findLastElectricityMeterReadingsForMeter(electricityMeterDetails);
+		}
 		// compare respective kwah and kvh readings
 		Double readingKwhInt = null;
 		Double readingKwahInt = null;
@@ -88,8 +98,19 @@ public class BasicRule extends AbstractRule {
 
 	public boolean roomMeterBasicRule(ElectricityMeterDetails electricityMeterDetails, HashMap<String, Object> entry) {
 		// find last reading for this electricity meter
-		ElectricityMeterReadings lastElectricityMeterReading = electricityMeterReadingsService
-				.findLastElectricityMeterReadingsForMeter(electricityMeterDetails);
+		Integer readingId = null;
+		if (entry.containsKey("readingId")) {
+			readingId = (Integer) entry.get("readingId");
+		}
+		// find last reading for this electricity meter
+		ElectricityMeterReadings lastElectricityMeterReading = null;
+		if (readingId != null) {
+			lastElectricityMeterReading = electricityMeterReadingsService
+					.findLastElectricityMeterReadingsForMeterWithInitialValue(electricityMeterDetails, readingId);
+		} else {
+			lastElectricityMeterReading = electricityMeterReadingsService
+					.findLastElectricityMeterReadingsForMeter(electricityMeterDetails);
+		}
 		// compare respective meter readings
 		Double meterReadingInt = null;
 		Double lastMeterReadingInt = null;
