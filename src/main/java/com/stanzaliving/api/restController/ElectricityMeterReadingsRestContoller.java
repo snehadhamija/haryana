@@ -19,15 +19,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.stanzaliving.api.dto.UserDto;
-import com.stanzaliving.api.factory.ElectricityReadingRuleFactory;
 import com.stanzaliving.api.model.ElectricityMeterDetails;
 import com.stanzaliving.api.model.ElectricityMeterReadings;
 import com.stanzaliving.api.service.ElectricityMeterDetailsService;
-import com.stanzaliving.api.service.ElectricityMeterReadingImagesService;
 import com.stanzaliving.api.service.ElectricityMeterReadingsService;
-import com.stanzaliving.api.service.ElectricityMeterSubCategoryService;
 import com.stanzaliving.api.service.SpringRestClientService;
-import com.stanzaliving.api.util.ElectricityMeterReadingsImagesUtil;
 import com.stanzaliving.api.util.ElectricityMeterReadingsUtil;
 
 @RestController
@@ -37,22 +33,10 @@ public class ElectricityMeterReadingsRestContoller {
 	ElectricityMeterDetailsService electricityMeterDetailsService;
 
 	@Autowired
-	ElectricityMeterSubCategoryService electricityMeterSubCategoryService;
-
-	@Autowired
 	ElectricityMeterReadingsService electricityMeterReadingsService;
 
 	@Autowired
-	ElectricityMeterReadingImagesService electricityMeterReadingImagesService;
-
-	@Autowired
 	SpringRestClientService springRestClientService;
-
-	@Autowired
-	ElectricityReadingRuleFactory electricityReadingRuleFactory;
-
-	@Autowired
-	ElectricityMeterReadingsImagesUtil electricityMeterReadingsImagesUtil;
 
 	@Autowired
 	ElectricityMeterReadingsUtil electricityMeterReadingsUtil;
