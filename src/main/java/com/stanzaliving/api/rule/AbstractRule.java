@@ -5,6 +5,15 @@ import java.util.HashMap;
 public abstract class AbstractRule {
 
 	private boolean passed;
+	private String violatedProperty;
+
+	public String getViolatedProperty() {
+		return violatedProperty;
+	}
+
+	public void setViolatedProperty(String violatedProperty) {
+		this.violatedProperty = violatedProperty;
+	}
 
 	public boolean isPassed() {
 		return passed;

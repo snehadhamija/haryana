@@ -58,4 +58,20 @@ public class ElectricityReadingRuleFactory {
 		return rule.isPassed();
 	}
 
+	public HashMap<String, Object> runRuleCustom(String type, HashMap<String, Object> entry) {
+		Integer meterDetailsId = (Integer) entry.get("id");
+		String readingDate = (String) entry.get("readingDate");
+		AbstractRule rule = getRuleByName(type);
+		if (rule == null) {
+			logger.warn("Rule:{} not found", type);
+		}
+		rule.run(entry);
+		HashMap<String, Object> hashMap = new HashMap<>();
+		hashMap.put("isRulePassed", rule.isPassed());
+		hashMap.put("meterDetailsId", meterDetailsId);
+		hashMap.put("readingDate", readingDate);
+		hashMap.put("violatedProperty", rule.getViolatedProperty());
+		return hashMap;
+	}
+
 }

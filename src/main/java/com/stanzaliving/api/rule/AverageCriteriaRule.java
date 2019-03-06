@@ -98,11 +98,13 @@ public class AverageCriteriaRule extends AbstractRule {
 		averageReadingKwahDouble = totalReadingKwahDouble / Integer.valueOf(Constants.AVERAGE_CRITERIA_AVERAGE_VALUE);
 		if (readingKwhDouble != null && averageReadingKwhDouble != null) {
 			if (checkForAverageCriteria(readingKwhDouble, averageReadingKwhDouble)) {
+				setViolatedProperty("readingKwh");
 				return false;
 			}
 		}
 		if (readingKwahDouble != null && averageReadingKwahDouble != null) {
 			if (checkForAverageCriteria(readingKwahDouble, averageReadingKwahDouble)) {
+				setViolatedProperty("readingKwah");
 				return false;
 			}
 		}

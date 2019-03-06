@@ -90,11 +90,13 @@ public class MultipleCriteriaRule extends AbstractRule {
 		}
 		if (readingKwhDouble != null && lastReadingKwhDouble != null) {
 			if (checkForMultipleCriteria(readingKwhDouble, lastReadingKwhDouble)) {
+				setViolatedProperty("readingKwh");
 				return false;
 			}
 		}
 		if (readingKwahDouble != null && lastReadingKwahDouble != null) {
 			if (checkForMultipleCriteria(readingKwahDouble, lastReadingKwahDouble)) {
+				setViolatedProperty("readingKwh");
 				return false;
 			}
 		}

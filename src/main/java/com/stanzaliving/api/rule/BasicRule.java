@@ -31,7 +31,6 @@ public class BasicRule extends AbstractRule {
 	public void run(HashMap<String, Object> entry) {
 		Integer meterDetailsId = (Integer) entry.get("id");
 		ElectricityMeterDetails electricityMeterDetails = electricityMeterDetailsService.findById(meterDetailsId);
-		String meterName = electricityMeterDetails.getMaterName();
 		if (mainMeterCategories.contains(
 				electricityMeterDetails.getElectricityMeterSubCategory().getElectricityMeterCategory().getId())) {
 			if (mainMeterBasicRule(electricityMeterDetails, entry)) {
@@ -85,11 +84,13 @@ public class BasicRule extends AbstractRule {
 		// if found greater fail
 		if (readingKwhInt != null && lastReadingKwhInt != null) {
 			if (checkGreaterThanLastReading(readingKwhInt, lastReadingKwhInt)) {
+				setViolatedProperty("readingKwh");
 				return false;
 			}
 		}
 		if (readingKwahInt != null && lastReadingKwahInt != null) {
 			if (checkGreaterThanLastReading(readingKwahInt, lastReadingKwahInt)) {
+				setViolatedProperty("readingKwah");
 				return false;
 			}
 		}
@@ -124,6 +125,7 @@ public class BasicRule extends AbstractRule {
 		// if found greater fail
 		if (meterReadingInt != null && lastMeterReadingInt != null)
 			if (checkGreaterThanLastReading(meterReadingInt, lastMeterReadingInt)) {
+				setViolatedProperty("meterReading");
 				return false;
 			}
 		return true;

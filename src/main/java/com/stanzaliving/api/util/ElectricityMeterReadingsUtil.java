@@ -57,12 +57,18 @@ public class ElectricityMeterReadingsUtil {
 		boolean rulesPassed = true;
 		outerLoop: for (HashMap<String, Object> entry : request) {
 			for (String rule : Constants.ELECTRICITY_READING_RULES) {
-				boolean isRulePassed = electricityReadingRuleFactory.runRule(rule, entry);
+				HashMap<String, Object> hashMap = electricityReadingRuleFactory.runRuleCustom(rule, entry);
+				boolean isRulePassed = (boolean) hashMap.get("isRulePassed");
 				if (isRulePassed) {
-					// ruleStatus += "Rule " + rule + " passed .\n";
 					System.out.println("Rule " + rule + " passed .\n");
 				} else {
-					ruleStatus += "Rule " + rule + " failed.\n";
+					String violatedProperty = (String) hashMap.get("violatedProperty");
+					String readingDate = (String) hashMap.get("readingDate");
+					Integer meterDetailsId = (Integer) hashMap.get("meterDetailsId");
+					ElectricityMeterDetails electricityMeterDetails = electricityMeterDetailsService
+							.findById(meterDetailsId);
+					ruleStatus += "Rule " + rule + " violated by meter: " + electricityMeterDetails.getMaterName()
+							+ " for reading date: " + readingDate + " for property: " + violatedProperty + " \n";
 					rulesPassed = false;
 					break outerLoop;
 				}
