@@ -39,7 +39,7 @@ public class ElectricityMeterSubCategoryRestContoller {
 	@Autowired
 	SpringRestClientService springRestClientService;
 
-	// -------------------Retrieve All electricityMeterSubCategories
+	// --------Retrieve All electricityMeterSubCategories
 	@RequestMapping(value = { "/electricityMeterSubCategory" }, method = RequestMethod.GET)
 	public ResponseEntity<List<ElectricityMeterSubCategory>> getElectricityMeterCategories() {
 		List<ElectricityMeterSubCategory> electricityMeterSubCategories = electricityMeterSubCategoryService
@@ -47,9 +47,9 @@ public class ElectricityMeterSubCategoryRestContoller {
 		return new ResponseEntity<List<ElectricityMeterSubCategory>>(electricityMeterSubCategories, HttpStatus.OK);
 	}
 
-	// -------------------Retrieve all
+	// ------ Retrieve all
 	// electricityMeterSubCategories for an
-	// electricityMeterCategory--------------------------------------------------------
+	// electricityMeterCategory -------
 	@RequestMapping(value = "/electricityMeterSubCategory/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<ElectricityMeterSubCategoryDto>> getElectricityMeterCategoriesForelectricityMeterCategory(
 			@PathVariable("id") int id, HttpServletRequest request) {

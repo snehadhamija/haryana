@@ -134,7 +134,7 @@ public class ElectricityMeterReadingsUtil {
 
 	public List<ElectricityMeterReadings> fetchLastElectricityMeterReadings(String numberOfReadings, boolean last,
 			List<ElectricityMeterReadings> electricityMeterReadings, ElectricityMeterDetails electricityMeterDetails) {
-		if (!numberOfReadings.equals("1")) {
+		if (numberOfReadings != null) {
 			List<ElectricityMeterReadings> electricityMeterReadingsForAskedNumber = electricityMeterReadingsService
 					.findAskedNumberElectricityMeterReadingsForMeter(electricityMeterDetails, numberOfReadings);
 			return electricityMeterReadingsForAskedNumber;

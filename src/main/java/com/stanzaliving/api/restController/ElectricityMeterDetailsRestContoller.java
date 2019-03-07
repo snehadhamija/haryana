@@ -17,12 +17,11 @@ import org.springframework.web.bind.annotation.RestController;
 import com.stanzaliving.api.dto.ElectricityMeterReadingsDto;
 import com.stanzaliving.api.dto.UserDto;
 import com.stanzaliving.api.model.ElectricityMeterDetails;
-import com.stanzaliving.api.model.ElectricityMeterReadings;
 import com.stanzaliving.api.model.ElectricityMeterSubCategory;
 import com.stanzaliving.api.service.ElectricityMeterDetailsService;
-import com.stanzaliving.api.service.ElectricityMeterReadingsService;
 import com.stanzaliving.api.service.ElectricityMeterSubCategoryService;
 import com.stanzaliving.api.service.SpringRestClientService;
+import com.stanzaliving.api.util.ElectricityMeterDetailsUtil;
 
 @RestController
 public class ElectricityMeterDetailsRestContoller {
@@ -34,10 +33,10 @@ public class ElectricityMeterDetailsRestContoller {
 	ElectricityMeterSubCategoryService electricityMeterSubCategoryService;
 
 	@Autowired
-	ElectricityMeterReadingsService electricityMeterReadingsService;
+	SpringRestClientService springRestClientService;
 
 	@Autowired
-	SpringRestClientService springRestClientService;
+	ElectricityMeterDetailsUtil electricityMeterDetailsUtil;
 
 	// -------------------Retrieve All electricityMeterDetails
 	@RequestMapping(value = { "/electricityMeterDetails" }, method = RequestMethod.GET)
@@ -47,10 +46,9 @@ public class ElectricityMeterDetailsRestContoller {
 		return new ResponseEntity<List<ElectricityMeterDetails>>(electricityMeterDetails, HttpStatus.OK);
 	}
 
-	// -------------------Retrieve all
-	// electricityMeterDetails for an
-	// electricityMeterSubCategory in a
-	// Hostel--------------------------------------------------------
+	// Retrieve all electricityMeterDetails
+	// for an electricityMeterSubCategory
+	// in a Hostel--------
 	@RequestMapping(value = "/electricityMeterDetails/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<ElectricityMeterReadingsDto>> getElectricityMeterDetailsForelectricityMeterSubCategoryInHostel(
 			@PathVariable("id") int id, HttpServletRequest request) {
@@ -65,20 +63,8 @@ public class ElectricityMeterDetailsRestContoller {
 						userDto.getHostelID());
 		List<ElectricityMeterReadingsDto> electricityMeterReadingsDtos = new ArrayList<>();
 		if (!electricityMeterDetails.isEmpty()) {
-			for (ElectricityMeterDetails ed : electricityMeterDetails) {
-				ElectricityMeterReadingsDto electricityMeterReadingsDto = new ElectricityMeterReadingsDto();
-				electricityMeterReadingsDto.setElectricityMeterDetails(ed);
-				ElectricityMeterReadings electricityMeterReadings = electricityMeterReadingsService
-						.findLastElectricityMeterReadingsForMeter(ed);
-				if (electricityMeterReadings != null) {
-					electricityMeterReadingsDto.setLastReadingdate(electricityMeterReadings.getReadingDate());
-					electricityMeterReadingsDto.setLastReadingKwah(electricityMeterReadings.getReadingKwah());
-					electricityMeterReadingsDto.setLastMeterReading(electricityMeterReadings.getMeterReading());
-					electricityMeterReadingsDto.setLastunitBalance(electricityMeterReadings.getUnitBalance());
-					electricityMeterReadingsDto.setLastReadingKwh(electricityMeterReadings.getReadingKwh());
-				}
-				electricityMeterReadingsDtos.add(electricityMeterReadingsDto);
-			}
+			electricityMeterReadingsDtos = electricityMeterDetailsUtil
+					.createElectricityMeterReadingsDtoList(electricityMeterDetails);
 		}
 		return new ResponseEntity<List<ElectricityMeterReadingsDto>>(electricityMeterReadingsDtos, HttpStatus.OK);
 	}
