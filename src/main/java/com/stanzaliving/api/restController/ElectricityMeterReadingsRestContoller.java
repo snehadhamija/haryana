@@ -67,15 +67,9 @@ public class ElectricityMeterReadingsRestContoller {
 		if (electricityMeterReadings.isEmpty()) {
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		}
-		if (!numberOfReadings.equals("1")) {
-			List<ElectricityMeterReadings> electricityMeterReadingsForAskedNumber = electricityMeterReadingsService
-					.findAskedNumberElectricityMeterReadingsForMeter(electricityMeterDetails, numberOfReadings);
-			return new ResponseEntity<List<ElectricityMeterReadings>>(electricityMeterReadingsForAskedNumber,
-					HttpStatus.OK);
-		}
-		if (last) {
-			List<ElectricityMeterReadings> emr = new ArrayList<ElectricityMeterReadings>();
-			emr.add(electricityMeterReadings.get(electricityMeterReadings.size() - 1));
+		List<ElectricityMeterReadings> emr = electricityMeterReadingsUtil.fetchLastElectricityMeterReadings(
+				numberOfReadings, last, electricityMeterReadings, electricityMeterDetails);
+		if (emr != null && !emr.isEmpty()) {
 			return new ResponseEntity<List<ElectricityMeterReadings>>(emr, HttpStatus.OK);
 		}
 		return new ResponseEntity<List<ElectricityMeterReadings>>(electricityMeterReadings, HttpStatus.OK);

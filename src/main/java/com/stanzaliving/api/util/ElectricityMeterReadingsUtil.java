@@ -1,5 +1,6 @@
 package com.stanzaliving.api.util;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -129,6 +130,21 @@ public class ElectricityMeterReadingsUtil {
 					electricityMeterReadings);
 		}
 		return electricityMeterReadings;
+	}
+
+	public List<ElectricityMeterReadings> fetchLastElectricityMeterReadings(String numberOfReadings, boolean last,
+			List<ElectricityMeterReadings> electricityMeterReadings, ElectricityMeterDetails electricityMeterDetails) {
+		if (!numberOfReadings.equals("1")) {
+			List<ElectricityMeterReadings> electricityMeterReadingsForAskedNumber = electricityMeterReadingsService
+					.findAskedNumberElectricityMeterReadingsForMeter(electricityMeterDetails, numberOfReadings);
+			return electricityMeterReadingsForAskedNumber;
+		}
+		if (last) {
+			List<ElectricityMeterReadings> emr = new ArrayList<ElectricityMeterReadings>();
+			emr.add(electricityMeterReadings.get(electricityMeterReadings.size() - 1));
+			return emr;
+		}
+		return null;
 	}
 
 }
