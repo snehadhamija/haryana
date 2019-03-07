@@ -66,6 +66,12 @@ public class ElectricityReadingRuleFactory {
 			logger.warn("Rule:{} not found", type);
 		}
 		rule.run(entry);
+		HashMap<String, Object> ruleViolationHashMap = createRuleViolationHashMap(rule, meterDetailsId, readingDate);
+		return ruleViolationHashMap;
+	}
+
+	public HashMap<String, Object> createRuleViolationHashMap(AbstractRule rule, Integer meterDetailsId,
+			String readingDate) {
 		HashMap<String, Object> hashMap = new HashMap<>();
 		hashMap.put("isRulePassed", rule.isPassed());
 		hashMap.put("meterDetailsId", meterDetailsId);

@@ -57,23 +57,33 @@ public class ElectricityMeterReadingsUtil {
 		boolean rulesPassed = true;
 		outerLoop: for (HashMap<String, Object> entry : request) {
 			for (String rule : Constants.ELECTRICITY_READING_RULES) {
-				HashMap<String, Object> hashMap = electricityReadingRuleFactory.runRuleCustom(rule, entry);
-				boolean isRulePassed = (boolean) hashMap.get("isRulePassed");
+				HashMap<String, Object> ruleViolationHashMap = electricityReadingRuleFactory.runRuleCustom(rule, entry);
+				boolean isRulePassed = (boolean) ruleViolationHashMap.get("isRulePassed");
 				if (isRulePassed) {
 					System.out.println("Rule " + rule + " passed .\n");
 				} else {
-					String violatedProperty = (String) hashMap.get("violatedProperty");
-					String readingDate = (String) hashMap.get("readingDate");
-					Integer meterDetailsId = (Integer) hashMap.get("meterDetailsId");
-					ElectricityMeterDetails electricityMeterDetails = electricityMeterDetailsService
-							.findById(meterDetailsId);
-					ruleStatus += "Rule " + rule + " violated by meter: " + electricityMeterDetails.getMaterName()
-							+ " for reading date: " + readingDate + " for property: " + violatedProperty + " \n";
+					ruleStatus = createRuleViolationString(ruleViolationHashMap, rule);
 					rulesPassed = false;
 					break outerLoop;
 				}
 			}
 		}
+		HashMap<String, Object> ruleStatusHashMap = populateRuleStatusHashMap(ruleStatus, rulesPassed);
+		return ruleStatusHashMap;
+	}
+
+	public String createRuleViolationString(HashMap<String, Object> ruleViolationHashMap, String rule) {
+		String ruleStatus = "";
+		String violatedProperty = (String) ruleViolationHashMap.get("violatedProperty");
+		String readingDate = (String) ruleViolationHashMap.get("readingDate");
+		Integer meterDetailsId = (Integer) ruleViolationHashMap.get("meterDetailsId");
+		ElectricityMeterDetails electricityMeterDetails = electricityMeterDetailsService.findById(meterDetailsId);
+		ruleStatus += "Rule " + rule + " violated by meter: " + electricityMeterDetails.getMaterName()
+				+ " for reading date: " + readingDate + " for property: " + violatedProperty + " \n";
+		return ruleStatus;
+	}
+
+	public HashMap<String, Object> populateRuleStatusHashMap(String ruleStatus, boolean rulesPassed) {
 		HashMap<String, Object> ruleStatusHashMap = new HashMap<>();
 		ruleStatusHashMap.put("ruleStatus", ruleStatus);
 		ruleStatusHashMap.put("rulesPassed", rulesPassed);
@@ -96,18 +106,27 @@ public class ElectricityMeterReadingsUtil {
 		ElectricityMeterDetails electricityMeterDetails = electricityMeterDetailsService.findById(meterDetailsId);
 		ElectricityMeterReadings electricityMeterReadings = null;
 		if (electricityMeterDetails != null) {
-			if (readingId != null) {
-				electricityMeterReadings = electricityMeterReadingsService.saveOrUpdateElectricityMeterReadings(
-						readingId, electricityMeterDetails, userDto.getUserId(), readingKwah, readingKwh, meterReading,
-						unitBalance, readingDate);
-			} else {
-				electricityMeterReadings = electricityMeterReadingsService.save(electricityMeterDetails,
-						userDto.getUserId(), readingKwah, readingKwh, meterReading, unitBalance, readingDate);
-			}
-			if (imgUrls != null && !imgUrls.isEmpty()) {
-				electricityMeterReadingsImagesUtil.createOrUpdateElectricityMeterReadingImages(imgUrls,
-						electricityMeterReadings);
-			}
+			electricityMeterReadings = createOrUpdateElectricityMeterReadingsEntries(readingId, electricityMeterDetails,
+					userDto, readingKwh, readingKwah, meterReading, unitBalance, readingDate, imgUrls);
+		}
+		return electricityMeterReadings;
+	}
+
+	public ElectricityMeterReadings createOrUpdateElectricityMeterReadingsEntries(Integer readingId,
+			ElectricityMeterDetails electricityMeterDetails, UserDto userDto, String readingKwh, String readingKwah,
+			String meterReading, String unitBalance, String readingDate, List<String> imgUrls) {
+		ElectricityMeterReadings electricityMeterReadings = null;
+		if (readingId != null) {
+			electricityMeterReadings = electricityMeterReadingsService.saveOrUpdateElectricityMeterReadings(readingId,
+					electricityMeterDetails, userDto.getUserId(), readingKwah, readingKwh, meterReading, unitBalance,
+					readingDate);
+		} else {
+			electricityMeterReadings = electricityMeterReadingsService.save(electricityMeterDetails,
+					userDto.getUserId(), readingKwah, readingKwh, meterReading, unitBalance, readingDate);
+		}
+		if (imgUrls != null && !imgUrls.isEmpty()) {
+			electricityMeterReadingsImagesUtil.createOrUpdateElectricityMeterReadingImages(imgUrls,
+					electricityMeterReadings);
 		}
 		return electricityMeterReadings;
 	}
