@@ -49,7 +49,6 @@ public class ElectricityMeterReadingsUtil {
 				}
 			}
 		}
-		System.out.println(ruleStatus);
 		return ruleStatus;
 	}
 
@@ -77,10 +76,11 @@ public class ElectricityMeterReadingsUtil {
 		String ruleStatus = "";
 		String violatedProperty = (String) ruleViolationHashMap.get("violatedProperty");
 		String readingDate = (String) ruleViolationHashMap.get("readingDate");
+		String readingDateTrimmed = readingDate.substring(0, 10);
 		Integer meterDetailsId = (Integer) ruleViolationHashMap.get("meterDetailsId");
 		ElectricityMeterDetails electricityMeterDetails = electricityMeterDetailsService.findById(meterDetailsId);
 		ruleStatus += "Rule " + rule + " violated by meter: " + electricityMeterDetails.getMaterName()
-				+ " for reading date: " + readingDate + " for property: " + violatedProperty + " \n";
+				+ " for reading date: " + readingDateTrimmed + " for property: " + violatedProperty + " \n";
 		return ruleStatus;
 	}
 

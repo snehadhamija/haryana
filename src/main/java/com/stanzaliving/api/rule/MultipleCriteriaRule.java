@@ -96,7 +96,7 @@ public class MultipleCriteriaRule extends AbstractRule {
 		}
 		if (readingKwahDouble != null && lastReadingKwahDouble != null) {
 			if (checkForMultipleCriteria(readingKwahDouble, lastReadingKwahDouble)) {
-				setViolatedProperty("readingKwh");
+				setViolatedProperty("readingKvah");
 				return false;
 			}
 		}

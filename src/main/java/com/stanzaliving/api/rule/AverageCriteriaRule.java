@@ -104,7 +104,7 @@ public class AverageCriteriaRule extends AbstractRule {
 		}
 		if (readingKwahDouble != null && averageReadingKwahDouble != null) {
 			if (checkForAverageCriteria(readingKwahDouble, averageReadingKwahDouble)) {
-				setViolatedProperty("readingKwah");
+				setViolatedProperty("readingKvah");
 				return false;
 			}
 		}

@@ -90,7 +90,7 @@ public class BasicRule extends AbstractRule {
 		}
 		if (readingKwahInt != null && lastReadingKwahInt != null) {
 			if (checkGreaterThanLastReading(readingKwahInt, lastReadingKwahInt)) {
-				setViolatedProperty("readingKwah");
+				setViolatedProperty("readingKvah");
 				return false;
 			}
 		}
