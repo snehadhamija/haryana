@@ -1,6 +1,5 @@
 package com.stanzaliving.api.restController;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -15,14 +14,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.stanzaliving.api.dto.ElectricityMeterSubCategoryDto;
-import com.stanzaliving.api.dto.UserDto;
 import com.stanzaliving.api.model.ElectricityMeterCategory;
-import com.stanzaliving.api.model.ElectricityMeterDetails;
 import com.stanzaliving.api.model.ElectricityMeterSubCategory;
 import com.stanzaliving.api.service.ElectricityMeterCategoryService;
-import com.stanzaliving.api.service.ElectricityMeterDetailsService;
 import com.stanzaliving.api.service.ElectricityMeterSubCategoryService;
-import com.stanzaliving.api.service.SpringRestClientService;
+import com.stanzaliving.api.util.ElectricityMeterSubCategoryUtil;
 
 @RestController
 public class ElectricityMeterSubCategoryRestContoller {
@@ -34,10 +30,7 @@ public class ElectricityMeterSubCategoryRestContoller {
 	ElectricityMeterCategoryService electricityMeterCategoryService;
 
 	@Autowired
-	ElectricityMeterDetailsService electricityMeterDetailsService;
-
-	@Autowired
-	SpringRestClientService springRestClientService;
+	ElectricityMeterSubCategoryUtil electricityMeterSubCategoryUtil;
 
 	// --------Retrieve All electricityMeterSubCategories
 	@RequestMapping(value = { "/electricityMeterSubCategory" }, method = RequestMethod.GET)
@@ -55,24 +48,10 @@ public class ElectricityMeterSubCategoryRestContoller {
 			@PathVariable("id") int id, HttpServletRequest request) {
 		ElectricityMeterCategory electricityMeterCategory = electricityMeterCategoryService.findById(id);
 		if (electricityMeterCategory == null) {
-			System.out.println("electricityMeterCategory with id " + id + " not found");
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
-		List<ElectricityMeterSubCategory> electricityMeterSubCategories = electricityMeterSubCategoryService
-				.findAllElectricityMeterSubCategoriesForElectricityMeterCategory(electricityMeterCategory);
-		List<ElectricityMeterSubCategoryDto> electricityMeterSubCategoryDtos = new ArrayList<>();
-		if (!electricityMeterSubCategories.isEmpty()) {
-			UserDto userDto = springRestClientService.getUserDto(request);
-			for (ElectricityMeterSubCategory electricityMeterSubCategory : electricityMeterSubCategories) {
-				List<ElectricityMeterDetails> electricityMeterDetails = electricityMeterDetailsService
-						.findAllElectricityMeterDetailsForSubCategoryInHostel(electricityMeterSubCategory,
-								userDto.getHostelID());
-				ElectricityMeterSubCategoryDto electricityMeterSubCategoryDto = new ElectricityMeterSubCategoryDto();
-				electricityMeterSubCategoryDto.setElectricityMeterSubCategory(electricityMeterSubCategory);
-				electricityMeterSubCategoryDto.setCount(electricityMeterDetails.size());
-				electricityMeterSubCategoryDtos.add(electricityMeterSubCategoryDto);
-			}
-		}
+		List<ElectricityMeterSubCategoryDto> electricityMeterSubCategoryDtos = electricityMeterSubCategoryUtil
+				.createElectricityMeterSubCategoryDtoList(electricityMeterCategory, request);
 		return new ResponseEntity<List<ElectricityMeterSubCategoryDto>>(electricityMeterSubCategoryDtos, HttpStatus.OK);
 	}
 
