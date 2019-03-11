@@ -6,6 +6,8 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -33,6 +35,8 @@ public class ElectricityMeterReadingsUtil {
 	@Autowired
 	ElectricityMeterReadingsImagesUtil electricityMeterReadingsImagesUtil;
 
+	private static final Logger logger = LoggerFactory.getLogger(ElectricityMeterReadingsUtil.class);
+
 	public Object demoCall(@RequestBody List<HashMap<String, Object>> request, HttpServletRequest req) {
 		String ruleStatus = "";
 		boolean rulesPassed = true;
@@ -59,10 +63,10 @@ public class ElectricityMeterReadingsUtil {
 			for (String rule : Constants.ELECTRICITY_READING_RULES) {
 				HashMap<String, Object> ruleViolationHashMap = electricityReadingRuleFactory.runRuleCustom(rule, entry);
 				boolean isRulePassed = (boolean) ruleViolationHashMap.get("isRulePassed");
-				if (isRulePassed) {
-					System.out.println("Rule " + rule + " passed .\n");
-				} else {
-					ruleStatus = createRuleViolationString(ruleViolationHashMap, rule);
+				String violated = setVioldatedString(isRulePassed);
+				ruleStatus = createRuleViolationString(ruleViolationHashMap, rule, violated);
+				logger.info(ruleStatus);
+				if (!isRulePassed) {
 					rulesPassed = false;
 					break outerLoop;
 				}
@@ -72,15 +76,31 @@ public class ElectricityMeterReadingsUtil {
 		return ruleStatusHashMap;
 	}
 
-	public String createRuleViolationString(HashMap<String, Object> ruleViolationHashMap, String rule) {
+	public String setVioldatedString(boolean isRulePassed) {
+		String violated = "";
+		if (!isRulePassed) {
+			violated = "violated";
+		} else {
+			violated = "passed";
+		}
+		return violated;
+	}
+
+	public String createRuleViolationString(HashMap<String, Object> ruleViolationHashMap, String rule,
+			String violated) {
 		String ruleStatus = "";
-		String violatedProperty = (String) ruleViolationHashMap.get("violatedProperty");
+		String extendedString = "";
+		if (ruleViolationHashMap.get("violatedProperty") != null
+				&& ruleViolationHashMap.get("violatedProperty") != "") {
+			String violatedProperty = (String) ruleViolationHashMap.get("violatedProperty");
+			extendedString = " for property: " + violatedProperty;
+		}
 		String readingDate = (String) ruleViolationHashMap.get("readingDate");
 		String readingDateTrimmed = readingDate.substring(0, 10);
 		Integer meterDetailsId = (Integer) ruleViolationHashMap.get("meterDetailsId");
 		ElectricityMeterDetails electricityMeterDetails = electricityMeterDetailsService.findById(meterDetailsId);
-		ruleStatus += "Rule " + rule + " violated by meter: " + electricityMeterDetails.getMaterName()
-				+ " for reading date: " + readingDateTrimmed + " for property: " + violatedProperty + " \n";
+		ruleStatus += "Rule " + rule + " " + violated + " by meter: " + electricityMeterDetails.getMaterName()
+				+ " for reading date: " + readingDateTrimmed + "" + extendedString + " \n";
 		return ruleStatus;
 	}
 

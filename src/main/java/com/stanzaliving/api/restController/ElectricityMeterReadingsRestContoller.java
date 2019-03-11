@@ -6,6 +6,8 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -40,6 +42,8 @@ public class ElectricityMeterReadingsRestContoller {
 
 	@Autowired
 	ElectricityMeterReadingsUtil electricityMeterReadingsUtil;
+
+	private static final Logger logger = LoggerFactory.getLogger(ElectricityMeterReadingsRestContoller.class);
 
 	// -------------------Retrieve All electricityMeterDetails
 	@RequestMapping(value = { "/electricityMeterReadings" }, method = RequestMethod.GET)
@@ -95,16 +99,29 @@ public class ElectricityMeterReadingsRestContoller {
 	@ResponseBody
 	public ResponseEntity<Object> saveElectricityMeterReadingsForMeter(
 			@RequestBody List<HashMap<String, Object>> request, HttpServletRequest req) {
-		HashMap<String, Object> ruleStatusHashMap = electricityMeterReadingsUtil
-				.validateElectricityReadingRules(request);
-		if (ruleStatusHashMap.get("rulesPassed").equals(false)) {
-			return new ResponseEntity<Object>(ruleStatusHashMap.get("ruleStatus"), HttpStatus.CONFLICT);
+		try {
+			HashMap<String, Object> ruleStatusHashMap = electricityMeterReadingsUtil
+					.validateElectricityReadingRules(request);
+			if (ruleStatusHashMap.get("rulesPassed").equals(false)) {
+				return new ResponseEntity<Object>(ruleStatusHashMap.get("ruleStatus"), HttpStatus.CONFLICT);
+			}
+		} catch (Exception e) {
+			logger.info("Exception caught while validating Electricity meter rules!");
+			logger.info("\n" + e);
+			e.printStackTrace();
 		}
 		UserDto userDto = springRestClientService.getUserDto(req);
 		List<ElectricityMeterReadings> electricityMeterReadingsList = new ArrayList<>();
 		for (HashMap<String, Object> entry : request) {
-			ElectricityMeterReadings electricityMeterReadings = electricityMeterReadingsUtil
-					.saveOrUpdateElectricityMeterReadings(entry, userDto);
+			ElectricityMeterReadings electricityMeterReadings = null;
+			try {
+				electricityMeterReadings = electricityMeterReadingsUtil.saveOrUpdateElectricityMeterReadings(entry,
+						userDto);
+			} catch (Exception e) {
+				logger.info("Exception caught while saving or updating Electricity meter readings!");
+				logger.info("\n" + e);
+				e.printStackTrace();
+			}
 			electricityMeterReadingsList.add(electricityMeterReadings);
 		}
 		return new ResponseEntity<Object>(electricityMeterReadingsList, HttpStatus.OK);
