@@ -31,4 +31,9 @@ public class ElectricityMeterDetailsServiceImpl implements ElectricityMeterDetai
 		return dao.findAllElectricityMeterDetailsForSubCategoryInHostel(electricityMeterSubCategory, hostelId);
 	}
 
+	@Override
+	public List<ElectricityMeterDetails> findAllElectricityMeterDetailsInHostel(int hostelId) {
+		return dao.findAllElectricityMeterDetailsInHostel(hostelId);
+	}
+
 }

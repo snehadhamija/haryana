@@ -14,4 +14,5 @@ public interface ElectricityMeterDetailsService {
 	List<ElectricityMeterDetails> findAllElectricityMeterDetailsForSubCategoryInHostel(
 			ElectricityMeterSubCategory electricityMeterSubCategory, int hostelId);
 
+	List<ElectricityMeterDetails> findAllElectricityMeterDetailsInHostel(int hostelId);
 }

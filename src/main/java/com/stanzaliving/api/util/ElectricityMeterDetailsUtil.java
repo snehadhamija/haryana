@@ -3,19 +3,30 @@ package com.stanzaliving.api.util;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.stanzaliving.api.dto.ElectricityMeterReadingsDto;
+import com.stanzaliving.api.dto.UserDto;
 import com.stanzaliving.api.model.ElectricityMeterDetails;
 import com.stanzaliving.api.model.ElectricityMeterReadings;
+import com.stanzaliving.api.service.ElectricityMeterDetailsService;
 import com.stanzaliving.api.service.ElectricityMeterReadingsService;
+import com.stanzaliving.api.service.SpringRestClientService;
 
 @Component
 public class ElectricityMeterDetailsUtil {
 
 	@Autowired
 	ElectricityMeterReadingsService electricityMeterReadingsService;
+
+	@Autowired
+	SpringRestClientService springRestClientService;
+
+	@Autowired
+	ElectricityMeterDetailsService electricityMeterDetailsService;
 
 	public List<ElectricityMeterReadingsDto> createElectricityMeterReadingsDtoList(
 			List<ElectricityMeterDetails> electricityMeterDetails) {
@@ -49,5 +60,16 @@ public class ElectricityMeterDetailsUtil {
 		electricityMeterReadingsDto.setLastunitBalance(electricityMeterReadings.getUnitBalance());
 		electricityMeterReadingsDto.setLastReadingKwh(electricityMeterReadings.getReadingKwh());
 		return electricityMeterReadingsDto;
+	}
+
+	public List<ElectricityMeterDetails> getElectricityMeterDetailsInHostel(HttpServletRequest request) {
+		UserDto userDto = springRestClientService.getUserDto(request);
+		Integer hostelId = userDto.getHostelID();
+		List<ElectricityMeterDetails> electricityMeterDetails = electricityMeterDetailsService
+				.findAllElectricityMeterDetailsInHostel(hostelId);
+		if (electricityMeterDetails.isEmpty()) {
+			return null;
+		}
+		return electricityMeterDetails;
 	}
 }

@@ -14,4 +14,5 @@ public interface ElectricityMeterDetailsDao {
 	List<ElectricityMeterDetails> findAllElectricityMeterDetailsForSubCategoryInHostel(
 			ElectricityMeterSubCategory electricityMeterSubCategory, int hostelId);
 
+	List<ElectricityMeterDetails> findAllElectricityMeterDetailsInHostel(int hostelId);
 }
