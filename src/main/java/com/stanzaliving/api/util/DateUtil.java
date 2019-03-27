@@ -1,6 +1,9 @@
 package com.stanzaliving.api.util;
 
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 public class DateUtil {
@@ -30,6 +33,30 @@ public class DateUtil {
 					.println("Exception while converting " + stringDate + " to format " + format + " in Dateutil.java");
 			return null;
 		}
+	}
+
+	public static Date customiseDateTime(Date date, int hour, int min, int seconds) {
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(date);
+		cal.set(Calendar.HOUR_OF_DAY, hour);
+		cal.set(Calendar.MINUTE, min);
+		cal.set(Calendar.SECOND, seconds);
+		cal.set(Calendar.MILLISECOND, 0);
+		return cal.getTime();
+	}
+
+	public static Date getFormatedCleanDate(Date date, String format) {
+		if (format == null || format.equals(""))
+			format = "yyyy/MM/dd";
+		DateFormat dateFormat = new SimpleDateFormat(format);
+		String dateString = dateFormat.format(date);
+		Date formatedDate = date;
+		try {
+			formatedDate = dateFormat.parse(dateString);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return formatedDate;
 	}
 
 }

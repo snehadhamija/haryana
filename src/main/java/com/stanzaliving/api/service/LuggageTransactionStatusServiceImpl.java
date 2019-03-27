@@ -1,5 +1,6 @@
 package com.stanzaliving.api.service;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,5 +30,10 @@ public class LuggageTransactionStatusServiceImpl implements LuggageTransactionSt
 	@Override
 	public List<LuggageTransactionStatus> findAllLuggageTransactionStatuses() {
 		return dao.findAllLuggageTransactionStatuses();
+	}
+
+	@Override
+	public List<LuggageTransactionStatus> findAllLuggageTransactionStatusesForDate(Date expectedDate) {
+		return dao.findAllLuggageTransactionStatusesForDate(expectedDate);
 	}
 }

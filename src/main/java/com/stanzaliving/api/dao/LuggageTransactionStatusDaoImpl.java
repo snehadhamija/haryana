@@ -1,8 +1,10 @@
 package com.stanzaliving.api.dao;
 
+import java.util.Date;
 import java.util.List;
 
 import org.hibernate.Criteria;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
 import com.stanzaliving.api.model.LuggageTransactionStatus;
@@ -24,6 +26,14 @@ public class LuggageTransactionStatusDaoImpl extends AbstractDao<Integer, Luggag
 	@Override
 	public List<LuggageTransactionStatus> findAllLuggageTransactionStatuses() {
 		Criteria crit = createEntityCriteria();
+		return (List<LuggageTransactionStatus>) crit.setResultTransformer(crit.DISTINCT_ROOT_ENTITY).list();
+	}
+
+	@Override
+	public List<LuggageTransactionStatus> findAllLuggageTransactionStatusesForDate(Date expectedDate) {
+		Criteria crit = createEntityCriteria();
+		crit.createAlias("luggageTransaction", "lt");
+		crit.add(Restrictions.eq("lt.expectedDate", expectedDate));
 		return (List<LuggageTransactionStatus>) crit.setResultTransformer(crit.DISTINCT_ROOT_ENTITY).list();
 	}
 }
