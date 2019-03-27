@@ -1,5 +1,8 @@
 package com.stanzaliving.api.dao;
 
+import java.util.List;
+
+import org.hibernate.Criteria;
 import org.springframework.stereotype.Repository;
 
 import com.stanzaliving.api.model.LuggageCharge;
@@ -15,5 +18,11 @@ public class LuggageChargeDaoImpl extends AbstractDao<Integer, LuggageCharge> im
 	@Override
 	public LuggageCharge findById(int id) {
 		return getByKey(id);
+	}
+
+	@Override
+	public List<LuggageCharge> findAllLuggageCharges() {
+		Criteria crit = createEntityCriteria();
+		return (List<LuggageCharge>) crit.setResultTransformer(crit.DISTINCT_ROOT_ENTITY).list();
 	}
 }

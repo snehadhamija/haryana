@@ -1,5 +1,7 @@
 package com.stanzaliving.api.restController;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +18,16 @@ public class LuggageRestController {
 
 	@Autowired
 	LuggageService luggageService;
+
+	// ----- Retrieve all luggage Ids -----
+	@RequestMapping(value = "/luggage", method = RequestMethod.GET)
+	public ResponseEntity<Object> findAllLuggageIds() {
+		List<Luggage> luggages = luggageService.findAllLuggages();
+		if (luggages.isEmpty()) {
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		}
+		return new ResponseEntity<Object>(luggages, HttpStatus.OK);
+	}
 
 	// ----- Retrieve luggage by id -----
 	@RequestMapping(value = "/luggage/{id}", method = RequestMethod.GET)

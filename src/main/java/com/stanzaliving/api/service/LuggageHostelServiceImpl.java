@@ -1,5 +1,7 @@
 package com.stanzaliving.api.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,5 +24,10 @@ public class LuggageHostelServiceImpl implements LuggageHostelService {
 	@Override
 	public LuggageHostel findById(int id) {
 		return dao.findById(id);
+	}
+
+	@Override
+	public List<LuggageHostel> findAllLuggageHostels() {
+		return dao.findAllLuggageHostels();
 	}
 }

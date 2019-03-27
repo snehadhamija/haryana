@@ -1,5 +1,8 @@
 package com.stanzaliving.api.dao;
 
+import java.util.List;
+
+import org.hibernate.Criteria;
 import org.springframework.stereotype.Repository;
 
 import com.stanzaliving.api.model.LuggageTransaction;
@@ -16,5 +19,11 @@ public class LuggageTransactionDaoImpl extends AbstractDao<Integer, LuggageTrans
 	@Override
 	public LuggageTransaction findById(int id) {
 		return getByKey(id);
+	}
+
+	@Override
+	public List<LuggageTransaction> findAllLuggageTransactions() {
+		Criteria crit = createEntityCriteria();
+		return (List<LuggageTransaction>) crit.setResultTransformer(crit.DISTINCT_ROOT_ENTITY).list();
 	}
 }
