@@ -20,6 +20,36 @@ public class UserDto {
 
 	private List<String> userProfiles;
 
+	private String userCode;
+
+	private String room;
+
+	private String image;
+
+	public String getRoom() {
+		return room;
+	}
+
+	public void setRoom(String room) {
+		this.room = room;
+	}
+
+	public String getUserCode() {
+		return userCode;
+	}
+
+	public void setUserCode(String userCode) {
+		this.userCode = userCode;
+	}
+
+	public String getImage() {
+		return image;
+	}
+
+	public void setImage(String image) {
+		this.image = image;
+	}
+
 	public String getPassword() {
 		return password;
 	}
@@ -88,11 +118,11 @@ public class UserDto {
 	public String toString() {
 		return "UserDto [userId=" + userId + ", userName=" + userName + ", password=" + password + ", status=" + status
 				+ ", mobileNo=" + mobileNo + ", hostel=" + hostel + ", hostelID=" + hostelID + ", userProfiles="
-				+ userProfiles + "]";
+				+ userProfiles + ", userCode=" + userCode + ", room=" + room + ", image=" + image + "]";
 	}
 
 	public UserDto(int userId, String userName, String password, String status, String mobileNo, String hostel,
-			int hostelID, List<String> userProfiles) {
+			int hostelID, List<String> userProfiles, String userCode, String room, String image) {
 		super();
 		this.userId = userId;
 		this.userName = userName;
@@ -102,6 +132,9 @@ public class UserDto {
 		this.hostel = hostel;
 		this.hostelID = hostelID;
 		this.userProfiles = userProfiles;
+		this.userCode = userCode;
+		this.room = room;
+		this.image = image;
 	}
 
 	public UserDto() {

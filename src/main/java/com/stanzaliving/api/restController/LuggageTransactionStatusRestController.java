@@ -1,7 +1,10 @@
 package com.stanzaliving.api.restController;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -16,12 +19,16 @@ import org.springframework.web.bind.annotation.RestController;
 import com.stanzaliving.api.model.LuggageTransactionStatus;
 import com.stanzaliving.api.service.LuggageTransactionStatusService;
 import com.stanzaliving.api.util.DateUtil;
+import com.stanzaliving.api.util.LuggageTransactionStatusUtil;
 
 @RestController
 public class LuggageTransactionStatusRestController {
 
 	@Autowired
 	LuggageTransactionStatusService luggageTransactionStatusService;
+
+	@Autowired
+	LuggageTransactionStatusUtil luggageTransactionStatusUtil;
 
 	// ----- Retrieve all luggage transaction statuses -----
 	@RequestMapping(value = "/luggageTransactionStatus", method = RequestMethod.GET)
@@ -46,7 +53,7 @@ public class LuggageTransactionStatusRestController {
 
 	// ----- Retrieve all luggage transactions for a date -----
 	@RequestMapping(value = "/luggageTransactionStatus/date", method = RequestMethod.GET)
-	public ResponseEntity<Object> findAllLuggageTransactionsForDate(
+	public ResponseEntity<Object> findAllLuggageTransactionsForDate(HttpServletRequest request,
 			@RequestParam(value = "expectedDate", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date expectedDate) {
 		if (expectedDate == null) {
 			expectedDate = DateUtil.getFormatedCleanDate(DateUtil.customiseDateTime(new Date(), 0, 0, 0), "yyyy-MM-dd");
@@ -56,6 +63,8 @@ public class LuggageTransactionStatusRestController {
 		if (luggageTransactionStatuses.isEmpty()) {
 			return new ResponseEntity<Object>(HttpStatus.NO_CONTENT);
 		}
-		return new ResponseEntity<Object>(luggageTransactionStatuses, HttpStatus.OK);
+		List<HashMap<String, Object>> hashMaps = luggageTransactionStatusUtil.createHashMapListForStatuses(request,
+				luggageTransactionStatuses);
+		return new ResponseEntity<Object>(hashMaps, HttpStatus.OK);
 	}
 }
