@@ -3,6 +3,7 @@ package com.stanzaliving.api.dao;
 import java.util.List;
 
 import org.hibernate.Criteria;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
 import com.stanzaliving.api.model.LuggageActivity;
@@ -23,6 +24,13 @@ public class LuggageActivityDaoImpl extends AbstractDao<Integer, LuggageActivity
 	@Override
 	public List<LuggageActivity> findAllLuggageActivities() {
 		Criteria crit = createEntityCriteria();
+		return (List<LuggageActivity>) crit.setResultTransformer(crit.DISTINCT_ROOT_ENTITY).list();
+	}
+
+	@Override
+	public List<LuggageActivity> findAllActiveLuggageActivities() {
+		Criteria crit = createEntityCriteria();
+		crit.add(Restrictions.eq("isActive", true));
 		return (List<LuggageActivity>) crit.setResultTransformer(crit.DISTINCT_ROOT_ENTITY).list();
 	}
 }

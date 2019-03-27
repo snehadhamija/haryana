@@ -30,4 +30,9 @@ public class LuggagePaymentModeServiceImpl implements LuggagePaymentModeService 
 	public List<LuggagePaymentMode> findAllLuggagePaymentModes() {
 		return dao.findAllLuggagePaymentModes();
 	}
+
+	@Override
+	public List<LuggagePaymentMode> findAllActiveLuggagePaymentModes() {
+		return dao.findAllActiveLuggagePaymentModes();
+	}
 }

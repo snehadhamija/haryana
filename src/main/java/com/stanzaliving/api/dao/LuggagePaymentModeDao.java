@@ -11,4 +11,6 @@ public interface LuggagePaymentModeDao {
 	LuggagePaymentMode findById(int id);
 
 	List<LuggagePaymentMode> findAllLuggagePaymentModes();
+
+	List<LuggagePaymentMode> findAllActiveLuggagePaymentModes();
 }

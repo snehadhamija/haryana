@@ -3,6 +3,7 @@ package com.stanzaliving.api.dao;
 import java.util.List;
 
 import org.hibernate.Criteria;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
 import com.stanzaliving.api.model.LuggageHostel;
@@ -24,5 +25,17 @@ public class LuggageHostelDaoImpl extends AbstractDao<Integer, LuggageHostel> im
 	public List<LuggageHostel> findAllLuggageHostels() {
 		Criteria crit = createEntityCriteria();
 		return (List<LuggageHostel>) crit.setResultTransformer(crit.DISTINCT_ROOT_ENTITY).list();
+	}
+
+	@Override
+	public boolean findIfLuggageModuleActivatedForCurrentHostel(Integer hostelId) {
+		Criteria crit = createEntityCriteria();
+		crit.add(Restrictions.eq("hostelId", hostelId));
+		crit.add(Restrictions.eq("isActivated", true));
+		List<LuggageHostel> results = crit.setResultTransformer(crit.DISTINCT_ROOT_ENTITY).list();
+		if (!results.isEmpty()) {
+			return true;
+		}
+		return false;
 	}
 }

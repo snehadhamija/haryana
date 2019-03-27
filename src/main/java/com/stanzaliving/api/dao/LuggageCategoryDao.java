@@ -11,4 +11,6 @@ public interface LuggageCategoryDao {
 	LuggageCategory findById(int id);
 
 	List<LuggageCategory> findAllLuggageCategories();
+
+	List<LuggageCategory> findAllActiveLuggageCategories();
 }

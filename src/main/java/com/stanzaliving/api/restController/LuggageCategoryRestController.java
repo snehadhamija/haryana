@@ -38,4 +38,14 @@ public class LuggageCategoryRestController {
 		}
 		return new ResponseEntity<Object>(luggageCategory, HttpStatus.OK);
 	}
+
+	// ----- Retrieve all active luggage Categories -----
+	@RequestMapping(value = "/luggageCategory/", method = RequestMethod.GET)
+	public ResponseEntity<Object> findAllActiveLuggageCategories() {
+		List<LuggageCategory> activeLuggageCategories = luggageCategoryService.findAllActiveLuggageCategories();
+		if (activeLuggageCategories.isEmpty()) {
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		}
+		return new ResponseEntity<Object>(activeLuggageCategories, HttpStatus.OK);
+	}
 }

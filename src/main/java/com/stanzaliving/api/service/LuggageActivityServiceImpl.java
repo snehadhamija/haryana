@@ -30,4 +30,9 @@ public class LuggageActivityServiceImpl implements LuggageActivityService {
 	public List<LuggageActivity> findAllLuggageActivities() {
 		return dao.findAllLuggageActivities();
 	}
+
+	@Override
+	public List<LuggageActivity> findAllActiveLuggageActivities() {
+		return dao.findAllActiveLuggageActivities();
+	}
 }

@@ -11,4 +11,6 @@ public interface LuggageHostelDao {
 	LuggageHostel findById(int id);
 
 	List<LuggageHostel> findAllLuggageHostels();
+
+	boolean findIfLuggageModuleActivatedForCurrentHostel(Integer hostelId);
 }

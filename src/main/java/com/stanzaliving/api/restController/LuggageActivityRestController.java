@@ -38,4 +38,14 @@ public class LuggageActivityRestController {
 		}
 		return new ResponseEntity<Object>(luggageActivity, HttpStatus.OK);
 	}
+
+	// ----- Retrieve all active luggage activities -----
+	@RequestMapping(value = "/luggageActivity/", method = RequestMethod.GET)
+	public ResponseEntity<Object> findAllActiveLuggageActivities() {
+		List<LuggageActivity> activeLuggageActivities = luggageActivityService.findAllActiveLuggageActivities();
+		if (activeLuggageActivities.isEmpty()) {
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		}
+		return new ResponseEntity<Object>(activeLuggageActivities, HttpStatus.OK);
+	}
 }

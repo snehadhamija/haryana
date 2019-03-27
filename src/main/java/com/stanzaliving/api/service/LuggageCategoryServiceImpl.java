@@ -30,4 +30,9 @@ public class LuggageCategoryServiceImpl implements LuggageCategoryService {
 	public List<LuggageCategory> findAllLuggageCategories() {
 		return dao.findAllLuggageCategories();
 	}
+
+	@Override
+	public List<LuggageCategory> findAllActiveLuggageCategories() {
+		return dao.findAllActiveLuggageCategories();
+	}
 }

@@ -11,4 +11,6 @@ public interface LuggageActivityService {
 	LuggageActivity findById(int id);
 
 	List<LuggageActivity> findAllLuggageActivities();
+
+	List<LuggageActivity> findAllActiveLuggageActivities();
 }

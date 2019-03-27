@@ -38,4 +38,15 @@ public class LuggagePaymentModeRestController {
 		}
 		return new ResponseEntity<Object>(luggagePaymentMode, HttpStatus.OK);
 	}
+
+	// ----- Retrieve all active luggage payment modes -----
+	@RequestMapping(value = "/luggagePaymentMode/", method = RequestMethod.GET)
+	public ResponseEntity<Object> findAllActiveLuggagePaymentModes() {
+		List<LuggagePaymentMode> activeLuggagePaymentModes = luggagePaymentModeService
+				.findAllActiveLuggagePaymentModes();
+		if (activeLuggagePaymentModes.isEmpty()) {
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		}
+		return new ResponseEntity<Object>(activeLuggagePaymentModes, HttpStatus.OK);
+	}
 }

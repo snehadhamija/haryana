@@ -30,4 +30,9 @@ public class LuggageHostelServiceImpl implements LuggageHostelService {
 	public List<LuggageHostel> findAllLuggageHostels() {
 		return dao.findAllLuggageHostels();
 	}
+
+	@Override
+	public boolean findIfLuggageModuleActivatedForCurrentHostel(Integer hostelId) {
+		return dao.findIfLuggageModuleActivatedForCurrentHostel(hostelId);
+	}
 }
