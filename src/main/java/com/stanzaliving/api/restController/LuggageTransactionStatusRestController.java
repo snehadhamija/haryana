@@ -1,5 +1,6 @@
 package com.stanzaliving.api.restController;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -18,7 +19,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.stanzaliving.api.model.LuggageTransactionStatus;
 import com.stanzaliving.api.service.LuggageTransactionStatusService;
-import com.stanzaliving.api.util.DateUtil;
 import com.stanzaliving.api.util.LuggageTransactionStatusUtil;
 
 @RestController
@@ -58,11 +58,13 @@ public class LuggageTransactionStatusRestController {
 	@RequestMapping(value = "/luggageTransactionStatus/date", method = RequestMethod.GET)
 	public ResponseEntity<Object> findAllLuggageTransactionsForDate(HttpServletRequest request,
 			@RequestParam(value = "expectedDate", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date expectedDate) {
+		List<LuggageTransactionStatus> luggageTransactionStatuses = new ArrayList<>();
 		if (expectedDate == null) {
-			expectedDate = DateUtil.getFormatedCleanDate(DateUtil.customiseDateTime(new Date(), 0, 0, 0), "yyyy-MM-dd");
+			luggageTransactionStatuses = luggageTransactionStatusService.findAllLuggageTransactionStatuses();
+		} else {
+			luggageTransactionStatuses = luggageTransactionStatusService
+					.findAllLuggageTransactionStatusesForDate(expectedDate);
 		}
-		List<LuggageTransactionStatus> luggageTransactionStatuses = luggageTransactionStatusService
-				.findAllLuggageTransactionStatusesForDate(expectedDate);
 		if (luggageTransactionStatuses.isEmpty()) {
 			return new ResponseEntity<Object>(HttpStatus.NO_CONTENT);
 		}

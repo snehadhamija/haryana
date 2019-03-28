@@ -26,6 +26,9 @@ public class LuggageTransaction {
 	@Column(name = "USER_ID", nullable = false)
 	private Integer userId;
 
+	@Column(name = "USER_MOBILE", nullable = false)
+	private String userMobile;
+
 	@Column(name = "NUMBER_OF_BAGS", nullable = false)
 	private Integer numberOfBags;
 
@@ -93,5 +96,13 @@ public class LuggageTransaction {
 
 	public void setLuggageStoreRoom(LuggageStoreRoom luggageStoreRoom) {
 		this.luggageStoreRoom = luggageStoreRoom;
+	}
+
+	public String getUserMobile() {
+		return userMobile;
+	}
+
+	public void setUserMobile(String userMobile) {
+		this.userMobile = userMobile;
 	}
 }
