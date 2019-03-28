@@ -12,6 +12,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -71,5 +72,13 @@ public class LuggageTransactionStatusRestController {
 		List<HashMap<String, Object>> hashMaps = luggageTransactionStatusUtil.createHashMapListForStatuses(request,
 				luggageTransactionStatuses);
 		return new ResponseEntity<Object>(hashMaps, HttpStatus.OK);
+	}
+
+	// ----- Save a luggage transaction -----
+	@RequestMapping(value = "/luggageTransactionStatus", method = RequestMethod.POST)
+	public ResponseEntity<Object> saveLuggageTransaction(@RequestBody HashMap<String, Object> request,
+			HttpServletRequest httpRequest) {
+		
+		return new ResponseEntity<Object>(HttpStatus.OK);
 	}
 }

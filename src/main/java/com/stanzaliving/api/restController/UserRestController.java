@@ -22,15 +22,16 @@ public class UserRestController {
 	// ----- Retrieve user info -----
 	@RequestMapping(value = "/user", method = RequestMethod.GET)
 	public ResponseEntity<Object> findUserByMobileNumber(HttpServletRequest httpRequest,
-			@RequestParam(value = "mobileNumber", required = false) String mobileNumber) {
-		UserDto userDto = null;
-		if (mobileNumber == null) {
-			userDto = springRestClientService.getUserDto(httpRequest);
-		} else {
-			userDto = springRestClientService.getUserDtoForOtherUser(httpRequest, mobileNumber);
-		}
+			@RequestParam(value = "mobileNumber", required = true) String mobileNumber) {
+		UserDto currentUserDto = springRestClientService.getUserDto(httpRequest);
+		UserDto userDto = springRestClientService.getUserDtoForOtherUser(httpRequest, mobileNumber);
 		if (userDto == null) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+		if (userDto.getHostelID() != currentUserDto.getHostelID()) {
+			return new ResponseEntity<Object>(
+					"User with mocile number " + mobileNumber + " doesn't belong to current hostel!",
+					HttpStatus.CONFLICT);
 		}
 		return new ResponseEntity<Object>(userDto, HttpStatus.OK);
 	}

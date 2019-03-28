@@ -37,8 +37,8 @@ public class LuggageTransactionStatusUtil {
 	public HashMap<String, Object> createHashMapForStatus(HttpServletRequest request,
 			LuggageTransactionStatus luggageTransactionStatus) {
 		HashMap<String, Object> statusHashMap = new HashMap<>();
-		UserDto userDto = springRestClientService.getUserDtoForOtherUserById(request,
-				luggageTransactionStatus.getLuggageTransaction().getUserId());
+		UserDto userDto = springRestClientService.getUserDtoForOtherUser(request,
+				luggageTransactionStatus.getLuggageTransaction().getUserMobile());
 		statusHashMap.put("expectedDate", luggageTransactionStatus.getLuggageTransaction().getExpectedDate());
 		statusHashMap.put("totalBoxes", luggageTransactionStatus.getLuggageTransaction().getNumberOfBags());
 		LuggageCharge luggageCharge = luggageChargeService
@@ -57,8 +57,8 @@ public class LuggageTransactionStatusUtil {
 		List<HashMap<String, Object>> hashMaps = new ArrayList<>();
 		luggageTransactionStatuses.stream().forEach(entry -> {
 			HashMap<String, Object> hashMap = new HashMap<>();
-			UserDto userDto = springRestClientService.getUserDtoForOtherUserById(request,
-					entry.getLuggageTransaction().getUserId());
+			UserDto userDto = springRestClientService.getUserDtoForOtherUser(request,
+					entry.getLuggageTransaction().getUserMobile());
 			hashMap.put("luggageTransactionStatusId", entry.getId());
 			hashMap.put("status", entry.getLuggageActivityStatus().getStatusName());
 			if (entry.getLuggageActivityStatus().getStatusName().equalsIgnoreCase("Deposit")) {

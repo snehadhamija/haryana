@@ -23,9 +23,6 @@ public class LuggageTransaction {
 	@JoinColumn(name = "LUGGAGE_ACTIVITY_ID")
 	private LuggageActivity luggageActivity;
 
-	@Column(name = "USER_ID", nullable = false)
-	private Integer userId;
-
 	@Column(name = "USER_MOBILE", nullable = false)
 	private String userMobile;
 
@@ -56,14 +53,6 @@ public class LuggageTransaction {
 
 	public void setLuggageActivity(LuggageActivity luggageActivity) {
 		this.luggageActivity = luggageActivity;
-	}
-
-	public Integer getUserId() {
-		return userId;
-	}
-
-	public void setUserId(Integer userId) {
-		this.userId = userId;
 	}
 
 	public Integer getNumberOfBags() {

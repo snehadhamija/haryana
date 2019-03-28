@@ -11,4 +11,6 @@ public interface LuggageStoreRoomDao {
 	LuggageStoreRoom findById(int id);
 
 	List<LuggageStoreRoom> findAllLuggageStoreRooms();
+
+	List<LuggageStoreRoom> findLuggageStoreRoomsForHostel(Integer hostelId);
 }

@@ -30,4 +30,9 @@ public class LuggageStoreRoomServiceImpl implements LuggageStoreRoomService {
 	public List<LuggageStoreRoom> findAllLuggageStoreRooms() {
 		return dao.findAllLuggageStoreRooms();
 	}
+
+	@Override
+	public List<LuggageStoreRoom> findLuggageStoreRoomsForHostel(Integer hostelId) {
+		return dao.findLuggageStoreRoomsForHostel(hostelId);
+	}
 }
