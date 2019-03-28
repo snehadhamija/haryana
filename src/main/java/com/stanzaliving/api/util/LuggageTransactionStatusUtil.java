@@ -11,7 +11,6 @@ import org.springframework.stereotype.Component;
 
 import com.stanzaliving.api.dto.UserDto;
 import com.stanzaliving.api.model.LuggageCharge;
-import com.stanzaliving.api.model.LuggageImage;
 import com.stanzaliving.api.model.LuggageTransaction;
 import com.stanzaliving.api.model.LuggageTransactionDetail;
 import com.stanzaliving.api.model.LuggageTransactionStatus;
@@ -88,17 +87,13 @@ public class LuggageTransactionStatusUtil {
 				.findAllLuggageTransactionDetailsForTransaction(luggageTransaction);
 		luggageTransactionDetails.forEach(luggageTransactionDetail -> {
 			HashMap<String, Object> luggageSummaryHashMap = new HashMap<>();
-			List<LuggageImage> luggageImages = luggageImageService
+			List<Object> luggageImages = luggageImageService
 					.findLuggageImageForLuggageTransactionDetail(luggageTransactionDetail);
-			List<Object> imageUrlList = new ArrayList<>();
-			luggageImages.forEach(image -> {
-				imageUrlList.add(image.getImageUrl());
-			});
 			luggageSummaryHashMap.put("luggageId", luggageTransactionDetail.getLuggageId());
 			luggageSummaryHashMap.put("luggageCategory",
 					luggageTransactionDetail.getLuggageCategory().getCategoryName());
 			luggageSummaryHashMap.put("weight", luggageTransactionDetail.getWeight());
-			luggageSummaryHashMap.put("luggageImages", imageUrlList);
+			luggageSummaryHashMap.put("luggageImages", luggageImages);
 			luggageSummarHashMaps.add(luggageSummaryHashMap);
 		});
 		return luggageSummarHashMaps;

@@ -13,5 +13,5 @@ public interface LuggageImageService {
 
 	List<LuggageImage> findAllLuggageImages();
 
-	List<LuggageImage> findLuggageImageForLuggageTransactionDetail(LuggageTransactionDetail luggageTransactionDetail);
+	List<Object> findLuggageImageForLuggageTransactionDetail(LuggageTransactionDetail luggageTransactionDetail);
 }

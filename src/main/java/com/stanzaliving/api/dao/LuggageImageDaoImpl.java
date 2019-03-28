@@ -3,6 +3,8 @@ package com.stanzaliving.api.dao;
 import java.util.List;
 
 import org.hibernate.Criteria;
+import org.hibernate.criterion.ProjectionList;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
@@ -29,11 +31,13 @@ public class LuggageImageDaoImpl extends AbstractDao<Integer, LuggageImage> impl
 	}
 
 	@Override
-	public List<LuggageImage> findLuggageImageForLuggageTransactionDetail(
-			LuggageTransactionDetail luggageTransactionDetail) {
+	public List<Object> findLuggageImageForLuggageTransactionDetail(LuggageTransactionDetail luggageTransactionDetail) {
 		Criteria crit = createEntityCriteria();
 		crit.add(Restrictions.eq("luggageTransactionDetail", luggageTransactionDetail));
-		List<LuggageImage> luggageImages = crit.setResultTransformer(crit.DISTINCT_ROOT_ENTITY).list();
+		ProjectionList projList = Projections.projectionList();
+		projList.add(Projections.property("imageUrl"));
+		crit.setProjection(projList);
+		List<Object> luggageImages = crit.setResultTransformer(crit.DISTINCT_ROOT_ENTITY).list();
 		return luggageImages;
 	}
 }

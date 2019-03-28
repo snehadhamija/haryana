@@ -33,8 +33,7 @@ public class LuggageImageServiceImpl implements LuggageImageService {
 	}
 
 	@Override
-	public List<LuggageImage> findLuggageImageForLuggageTransactionDetail(
-			LuggageTransactionDetail luggageTransactionDetail) {
+	public List<Object> findLuggageImageForLuggageTransactionDetail(LuggageTransactionDetail luggageTransactionDetail) {
 		return dao.findLuggageImageForLuggageTransactionDetail(luggageTransactionDetail);
 	}
 }
