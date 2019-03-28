@@ -21,9 +21,12 @@ public class LuggageTransactionDetail {
 	@JoinColumn(name = "LUGGAGE_TRANSACTION_ID")
 	private LuggageTransaction luggageTransaction;
 
-	@ManyToOne
-	@JoinColumn(name = "LUGGAGE_ID")
-	private Luggage luggage;
+	// @ManyToOne
+	// @JoinColumn(name = "LUGGAGE_ID")
+	// private Luggage luggage;
+
+	@Column(name = "LUGGAGE_ID", nullable = false)
+	private String luggageId;
 
 	@Column(name = "WEIGHT", nullable = false)
 	private String weight;
@@ -48,12 +51,12 @@ public class LuggageTransactionDetail {
 		this.luggageTransaction = luggageTransaction;
 	}
 
-	public Luggage getLuggage() {
-		return luggage;
+	public String getLuggageId() {
+		return luggageId;
 	}
 
-	public void setLuggage(Luggage luggage) {
-		this.luggage = luggage;
+	public void setLuggageId(String luggageId) {
+		this.luggageId = luggageId;
 	}
 
 	public String getWeight() {

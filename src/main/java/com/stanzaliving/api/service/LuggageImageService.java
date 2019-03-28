@@ -3,6 +3,7 @@ package com.stanzaliving.api.service;
 import java.util.List;
 
 import com.stanzaliving.api.model.LuggageImage;
+import com.stanzaliving.api.model.LuggageTransactionDetail;
 
 public interface LuggageImageService {
 
@@ -11,4 +12,6 @@ public interface LuggageImageService {
 	LuggageImage findById(int id);
 
 	List<LuggageImage> findAllLuggageImages();
+
+	List<LuggageImage> findLuggageImageForLuggageTransactionDetail(LuggageTransactionDetail luggageTransactionDetail);
 }

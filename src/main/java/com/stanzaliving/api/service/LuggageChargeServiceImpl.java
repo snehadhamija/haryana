@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.stanzaliving.api.dao.LuggageChargeDao;
 import com.stanzaliving.api.model.LuggageCharge;
+import com.stanzaliving.api.model.LuggageTransaction;
 
 @Service("luggageChargeService")
 @Transactional
@@ -29,5 +30,10 @@ public class LuggageChargeServiceImpl implements LuggageChargeService {
 	@Override
 	public List<LuggageCharge> findAllLuggageCharges() {
 		return dao.findAllLuggageCharges();
+	}
+
+	@Override
+	public LuggageCharge findLuggageChargeForLuggageTransaction(LuggageTransaction luggageTransaction) {
+		return dao.findLuggageChargeForLuggageTransaction(luggageTransaction);
 	}
 }

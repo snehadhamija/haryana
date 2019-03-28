@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.stanzaliving.api.dao.LuggageImageDao;
 import com.stanzaliving.api.model.LuggageImage;
+import com.stanzaliving.api.model.LuggageTransactionDetail;
 
 @Service("luggageImageService")
 @Transactional
@@ -29,5 +30,11 @@ public class LuggageImageServiceImpl implements LuggageImageService {
 	@Override
 	public List<LuggageImage> findAllLuggageImages() {
 		return dao.findAllLuggageImages();
+	}
+
+	@Override
+	public List<LuggageImage> findLuggageImageForLuggageTransactionDetail(
+			LuggageTransactionDetail luggageTransactionDetail) {
+		return dao.findLuggageImageForLuggageTransactionDetail(luggageTransactionDetail);
 	}
 }

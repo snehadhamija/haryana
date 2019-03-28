@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.stanzaliving.api.dao.LuggageTransactionDetailDao;
+import com.stanzaliving.api.model.LuggageTransaction;
 import com.stanzaliving.api.model.LuggageTransactionDetail;
 
 @Service("luggageTransactionDetailService")
@@ -29,5 +30,11 @@ public class LuggageTransactionDetailServiceImpl implements LuggageTransactionDe
 	@Override
 	public List<LuggageTransactionDetail> findAllLuggageTransactionDetails() {
 		return dao.findAllLuggageTransactionDetails();
+	}
+
+	@Override
+	public List<LuggageTransactionDetail> findAllLuggageTransactionDetailsForTransaction(
+			LuggageTransaction luggageTransaction) {
+		return dao.findAllLuggageTransactionDetailsForTransaction(luggageTransaction);
 	}
 }

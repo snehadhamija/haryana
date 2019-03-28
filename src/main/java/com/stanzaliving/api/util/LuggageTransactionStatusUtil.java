@@ -10,7 +10,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.stanzaliving.api.dto.UserDto;
+import com.stanzaliving.api.model.LuggageCharge;
+import com.stanzaliving.api.model.LuggageImage;
+import com.stanzaliving.api.model.LuggageTransaction;
+import com.stanzaliving.api.model.LuggageTransactionDetail;
 import com.stanzaliving.api.model.LuggageTransactionStatus;
+import com.stanzaliving.api.service.LuggageChargeService;
+import com.stanzaliving.api.service.LuggageImageService;
+import com.stanzaliving.api.service.LuggageTransactionDetailService;
 import com.stanzaliving.api.service.SpringRestClientService;
 
 @Component
@@ -18,6 +25,33 @@ public class LuggageTransactionStatusUtil {
 
 	@Autowired
 	SpringRestClientService springRestClientService;
+
+	@Autowired
+	LuggageChargeService luggageChargeService;
+
+	@Autowired
+	LuggageTransactionDetailService luggageTransactionDetailService;
+
+	@Autowired
+	LuggageImageService luggageImageService;
+
+	public HashMap<String, Object> createHashMapForStatus(HttpServletRequest request,
+			LuggageTransactionStatus luggageTransactionStatus) {
+		HashMap<String, Object> statusHashMap = new HashMap<>();
+		UserDto userDto = springRestClientService.getUserDtoForOtherUserById(request,
+				luggageTransactionStatus.getLuggageTransaction().getUserId());
+		statusHashMap.put("expectedDate", luggageTransactionStatus.getLuggageTransaction().getExpectedDate());
+		statusHashMap.put("totalBoxes", luggageTransactionStatus.getLuggageTransaction().getNumberOfBags());
+		LuggageCharge luggageCharge = luggageChargeService
+				.findLuggageChargeForLuggageTransaction(luggageTransactionStatus.getLuggageTransaction());
+		if (luggageCharge != null && luggageCharge.getCharge() != null && luggageCharge.getCharge() != "") {
+			statusHashMap.put("amountPaid", luggageCharge.getCharge());
+		}
+		statusHashMap.put("user", createUserHashMap(userDto));
+		statusHashMap.put("luggageSummary",
+				createLuggageSummaryHashMap(luggageTransactionStatus.getLuggageTransaction()));
+		return statusHashMap;
+	}
 
 	public List<HashMap<String, Object>> createHashMapListForStatuses(HttpServletRequest request,
 			List<LuggageTransactionStatus> luggageTransactionStatuses) {
@@ -32,14 +66,41 @@ public class LuggageTransactionStatusUtil {
 				hashMap.put("storageRoom", entry.getLuggageTransaction().getLuggageStoreRoom().getRoomName());
 			}
 			hashMap.put("expectedDate", entry.getLuggageTransaction().getExpectedDate());
-			hashMap.put("userId", userDto.getUserId());
-			hashMap.put("userName", userDto.getUserName());
-			hashMap.put("studentCode", userDto.getUserCode());
-			hashMap.put("roomNo", userDto.getRoom());
-			hashMap.put("imgUrl", userDto.getImage());
+			hashMap.put("user", createUserHashMap(userDto));
 			hashMaps.add(hashMap);
 		});
 		return hashMaps;
 	}
 
+	public HashMap<String, Object> createUserHashMap(UserDto userDto) {
+		HashMap<String, Object> userHashMap = new HashMap<>();
+		userHashMap.put("id", userDto.getUserId());
+		userHashMap.put("userName", userDto.getUserName());
+		userHashMap.put("studentCode", userDto.getUserCode());
+		userHashMap.put("roomNo", userDto.getRoom());
+		userHashMap.put("imgUrl", userDto.getImage());
+		return userHashMap;
+	}
+
+	public List<HashMap<String, Object>> createLuggageSummaryHashMap(LuggageTransaction luggageTransaction) {
+		List<HashMap<String, Object>> luggageSummarHashMaps = new ArrayList<>();
+		List<LuggageTransactionDetail> luggageTransactionDetails = luggageTransactionDetailService
+				.findAllLuggageTransactionDetailsForTransaction(luggageTransaction);
+		luggageTransactionDetails.forEach(luggageTransactionDetail -> {
+			HashMap<String, Object> luggageSummaryHashMap = new HashMap<>();
+			List<LuggageImage> luggageImages = luggageImageService
+					.findLuggageImageForLuggageTransactionDetail(luggageTransactionDetail);
+			List<Object> imageUrlList = new ArrayList<>();
+			luggageImages.forEach(image -> {
+				imageUrlList.add(image.getImageUrl());
+			});
+			luggageSummaryHashMap.put("luggageId", luggageTransactionDetail.getLuggageId());
+			luggageSummaryHashMap.put("luggageCategory",
+					luggageTransactionDetail.getLuggageCategory().getCategoryName());
+			luggageSummaryHashMap.put("weight", luggageTransactionDetail.getWeight());
+			luggageSummaryHashMap.put("luggageImages", imageUrlList);
+			luggageSummarHashMaps.add(luggageSummaryHashMap);
+		});
+		return luggageSummarHashMaps;
+	}
 }

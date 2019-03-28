@@ -43,12 +43,15 @@ public class LuggageTransactionStatusRestController {
 
 	// ----- Retrieve luggageTransactionStatus by id -----
 	@RequestMapping(value = "/luggageTransactionStatus/{id}", method = RequestMethod.GET)
-	public ResponseEntity<Object> findLuggageTransactionStatusById(@PathVariable("id") int id) {
+	public ResponseEntity<Object> findLuggageTransactionStatusById(HttpServletRequest request,
+			@PathVariable("id") int id) {
 		LuggageTransactionStatus luggageTransactionStatus = luggageTransactionStatusService.findById(id);
 		if (luggageTransactionStatus == null) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
-		return new ResponseEntity<Object>(luggageTransactionStatus, HttpStatus.OK);
+		HashMap<String, Object> statusHashMap = luggageTransactionStatusUtil.createHashMapForStatus(request,
+				luggageTransactionStatus);
+		return new ResponseEntity<Object>(statusHashMap, HttpStatus.OK);
 	}
 
 	// ----- Retrieve all luggage transactions for a date -----

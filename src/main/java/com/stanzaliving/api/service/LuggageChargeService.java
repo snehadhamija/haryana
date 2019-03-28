@@ -3,6 +3,7 @@ package com.stanzaliving.api.service;
 import java.util.List;
 
 import com.stanzaliving.api.model.LuggageCharge;
+import com.stanzaliving.api.model.LuggageTransaction;
 
 public interface LuggageChargeService {
 
@@ -11,4 +12,6 @@ public interface LuggageChargeService {
 	LuggageCharge findById(int id);
 
 	List<LuggageCharge> findAllLuggageCharges();
+
+	LuggageCharge findLuggageChargeForLuggageTransaction(LuggageTransaction luggageTransaction);
 }
