@@ -9,20 +9,47 @@ import com.stanzaliving.api.util.DateUtil;
 
 public class LuggageTransactionStatusDto {
 
-	private String userMobile = null;
+	private HashMap<String, Object> user = null;
+	private String mobileNo = null;
 	private Integer totalBoxes = 0;
 	private Date expectedDate = null;
 	private String expectedDateString = null;
-	private String amountToBePaid = null;
-	private Integer paymentModeId = 0;
+	private String amount = null;
+	private Integer luggagePaymentModeId = 0;
+	private Integer luggageActivityId = 0;
+	private Integer luggageStorageRoomId = 0;
 	private List<HashMap<String, Object>> luggageSummary = new ArrayList<>();
 
-	public Integer getPaymentModeId() {
-		return paymentModeId;
+	public Integer getLuggageActivityId() {
+		return luggageActivityId;
 	}
 
-	public void setPaymentModeId(Integer paymentModeId) {
-		this.paymentModeId = paymentModeId;
+	public void setLuggageActivityId(Integer luggageActivityId) {
+		this.luggageActivityId = luggageActivityId;
+	}
+
+	public String getMobileNo() {
+		return mobileNo;
+	}
+
+	public void setMobileNo(String mobileNo) {
+		this.mobileNo = mobileNo;
+	}
+
+	public Integer getLuggagePaymentModeId() {
+		return luggagePaymentModeId;
+	}
+
+	public void setLuggagePaymentModeId(Integer luggagePaymentModeId) {
+		this.luggagePaymentModeId = luggagePaymentModeId;
+	}
+
+	public Integer getLuggageStorageRoomId() {
+		return luggageStorageRoomId;
+	}
+
+	public void setLuggageStorageRoomId(Integer luggageStorageRoomId) {
+		this.luggageStorageRoomId = luggageStorageRoomId;
 	}
 
 	public String getExpectedDateString() {
@@ -33,12 +60,12 @@ public class LuggageTransactionStatusDto {
 		this.expectedDateString = expectedDateString;
 	}
 
-	public String getUserMobile() {
-		return userMobile;
+	public HashMap<String, Object> getUser() {
+		return user;
 	}
 
-	public void setUserMobile(String userMobile) {
-		this.userMobile = userMobile;
+	public void setUser(HashMap<String, Object> user) {
+		this.user = user;
 	}
 
 	public Integer getTotalBoxes() {
@@ -57,12 +84,12 @@ public class LuggageTransactionStatusDto {
 		this.expectedDate = expectedDate;
 	}
 
-	public String getAmountToBePaid() {
-		return amountToBePaid;
+	public String getAmount() {
+		return amount;
 	}
 
-	public void setAmountToBePaid(String amountToBePaid) {
-		this.amountToBePaid = amountToBePaid;
+	public void setAmount(String amount) {
+		this.amount = amount;
 	}
 
 	public List<HashMap<String, Object>> getLuggageSummary() {
@@ -75,18 +102,32 @@ public class LuggageTransactionStatusDto {
 
 	public LuggageTransactionStatusDto(HashMap<String, Object> request) {
 		super();
-		if (request.containsKey("userMobile"))
-			this.userMobile = (String) request.get("userMobile");
+		if (request.containsKey("user"))
+			this.user = (HashMap<String, Object>) request.get("user");
+		this.mobileNo = (String) this.user.get("mobileNo");
 		if (request.containsKey("totalBoxes"))
 			this.totalBoxes = (Integer) request.get("totalBoxes");
 		if (request.containsKey("expectedDate"))
 			this.expectedDateString = (String) request.get("expectedDate");
 		Date expectedDate = DateUtil.returnStringInDateFormat(this.expectedDateString);
 		this.expectedDate = expectedDate;
-		if (request.containsKey("amountToBePaid"))
-			this.amountToBePaid = (String) request.get("amountToBePaid");
-		// if (request.containsKey("luggageSummary"))
+		if (request.containsKey("amount"))
+			this.amount = (String) request.get("amount");
+		if (request.containsKey("luggagePaymentModeId"))
+			this.luggagePaymentModeId = (Integer) request.get("luggagePaymentModeId");
+		if (request.containsKey("luggageActivityId"))
+			this.luggageActivityId = (Integer) request.get("luggageActivityId");
+		if (request.containsKey("luggageStorageRoomId"))
+			this.luggageStorageRoomId = (Integer) request.get("luggageStorageRoomId");
+		if (request.containsKey("luggageSummary"))
+			this.luggageSummary = (List<HashMap<String, Object>>) request.get("luggageSummary");
+	}
 
+	@Override
+	public String toString() {
+		return "LuggageTransactionStatusDto [user=" + user + ", mobileNo=" + mobileNo + ", totalBoxes=" + totalBoxes
+				+ ", expectedDate=" + expectedDate + ", expectedDateString=" + expectedDateString + ", amount=" + amount
+				+ ", luggagePaymentModeId=" + luggagePaymentModeId + ", luggageSummary=" + luggageSummary + "]";
 	}
 
 	public LuggageTransactionStatusDto() {

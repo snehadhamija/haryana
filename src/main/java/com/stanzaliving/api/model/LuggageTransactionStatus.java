@@ -1,10 +1,17 @@
 package com.stanzaliving.api.model;
 
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -16,9 +23,14 @@ public class LuggageTransactionStatus {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 
-	@ManyToOne
-	@JoinColumn(name = "LUGGAGE_TRANSACTION_ID")
-	private LuggageTransaction luggageTransaction;
+	@ManyToMany(fetch = FetchType.EAGER)
+	@JoinTable(name = "LUGGAGE_TRANSACTION_STATUS_LUGGAGE_TRANSACTION", joinColumns = {
+			@JoinColumn(name = "LUGGAGE_TRANSACTION_STATUS_ID") }, inverseJoinColumns = {
+					@JoinColumn(name = "LUGGAGE_TRANSACTION_ID") })
+	private Set<LuggageTransaction> luggageTransactions = new HashSet<LuggageTransaction>();
+
+	@Column(name = "USER_MOBILE", nullable = false)
+	private String userMobile;
 
 	@ManyToOne
 	@JoinColumn(name = "LUGGAGE_ACTIVITY_STATUS_ID")
@@ -32,12 +44,20 @@ public class LuggageTransactionStatus {
 		this.id = id;
 	}
 
-	public LuggageTransaction getLuggageTransaction() {
-		return luggageTransaction;
+	public Set<LuggageTransaction> getLuggageTransactions() {
+		return luggageTransactions;
 	}
 
-	public void setLuggageTransaction(LuggageTransaction luggageTransaction) {
-		this.luggageTransaction = luggageTransaction;
+	public void setLuggageTransactions(Set<LuggageTransaction> luggageTransactions) {
+		this.luggageTransactions = luggageTransactions;
+	}
+
+	public String getUserMobile() {
+		return userMobile;
+	}
+
+	public void setUserMobile(String userMobile) {
+		this.userMobile = userMobile;
 	}
 
 	public LuggageActivityStatus getLuggageActivityStatus() {

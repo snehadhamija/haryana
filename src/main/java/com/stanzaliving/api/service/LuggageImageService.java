@@ -9,6 +9,8 @@ public interface LuggageImageService {
 
 	void save(LuggageImage luggageImage);
 
+	LuggageImage saveLuggageImage(LuggageTransactionDetail luggageTransactionDetail, String imageUrl);
+
 	LuggageImage findById(int id);
 
 	List<LuggageImage> findAllLuggageImages();

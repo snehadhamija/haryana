@@ -34,41 +34,48 @@ public class LuggageTransactionStatusUtil {
 	@Autowired
 	LuggageImageService luggageImageService;
 
-	public HashMap<String, Object> createHashMapForStatus(HttpServletRequest request,
+	public Object createHashMapForStatus(HttpServletRequest request,
 			LuggageTransactionStatus luggageTransactionStatus) {
-		HashMap<String, Object> statusHashMap = new HashMap<>();
 		UserDto userDto = springRestClientService.getUserDtoForOtherUser(request,
-				luggageTransactionStatus.getLuggageTransaction().getUserMobile());
-		statusHashMap.put("expectedDate", luggageTransactionStatus.getLuggageTransaction().getExpectedDate());
-		statusHashMap.put("totalBoxes", luggageTransactionStatus.getLuggageTransaction().getNumberOfBags());
-		LuggageCharge luggageCharge = luggageChargeService
-				.findLuggageChargeForLuggageTransaction(luggageTransactionStatus.getLuggageTransaction());
-		if (luggageCharge != null && luggageCharge.getCharge() != null && luggageCharge.getCharge() != "") {
-			statusHashMap.put("amountPaid", luggageCharge.getCharge());
+				luggageTransactionStatus.getUserMobile());
+		List<HashMap<String, Object>> statusHashMaps = new ArrayList<>();
+		for (LuggageTransaction luggageTransaction : luggageTransactionStatus.getLuggageTransactions()) {
+			HashMap<String, Object> statusHashMap = new HashMap<>();
+			statusHashMap.put("luggageActivity", luggageTransaction.getLuggageActivity().getActivityName());
+			statusHashMap.put("expectedDate", luggageTransaction.getExpectedDate());
+			statusHashMap.put("totalBoxes", luggageTransaction.getNumberOfBags());
+			LuggageCharge luggageCharge = luggageChargeService
+					.findLuggageChargeForLuggageTransaction(luggageTransaction);
+			if (luggageCharge != null && luggageCharge.getCharge() != null && luggageCharge.getCharge() != "") {
+				statusHashMap.put("amount", luggageCharge.getCharge());
+			}
+			statusHashMap.put("user", createUserHashMap(userDto));
+			statusHashMap.put("luggageSummary", createLuggageSummaryHashMap(luggageTransaction));
+			statusHashMaps.add(statusHashMap);
 		}
-		statusHashMap.put("user", createUserHashMap(userDto));
-		statusHashMap.put("luggageSummary",
-				createLuggageSummaryHashMap(luggageTransactionStatus.getLuggageTransaction()));
-		return statusHashMap;
+		return statusHashMaps;
 	}
 
-	public List<HashMap<String, Object>> createHashMapListForStatuses(HttpServletRequest request,
+	public Object createHashMapListForStatuses(HttpServletRequest request,
 			List<LuggageTransactionStatus> luggageTransactionStatuses) {
-		List<HashMap<String, Object>> hashMaps = new ArrayList<>();
+		List<HashMap<String, Object>> listHashMaps = new ArrayList<>();
 		luggageTransactionStatuses.stream().forEach(entry -> {
-			HashMap<String, Object> hashMap = new HashMap<>();
-			UserDto userDto = springRestClientService.getUserDtoForOtherUser(request,
-					entry.getLuggageTransaction().getUserMobile());
-			hashMap.put("luggageTransactionStatusId", entry.getId());
-			hashMap.put("status", entry.getLuggageActivityStatus().getStatusName());
-			if (entry.getLuggageActivityStatus().getStatusName().equalsIgnoreCase("Deposit")) {
-				hashMap.put("storageRoom", entry.getLuggageTransaction().getLuggageStoreRoom().getRoomName());
+			List<HashMap<String, Object>> statusHashMaps = new ArrayList<>();
+			UserDto userDto = springRestClientService.getUserDtoForOtherUser(request, entry.getUserMobile());
+			for (LuggageTransaction luggageTransaction : entry.getLuggageTransactions()) {
+				HashMap<String, Object> hashMap = new HashMap<>();
+				hashMap.put("luggageTransactionStatusId", entry.getId());
+				hashMap.put("status", entry.getLuggageActivityStatus().getStatusName());
+				if (entry.getLuggageActivityStatus().getStatusName().equalsIgnoreCase("Deposit")) {
+					hashMap.put("storageRoom", luggageTransaction.getLuggageStoreRoom().getRoomName());
+				}
+				hashMap.put("expectedDate", luggageTransaction.getExpectedDate());
+				hashMap.put("user", createUserHashMap(userDto));
+				listHashMaps.add(hashMap);
+				break;
 			}
-			hashMap.put("expectedDate", entry.getLuggageTransaction().getExpectedDate());
-			hashMap.put("user", createUserHashMap(userDto));
-			hashMaps.add(hashMap);
 		});
-		return hashMaps;
+		return listHashMaps;
 	}
 
 	public HashMap<String, Object> createUserHashMap(UserDto userDto) {
@@ -78,6 +85,7 @@ public class LuggageTransactionStatusUtil {
 		userHashMap.put("studentCode", userDto.getUserCode());
 		userHashMap.put("roomNo", userDto.getRoom());
 		userHashMap.put("imgUrl", userDto.getImage());
+		userHashMap.put("mobileNo", userDto.getMobileNo());
 		return userHashMap;
 	}
 

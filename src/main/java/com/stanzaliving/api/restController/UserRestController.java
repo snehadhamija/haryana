@@ -30,7 +30,7 @@ public class UserRestController {
 		}
 		if (userDto.getHostelID() != currentUserDto.getHostelID()) {
 			return new ResponseEntity<Object>(
-					"User with mocile number " + mobileNumber + " doesn't belong to current hostel!",
+					"User with mobile number " + mobileNumber + " doesn't belong to current hostel!",
 					HttpStatus.CONFLICT);
 		}
 		return new ResponseEntity<Object>(userDto, HttpStatus.OK);

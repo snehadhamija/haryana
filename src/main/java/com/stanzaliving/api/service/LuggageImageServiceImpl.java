@@ -23,6 +23,15 @@ public class LuggageImageServiceImpl implements LuggageImageService {
 	}
 
 	@Override
+	public LuggageImage saveLuggageImage(LuggageTransactionDetail luggageTransactionDetail, String imageUrl) {
+		LuggageImage luggageImage = new LuggageImage();
+		luggageImage.setImageUrl(imageUrl);
+		luggageImage.setLuggageTransactionDetail(luggageTransactionDetail);
+		dao.save(luggageImage);
+		return luggageImage;
+	}
+
+	@Override
 	public LuggageImage findById(int id) {
 		return dao.findById(id);
 	}

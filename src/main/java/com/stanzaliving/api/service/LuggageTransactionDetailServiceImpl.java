@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.stanzaliving.api.dao.LuggageTransactionDetailDao;
+import com.stanzaliving.api.model.LuggageCategory;
 import com.stanzaliving.api.model.LuggageTransaction;
 import com.stanzaliving.api.model.LuggageTransactionDetail;
 
@@ -20,6 +21,18 @@ public class LuggageTransactionDetailServiceImpl implements LuggageTransactionDe
 	@Override
 	public void save(LuggageTransactionDetail luggageTransactionDetail) {
 		dao.save(luggageTransactionDetail);
+	}
+
+	@Override
+	public LuggageTransactionDetail saveLuggageTransactionDetail(String luggageId, String weight,
+			LuggageCategory luggageCategory, LuggageTransaction luggageTransaction) {
+		LuggageTransactionDetail luggageTransactionDetail = new LuggageTransactionDetail();
+		luggageTransactionDetail.setLuggageCategory(luggageCategory);
+		luggageTransactionDetail.setLuggageId(luggageId);
+		luggageTransactionDetail.setLuggageTransaction(luggageTransaction);
+		luggageTransactionDetail.setWeight(weight);
+		dao.save(luggageTransactionDetail);
+		return luggageTransactionDetail;
 	}
 
 	@Override

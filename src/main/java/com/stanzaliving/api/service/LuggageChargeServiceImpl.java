@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.stanzaliving.api.dao.LuggageChargeDao;
 import com.stanzaliving.api.model.LuggageCharge;
+import com.stanzaliving.api.model.LuggagePaymentMode;
 import com.stanzaliving.api.model.LuggageTransaction;
 
 @Service("luggageChargeService")
@@ -20,6 +21,18 @@ public class LuggageChargeServiceImpl implements LuggageChargeService {
 	@Override
 	public void save(LuggageCharge luggageCharge) {
 		dao.save(luggageCharge);
+	}
+
+	@Override
+	public LuggageCharge saveLuggageCharge(String amount, LuggagePaymentMode luggagePaymentMode,
+			LuggageTransaction luggageTransaction) {
+		LuggageCharge luggageCharge = new LuggageCharge();
+		luggageCharge.setCharge(amount);
+		luggageCharge.setIsPaid(true);
+		luggageCharge.setLuggagePaymentMode(luggagePaymentMode);
+		luggageCharge.setLuggageTransaction(luggageTransaction);
+		dao.save(luggageCharge);
+		return luggageCharge;
 	}
 
 	@Override
