@@ -9,6 +9,8 @@ public interface LuggageTransactionStatusDao {
 
 	void save(LuggageTransactionStatus luggageTransactionStatus);
 
+	void saveOrUpdateLuggageTransactionStatus(LuggageTransactionStatus luggageTransactionStatus);
+
 	LuggageTransactionStatus findById(int id);
 
 	List<LuggageTransactionStatus> findAllLuggageTransactionStatuses();

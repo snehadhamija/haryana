@@ -10,7 +10,7 @@ public interface LuggageTransactionDetailService {
 
 	void save(LuggageTransactionDetail luggageTransactionDetail);
 
-	LuggageTransactionDetail saveLuggageTransactionDetail(String luggageId, String weight,
+	LuggageTransactionDetail saveLuggageTransactionDetail(String luggageId, String weight, Integer luggageStatusId,
 			LuggageCategory luggageCategory, LuggageTransaction luggageTransaction);
 
 	LuggageTransactionDetail findById(int id);

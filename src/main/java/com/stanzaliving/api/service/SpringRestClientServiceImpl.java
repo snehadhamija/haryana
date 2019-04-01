@@ -19,6 +19,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import com.stanzaliving.api.constants.Constants;
@@ -53,12 +54,18 @@ public class SpringRestClientServiceImpl implements SpringRestClientService {
 		RestTemplate restTemplate = new RestTemplate();
 		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		String authCredentials = request.getHeader("Authorization");
-		String currentUser = BaseUtil.getPrincipal();
 		HttpEntity<String> req = new HttpEntity<String>(getHeaders(principal, authCredentials));
-		ResponseEntity<UserDto> response = restTemplate.exchange(Constants.COREUSERFETCHURL + mobileNumber,
-				HttpMethod.GET, req, UserDto.class);
-		UserDto userDto = response.getBody();
-		return userDto;
+		ResponseEntity<UserDto> response;
+		try {
+			response = restTemplate.exchange(Constants.COREUSERFETCHURL + mobileNumber, HttpMethod.GET, req,
+					UserDto.class);
+			UserDto userDto = response.getBody();
+			return userDto;
+		} catch (RestClientException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
 	}
 
 	// Fetching user details for a particular user by id(other than the current

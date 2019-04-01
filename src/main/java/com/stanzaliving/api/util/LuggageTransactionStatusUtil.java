@@ -49,6 +49,7 @@ public class LuggageTransactionStatusUtil {
 			if (luggageCharge != null && luggageCharge.getCharge() != null && luggageCharge.getCharge() != "") {
 				statusHashMap.put("amount", luggageCharge.getCharge());
 			}
+			statusHashMap.put("luggageStorageRoom", luggageTransaction.getLuggageStoreRoom().getId());
 			statusHashMap.put("user", createUserHashMap(userDto));
 			statusHashMap.put("luggageSummary", createLuggageSummaryHashMap(luggageTransaction));
 			statusHashMaps.add(statusHashMap);
@@ -67,7 +68,7 @@ public class LuggageTransactionStatusUtil {
 				hashMap.put("luggageTransactionStatusId", entry.getId());
 				hashMap.put("status", entry.getLuggageActivityStatus().getStatusName());
 				if (entry.getLuggageActivityStatus().getStatusName().equalsIgnoreCase("Deposit")) {
-					hashMap.put("storageRoom", luggageTransaction.getLuggageStoreRoom().getRoomName());
+					hashMap.put("luggageStorageRoom", luggageTransaction.getLuggageStoreRoom().getRoomName());
 				}
 				hashMap.put("expectedDate", luggageTransaction.getExpectedDate());
 				hashMap.put("user", createUserHashMap(userDto));

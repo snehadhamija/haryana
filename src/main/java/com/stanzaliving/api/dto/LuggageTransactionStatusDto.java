@@ -9,6 +9,7 @@ import com.stanzaliving.api.util.DateUtil;
 
 public class LuggageTransactionStatusDto {
 
+	private Integer luggageTransactionStatusId = 0;
 	private HashMap<String, Object> user = null;
 	private String mobileNo = null;
 	private Integer totalBoxes = 0;
@@ -19,6 +20,14 @@ public class LuggageTransactionStatusDto {
 	private Integer luggageActivityId = 0;
 	private Integer luggageStorageRoomId = 0;
 	private List<HashMap<String, Object>> luggageSummary = new ArrayList<>();
+
+	public Integer getLuggageTransactionStatusId() {
+		return luggageTransactionStatusId;
+	}
+
+	public void setLuggageTransactionStatusId(Integer luggageTransactionStatusId) {
+		this.luggageTransactionStatusId = luggageTransactionStatusId;
+	}
 
 	public Integer getLuggageActivityId() {
 		return luggageActivityId;
@@ -102,6 +111,8 @@ public class LuggageTransactionStatusDto {
 
 	public LuggageTransactionStatusDto(HashMap<String, Object> request) {
 		super();
+		if (request.containsKey("luggageTransactionStatusId"))
+			this.luggageTransactionStatusId = (Integer) request.get("luggageTransactionStatusId");
 		if (request.containsKey("user"))
 			this.user = (HashMap<String, Object>) request.get("user");
 		this.mobileNo = (String) this.user.get("mobileNo");
@@ -113,21 +124,23 @@ public class LuggageTransactionStatusDto {
 		this.expectedDate = expectedDate;
 		if (request.containsKey("amount"))
 			this.amount = (String) request.get("amount");
-		if (request.containsKey("luggagePaymentModeId"))
-			this.luggagePaymentModeId = (Integer) request.get("luggagePaymentModeId");
-		if (request.containsKey("luggageActivityId"))
-			this.luggageActivityId = (Integer) request.get("luggageActivityId");
-		if (request.containsKey("luggageStorageRoomId"))
-			this.luggageStorageRoomId = (Integer) request.get("luggageStorageRoomId");
+		if (request.containsKey("luggagePaymentMode"))
+			this.luggagePaymentModeId = (Integer) request.get("luggagePaymentMode");
+		if (request.containsKey("luggageActivity"))
+			this.luggageActivityId = (Integer) request.get("luggageActivity");
+		if (request.containsKey("luggageStorageRoom"))
+			this.luggageStorageRoomId = (Integer) request.get("luggageStorageRoom");
 		if (request.containsKey("luggageSummary"))
 			this.luggageSummary = (List<HashMap<String, Object>>) request.get("luggageSummary");
 	}
 
 	@Override
 	public String toString() {
-		return "LuggageTransactionStatusDto [user=" + user + ", mobileNo=" + mobileNo + ", totalBoxes=" + totalBoxes
-				+ ", expectedDate=" + expectedDate + ", expectedDateString=" + expectedDateString + ", amount=" + amount
-				+ ", luggagePaymentModeId=" + luggagePaymentModeId + ", luggageSummary=" + luggageSummary + "]";
+		return "LuggageTransactionStatusDto [luggageTransactionStatusId=" + luggageTransactionStatusId + ", user="
+				+ user + ", mobileNo=" + mobileNo + ", totalBoxes=" + totalBoxes + ", expectedDate=" + expectedDate
+				+ ", expectedDateString=" + expectedDateString + ", amount=" + amount + ", luggagePaymentModeId="
+				+ luggagePaymentModeId + ", luggageActivityId=" + luggageActivityId + ", luggageStorageRoomId="
+				+ luggageStorageRoomId + ", luggageSummary=" + luggageSummary + "]";
 	}
 
 	public LuggageTransactionStatusDto() {

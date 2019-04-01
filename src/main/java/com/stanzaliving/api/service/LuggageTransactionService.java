@@ -11,8 +11,8 @@ public interface LuggageTransactionService {
 
 	void save(LuggageTransaction luggageTransaction);
 
-	LuggageTransaction saveLuggageTransaction(LuggageActivity luggageActivity, String userMobile, Integer totalBoxes,
-			String totalWeight, Date expectedDate, LuggageStoreRoom luggageStoreRoom);
+	LuggageTransaction saveLuggageTransaction(LuggageActivity luggageActivity, Integer totalBoxes, String totalWeight,
+			Date expectedDate, LuggageStoreRoom luggageStoreRoom);
 
 	LuggageTransaction findById(int id);
 

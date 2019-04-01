@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.stanzaliving.api.dao.LuggageTransactionDetailDao;
 import com.stanzaliving.api.model.LuggageCategory;
+import com.stanzaliving.api.model.LuggageStatus;
 import com.stanzaliving.api.model.LuggageTransaction;
 import com.stanzaliving.api.model.LuggageTransactionDetail;
 
@@ -18,6 +19,9 @@ public class LuggageTransactionDetailServiceImpl implements LuggageTransactionDe
 	@Autowired
 	private LuggageTransactionDetailDao dao;
 
+	@Autowired
+	LuggageStatusService luggageStatusService;
+
 	@Override
 	public void save(LuggageTransactionDetail luggageTransactionDetail) {
 		dao.save(luggageTransactionDetail);
@@ -25,12 +29,14 @@ public class LuggageTransactionDetailServiceImpl implements LuggageTransactionDe
 
 	@Override
 	public LuggageTransactionDetail saveLuggageTransactionDetail(String luggageId, String weight,
-			LuggageCategory luggageCategory, LuggageTransaction luggageTransaction) {
+			Integer luggageStatusId, LuggageCategory luggageCategory, LuggageTransaction luggageTransaction) {
 		LuggageTransactionDetail luggageTransactionDetail = new LuggageTransactionDetail();
 		luggageTransactionDetail.setLuggageCategory(luggageCategory);
 		luggageTransactionDetail.setLuggageId(luggageId);
 		luggageTransactionDetail.setLuggageTransaction(luggageTransaction);
 		luggageTransactionDetail.setWeight(weight);
+		LuggageStatus luggageStatus = luggageStatusService.findById(luggageStatusId);
+		luggageTransactionDetail.setLuggageStatus(luggageStatus);
 		dao.save(luggageTransactionDetail);
 		return luggageTransactionDetail;
 	}

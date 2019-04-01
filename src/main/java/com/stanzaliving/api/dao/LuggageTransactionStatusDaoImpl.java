@@ -19,6 +19,11 @@ public class LuggageTransactionStatusDaoImpl extends AbstractDao<Integer, Luggag
 	}
 
 	@Override
+	public void saveOrUpdateLuggageTransactionStatus(LuggageTransactionStatus luggageTransactionStatus) {
+		saveOrUpdate(luggageTransactionStatus);
+	}
+
+	@Override
 	public LuggageTransactionStatus findById(int id) {
 		return getByKey(id);
 	}

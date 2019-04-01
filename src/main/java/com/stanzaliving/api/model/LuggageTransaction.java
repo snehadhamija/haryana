@@ -23,9 +23,6 @@ public class LuggageTransaction {
 	@JoinColumn(name = "LUGGAGE_ACTIVITY_ID")
 	private LuggageActivity luggageActivity;
 
-	// @Column(name = "USER_MOBILE", nullable = false)
-	// private String userMobile;
-
 	@Column(name = "NUMBER_OF_BAGS", nullable = false)
 	private Integer numberOfBags;
 
@@ -86,12 +83,4 @@ public class LuggageTransaction {
 	public void setLuggageStoreRoom(LuggageStoreRoom luggageStoreRoom) {
 		this.luggageStoreRoom = luggageStoreRoom;
 	}
-
-	// public String getUserMobile() {
-	// return userMobile;
-	// }
-	//
-	// public void setUserMobile(String userMobile) {
-	// this.userMobile = userMobile;
-	// }
 }

@@ -25,8 +25,8 @@ public class LuggageTransactionServiceImpl implements LuggageTransactionService 
 	}
 
 	@Override
-	public LuggageTransaction saveLuggageTransaction(LuggageActivity luggageActivity, String userMobile,
-			Integer totalBoxes, String totalWeight, Date expectedDate, LuggageStoreRoom luggageStoreRoom) {
+	public LuggageTransaction saveLuggageTransaction(LuggageActivity luggageActivity, Integer totalBoxes,
+			String totalWeight, Date expectedDate, LuggageStoreRoom luggageStoreRoom) {
 		LuggageTransaction luggageTransaction = new LuggageTransaction();
 		luggageTransaction.setExpectedDate(expectedDate);
 		luggageTransaction.setLuggageActivity(luggageActivity);

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.stanzaliving.api.dao.LuggageActivityStatusDao;
+import com.stanzaliving.api.model.LuggageActivity;
 import com.stanzaliving.api.model.LuggageActivityStatus;
 
 @Service("luggageActivityStatusService")
@@ -29,5 +30,11 @@ public class LuggageActivityStatusServiceImpl implements LuggageActivityStatusSe
 	@Override
 	public List<LuggageActivityStatus> findAllLuggageActivityStatuses() {
 		return dao.findAllLuggageActivityStatuses();
+	}
+
+	@Override
+	public List<LuggageActivityStatus> findAllLuggageActivityStatusesForLuggageActivity(
+			LuggageActivity luggageActivity) {
+		return dao.findAllLuggageActivityStatusesForLuggageActivity(luggageActivity);
 	}
 }
