@@ -26,7 +26,7 @@ public class LuggageTransaction {
 	@Column(name = "NUMBER_OF_BAGS", nullable = false)
 	private Integer numberOfBags;
 
-	@Column(name = "TOTAL_WEIGHT", nullable = false)
+	@Column(name = "TOTAL_WEIGHT", nullable = true)
 	private String totalWeight;
 
 	@Column(name = "EXPECTED_DATE", nullable = false)

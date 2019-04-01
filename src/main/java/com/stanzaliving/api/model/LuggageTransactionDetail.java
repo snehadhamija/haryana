@@ -28,7 +28,7 @@ public class LuggageTransactionDetail {
 	@Column(name = "LUGGAGE_ID", nullable = false)
 	private String luggageId;
 
-	@Column(name = "WEIGHT", nullable = false)
+	@Column(name = "WEIGHT", nullable = true)
 	private String weight;
 
 	@ManyToOne

@@ -1,5 +1,6 @@
 package com.stanzaliving.api.service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
@@ -13,6 +14,7 @@ import com.stanzaliving.api.dto.LuggageTransactionStatusDto;
 import com.stanzaliving.api.dto.UserDto;
 import com.stanzaliving.api.model.LuggageActivityStatus;
 import com.stanzaliving.api.model.LuggageTransaction;
+import com.stanzaliving.api.model.LuggageTransactionDetail;
 import com.stanzaliving.api.model.LuggageTransactionStatus;
 import com.stanzaliving.api.util.LuggageChargeUtil;
 import com.stanzaliving.api.util.LuggageTransactionDetailUtil;
@@ -39,6 +41,9 @@ public class LuggageTransactionObjectServiceImpl implements LuggageTransactionOb
 
 	@Autowired
 	LuggageTransactionStatusService luggageTransactionStatusService;
+
+	@Autowired
+	LuggageTransactionDetailService luggageTransactionDetailService;
 
 	@Override
 	public void saveOrUpdateLuggageTransactionStatusObject(LuggageTransactionStatusDto luggageTransactionStatusDto,
@@ -70,7 +75,11 @@ public class LuggageTransactionObjectServiceImpl implements LuggageTransactionOb
 				// update status entry with status handover
 				luggageActivityStatusId = 2;
 			} else if (bagsRemaining > currentNumberOfBags) {
-				// partial handover
+				// partial handover or missing
+				if (checkIfItemMissing(luggageTransactionStatusDto)
+						|| checkIfAlreadyItemMissed(existingLuggageTransactions)) {
+					luggageActivityStatusId = 4;
+				}
 				// update status entry with status partial-handover
 				luggageActivityStatusId = 3;
 			} else if (bagsRemaining < currentNumberOfBags) {
@@ -80,17 +89,8 @@ public class LuggageTransactionObjectServiceImpl implements LuggageTransactionOb
 			}
 			LuggageActivityStatus luggageActivityStatus = luggageActivityStatusService
 					.findById(luggageActivityStatusId);
-			// update entry in transaction status table
-			System.out.println("==========final data===========");
-			System.out.println(luggageTransactionStatus.getLuggageActivityStatus().getStatusName());
 			luggageTransactionStatusService.updateLuggageTransactionStatus(luggageTransactionStatus,
 					luggageActivityStatus, existingLuggageTransactions, luggageTransaction);
-			System.out.println(currentNumberOfBags);
-			System.out.println(bagsRemaining);
-			System.out.println(luggageActivityStatusId);
-			System.out.println(luggageActivityStatus);
-			System.out.println(luggageTransactionStatus.getLuggageActivityStatus().getStatusName());
-			System.out.println("==========final data===========");
 		} else {
 			luggageChargeUtil.saveLuggageChargeObject(luggageTransactionStatusDto, luggageTransaction);
 			UserDto userDto = springRestClientService.getUserDtoForOtherUser(httpRequest,
@@ -98,5 +98,27 @@ public class LuggageTransactionObjectServiceImpl implements LuggageTransactionOb
 			LuggageTransactionStatus luggageTransactionStatus = luggageTransactionStatusService
 					.saveLuggageTransactionStatus(userDto, luggageActivityStatuses.get(0), luggageTransaction);
 		}
+	}
+
+	public boolean checkIfItemMissing(LuggageTransactionStatusDto luggageTransactionStatusDto) {
+		for (HashMap<String, Object> entry : luggageTransactionStatusDto.getLuggageSummary()) {
+			if (entry.containsKey("isMissing")) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public boolean checkIfAlreadyItemMissed(Set<LuggageTransaction> existingLuggageTransactions) {
+		for (LuggageTransaction luggageTransaction : existingLuggageTransactions) {
+			List<LuggageTransactionDetail> luggageTransactionDetails = luggageTransactionDetailService
+					.findAllLuggageTransactionDetailsForTransaction(luggageTransaction);
+			for (LuggageTransactionDetail luggageTransactionDetail : luggageTransactionDetails) {
+				if (luggageTransactionDetail.getLuggageStatus().getId() == 2) {
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 }
