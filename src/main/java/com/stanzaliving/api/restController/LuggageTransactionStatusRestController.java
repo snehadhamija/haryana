@@ -24,10 +24,7 @@ import com.stanzaliving.api.dto.LuggageTransactionStatusDto;
 import com.stanzaliving.api.model.LuggageTransactionStatus;
 import com.stanzaliving.api.service.LuggageTransactionObjectService;
 import com.stanzaliving.api.service.LuggageTransactionStatusService;
-import com.stanzaliving.api.util.LuggageChargeUtil;
-import com.stanzaliving.api.util.LuggageTransactionDetailUtil;
 import com.stanzaliving.api.util.LuggageTransactionStatusUtil;
-import com.stanzaliving.api.util.LuggageTransactionUtil;
 
 @RestController
 public class LuggageTransactionStatusRestController {
@@ -37,15 +34,6 @@ public class LuggageTransactionStatusRestController {
 
 	@Autowired
 	LuggageTransactionStatusUtil luggageTransactionStatusUtil;
-
-	@Autowired
-	LuggageTransactionUtil luggageTransactionUtil;
-
-	@Autowired
-	LuggageTransactionDetailUtil luggageTransactionDetailUtil;
-
-	@Autowired
-	LuggageChargeUtil luggageChargeUtil;
 
 	@Autowired
 	LuggageTransactionObjectService luggageTransactionObjectService;
@@ -103,6 +91,17 @@ public class LuggageTransactionStatusRestController {
 	}
 
 	// ----- Save/update luggage transaction status -----
+	// sample request payload
+	// {
+	// "luggageSummary":[{"luggageCategory": 1,"luggageId":
+	// "LB0SA200","weight":"3.0","luggageImages":["abc","def"]},{"luggageCategory":1,"luggageId":"LB0SA201","weight":"2.0","luggageImages":["ghi"]},{"luggageCategory":1,"luggageId":"LB0SA202","weight":"5.5","luggageImages":[]}],
+	// "expectedDate":"2019-03-31 00:00:00",
+	// "luggageActivity":1,
+	// "luggageStorageRoom":1,
+	// "totalBoxes":3,
+	// "amount":"250.00",
+	// "luggagePaymentMode":1,
+	// "user":{"mobileNo":"9906000101"}}
 	@RequestMapping(value = "/luggageTransactionStatus", method = RequestMethod.POST)
 	public ResponseEntity<Object> saveLuggageTransaction(@RequestBody HashMap<String, Object> request,
 			HttpServletRequest httpRequest) {

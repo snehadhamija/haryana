@@ -145,6 +145,25 @@ public class LuggageTransactionStatusDto {
 			this.luggageSummary = (List<HashMap<String, Object>>) request.get("luggageSummary");
 	}
 
+	public LuggageTransactionStatusDto(Integer luggageOtpDetailId, Integer luggageTransactionStatusId,
+			HashMap<String, Object> user, String mobileNo, Integer totalBoxes, Date expectedDate,
+			String expectedDateString, String amount, Integer luggagePaymentModeId, Integer luggageActivityId,
+			Integer luggageStorageRoomId, List<HashMap<String, Object>> luggageSummary) {
+		super();
+		this.luggageOtpDetailId = luggageOtpDetailId;
+		this.luggageTransactionStatusId = luggageTransactionStatusId;
+		this.user = user;
+		this.mobileNo = mobileNo;
+		this.totalBoxes = totalBoxes;
+		this.expectedDate = expectedDate;
+		this.expectedDateString = expectedDateString;
+		this.amount = amount;
+		this.luggagePaymentModeId = luggagePaymentModeId;
+		this.luggageActivityId = luggageActivityId;
+		this.luggageStorageRoomId = luggageStorageRoomId;
+		this.luggageSummary = luggageSummary;
+	}
+
 	@Override
 	public String toString() {
 		return "LuggageTransactionStatusDto [luggageOtpDetailId=" + luggageOtpDetailId + ", luggageTransactionStatusId="

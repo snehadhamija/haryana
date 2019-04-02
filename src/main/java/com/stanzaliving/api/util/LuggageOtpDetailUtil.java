@@ -158,7 +158,7 @@ public class LuggageOtpDetailUtil {
 				luggageOtpDetailDto.getOtp(), luggageOtpDetailDto.getLuggageOtpDetailId());
 		if (luggageOtpDetail != null) {
 			if (luggageOtpDetail.getIsValidated()) {
-				return statusHashMap("Already Validated !", HttpStatus.OK);
+				return statusHashMap("Already Validated !", HttpStatus.CONFLICT);
 			}
 			luggageOtpDetail = luggageOtpDetailService.validateLuggageOtpDetail(luggageOtpDetail);
 			HashMap<String, Object> statusHashMap = luggageOtpDetailUtil.pupulateStatusHashMap(luggageOtpDetail);

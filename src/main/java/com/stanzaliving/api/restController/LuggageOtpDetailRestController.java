@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.stanzaliving.api.dto.LuggageOtpDetailDto;
 import com.stanzaliving.api.model.LuggageOtpDetail;
 import com.stanzaliving.api.service.LuggageOtpDetailService;
-import com.stanzaliving.api.service.OTPService;
 import com.stanzaliving.api.util.LuggageOtpDetailUtil;
 
 @RestController
@@ -25,9 +24,6 @@ public class LuggageOtpDetailRestController {
 
 	@Autowired
 	LuggageOtpDetailService luggageOtpDetailService;
-
-	@Autowired
-	OTPService oTPService;
 
 	@Autowired
 	LuggageOtpDetailUtil luggageOtpDetailUtil;
