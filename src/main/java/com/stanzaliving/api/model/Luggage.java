@@ -37,4 +37,18 @@ public class Luggage {
 		this.luggageCategory = luggageCategory;
 	}
 
+	@Override
+	public String toString() {
+		return "Luggage [id=" + id + ", luggageCategory=" + luggageCategory + "]";
+	}
+
+	public Luggage(int id, LuggageCategory luggageCategory) {
+		super();
+		this.id = id;
+		this.luggageCategory = luggageCategory;
+	}
+
+	public Luggage() {
+		super();
+	}
 }

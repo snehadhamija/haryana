@@ -82,4 +82,26 @@ public class LuggageTransactionDetail {
 	public void setLuggageStatus(LuggageStatus luggageStatus) {
 		this.luggageStatus = luggageStatus;
 	}
+
+	@Override
+	public String toString() {
+		return "LuggageTransactionDetail [id=" + id + ", luggageTransaction=" + luggageTransaction + ", luggageStatus="
+				+ luggageStatus + ", luggageId=" + luggageId + ", weight=" + weight + ", luggageCategory="
+				+ luggageCategory + "]";
+	}
+
+	public LuggageTransactionDetail(int id, LuggageTransaction luggageTransaction, LuggageStatus luggageStatus,
+			String luggageId, String weight, LuggageCategory luggageCategory) {
+		super();
+		this.id = id;
+		this.luggageTransaction = luggageTransaction;
+		this.luggageStatus = luggageStatus;
+		this.luggageId = luggageId;
+		this.weight = weight;
+		this.luggageCategory = luggageCategory;
+	}
+
+	public LuggageTransactionDetail() {
+		super();
+	}
 }

@@ -70,4 +70,24 @@ public class LuggageCharge {
 	public void setIsPaid(Boolean isPaid) {
 		this.isPaid = isPaid;
 	}
+
+	@Override
+	public String toString() {
+		return "LuggageCharge [id=" + id + ", luggageTransaction=" + luggageTransaction + ", charge=" + charge
+				+ ", luggagePaymentMode=" + luggagePaymentMode + ", isPaid=" + isPaid + "]";
+	}
+
+	public LuggageCharge(int id, LuggageTransaction luggageTransaction, String charge,
+			LuggagePaymentMode luggagePaymentMode, Boolean isPaid) {
+		super();
+		this.id = id;
+		this.luggageTransaction = luggageTransaction;
+		this.charge = charge;
+		this.luggagePaymentMode = luggagePaymentMode;
+		this.isPaid = isPaid;
+	}
+
+	public LuggageCharge() {
+		super();
+	}
 }

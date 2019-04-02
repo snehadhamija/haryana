@@ -33,4 +33,19 @@ public class LuggageStatus {
 	public void setStatusName(String statusName) {
 		this.statusName = statusName;
 	}
+
+	@Override
+	public String toString() {
+		return "LuggageStatus [id=" + id + ", statusName=" + statusName + "]";
+	}
+
+	public LuggageStatus(int id, String statusName) {
+		super();
+		this.id = id;
+		this.statusName = statusName;
+	}
+
+	public LuggageStatus() {
+		super();
+	}
 }

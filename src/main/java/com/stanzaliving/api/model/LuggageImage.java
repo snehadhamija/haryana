@@ -47,4 +47,21 @@ public class LuggageImage {
 	public void setImageUrl(String imageUrl) {
 		this.imageUrl = imageUrl;
 	}
+
+	@Override
+	public String toString() {
+		return "LuggageImage [id=" + id + ", luggageTransactionDetail=" + luggageTransactionDetail + ", imageUrl="
+				+ imageUrl + "]";
+	}
+
+	public LuggageImage(int id, LuggageTransactionDetail luggageTransactionDetail, String imageUrl) {
+		super();
+		this.id = id;
+		this.luggageTransactionDetail = luggageTransactionDetail;
+		this.imageUrl = imageUrl;
+	}
+
+	public LuggageImage() {
+		super();
+	}
 }

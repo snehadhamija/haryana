@@ -47,4 +47,21 @@ public class LuggageActivityStatus {
 	public void setLuggageActivity(LuggageActivity luggageActivity) {
 		this.luggageActivity = luggageActivity;
 	}
+
+	@Override
+	public String toString() {
+		return "LuggageActivityStatus [id=" + id + ", statusName=" + statusName + ", luggageActivity=" + luggageActivity
+				+ "]";
+	}
+
+	public LuggageActivityStatus(int id, String statusName, LuggageActivity luggageActivity) {
+		super();
+		this.id = id;
+		this.statusName = statusName;
+		this.luggageActivity = luggageActivity;
+	}
+
+	public LuggageActivityStatus() {
+		super();
+	}
 }

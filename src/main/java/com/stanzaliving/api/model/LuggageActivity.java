@@ -44,4 +44,20 @@ public class LuggageActivity {
 	public void setIsActive(Boolean isActive) {
 		this.isActive = isActive;
 	}
+
+	@Override
+	public String toString() {
+		return "LuggageActivity [id=" + id + ", activityName=" + activityName + ", isActive=" + isActive + "]";
+	}
+
+	public LuggageActivity(int id, String activityName, Boolean isActive) {
+		super();
+		this.id = id;
+		this.activityName = activityName;
+		this.isActive = isActive;
+	}
+
+	public LuggageActivity() {
+		super();
+	}
 }

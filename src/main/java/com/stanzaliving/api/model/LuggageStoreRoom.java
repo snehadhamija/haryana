@@ -55,4 +55,22 @@ public class LuggageStoreRoom {
 	public void setHostelId(Integer hostelId) {
 		this.hostelId = hostelId;
 	}
+
+	@Override
+	public String toString() {
+		return "LuggageStoreRoom [id=" + id + ", roomName=" + roomName + ", hostelId=" + hostelId + ", isActive="
+				+ isActive + "]";
+	}
+
+	public LuggageStoreRoom(int id, String roomName, Integer hostelId, Boolean isActive) {
+		super();
+		this.id = id;
+		this.roomName = roomName;
+		this.hostelId = hostelId;
+		this.isActive = isActive;
+	}
+
+	public LuggageStoreRoom() {
+		super();
+	}
 }

@@ -44,4 +44,20 @@ public class LuggageHostel {
 	public void setIsActivated(Boolean isActivated) {
 		this.isActivated = isActivated;
 	}
+
+	@Override
+	public String toString() {
+		return "LuggageHostel [id=" + id + ", hostelId=" + hostelId + ", isActivated=" + isActivated + "]";
+	}
+
+	public LuggageHostel(int id, Integer hostelId, Boolean isActivated) {
+		super();
+		this.id = id;
+		this.hostelId = hostelId;
+		this.isActivated = isActivated;
+	}
+
+	public LuggageHostel() {
+		super();
+	}
 }

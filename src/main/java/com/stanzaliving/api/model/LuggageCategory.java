@@ -45,4 +45,19 @@ public class LuggageCategory {
 		this.isActive = isActive;
 	}
 
+	@Override
+	public String toString() {
+		return "LuggageCategory [id=" + id + ", categoryName=" + categoryName + ", isActive=" + isActive + "]";
+	}
+
+	public LuggageCategory(int id, String categoryName, Boolean isActive) {
+		super();
+		this.id = id;
+		this.categoryName = categoryName;
+		this.isActive = isActive;
+	}
+
+	public LuggageCategory() {
+		super();
+	}
 }

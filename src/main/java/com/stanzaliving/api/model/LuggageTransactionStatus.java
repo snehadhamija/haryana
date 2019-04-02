@@ -67,4 +67,23 @@ public class LuggageTransactionStatus {
 	public void setLuggageActivityStatus(LuggageActivityStatus luggageActivityStatus) {
 		this.luggageActivityStatus = luggageActivityStatus;
 	}
+
+	@Override
+	public String toString() {
+		return "LuggageTransactionStatus [id=" + id + ", luggageTransactions=" + luggageTransactions + ", userMobile="
+				+ userMobile + ", luggageActivityStatus=" + luggageActivityStatus + "]";
+	}
+
+	public LuggageTransactionStatus(int id, Set<LuggageTransaction> luggageTransactions, String userMobile,
+			LuggageActivityStatus luggageActivityStatus) {
+		super();
+		this.id = id;
+		this.luggageTransactions = luggageTransactions;
+		this.userMobile = userMobile;
+		this.luggageActivityStatus = luggageActivityStatus;
+	}
+
+	public LuggageTransactionStatus() {
+		super();
+	}
 }

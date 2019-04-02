@@ -44,4 +44,20 @@ public class LuggagePaymentMode {
 	public void setIsActive(Boolean isActive) {
 		this.isActive = isActive;
 	}
+
+	@Override
+	public String toString() {
+		return "LuggagePaymentMode [id=" + id + ", paymentModeName=" + paymentModeName + ", isActive=" + isActive + "]";
+	}
+
+	public LuggagePaymentMode(int id, String paymentModeName, Boolean isActive) {
+		super();
+		this.id = id;
+		this.paymentModeName = paymentModeName;
+		this.isActive = isActive;
+	}
+
+	public LuggagePaymentMode() {
+		super();
+	}
 }

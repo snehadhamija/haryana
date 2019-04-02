@@ -131,4 +131,29 @@ public class LuggageOtpDetail {
 	public void setValidTill(Date validTill) {
 		this.validTill = validTill;
 	}
+
+	@Override
+	public String toString() {
+		return "LuggageOtpDetail [id=" + id + ", sentBy=" + sentBy + ", sentTo=" + sentTo + ", otp=" + otp
+				+ ", isValidated=" + isValidated + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt
+				+ ", validTill=" + validTill + ", luggageTransactionDetails=" + luggageTransactionDetails + "]";
+	}
+
+	public LuggageOtpDetail(int id, String sentBy, String sentTo, String otp, Boolean isValidated, Date createdAt,
+			Date updatedAt, Date validTill, Set<LuggageTransactionDetail> luggageTransactionDetails) {
+		super();
+		this.id = id;
+		this.sentBy = sentBy;
+		this.sentTo = sentTo;
+		this.otp = otp;
+		this.isValidated = isValidated;
+		this.createdAt = createdAt;
+		this.updatedAt = updatedAt;
+		this.validTill = validTill;
+		this.luggageTransactionDetails = luggageTransactionDetails;
+	}
+
+	public LuggageOtpDetail() {
+		super();
+	}
 }
