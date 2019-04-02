@@ -13,10 +13,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.stanzaliving.api.dto.UserDto;
 import com.stanzaliving.api.model.LuggageHostel;
 import com.stanzaliving.api.service.LuggageHostelService;
-import com.stanzaliving.api.service.SpringRestClientService;
+import com.stanzaliving.api.util.LuggageActivityUtil;
 
 @RestController
 public class LuggageHostelRestController {
@@ -25,7 +24,7 @@ public class LuggageHostelRestController {
 	LuggageHostelService luggageHostelService;
 
 	@Autowired
-	SpringRestClientService springRestClientService;
+	LuggageActivityUtil luggageActivityUtil;
 
 	// ----- Retrieve all luggage hostels -----
 	@RequestMapping(value = "/luggageHostel", method = RequestMethod.GET)
@@ -50,10 +49,7 @@ public class LuggageHostelRestController {
 	// ----- Check is luggage activated for current hostel -----
 	@RequestMapping(value = "/luggageHostel/", method = RequestMethod.GET)
 	public ResponseEntity<Object> findIfLuggageModuleActivatedForCurrentHostel(HttpServletRequest httpRequest) {
-		UserDto userDto = springRestClientService.getUserDto(httpRequest);
-		Integer hostelId = userDto.getHostelID();
-		boolean isHostelActivated = luggageHostelService.findIfLuggageModuleActivatedForCurrentHostel(hostelId);
-		if (isHostelActivated) {
+		if (luggageActivityUtil.checkIfLuggageActivatedForHostel(httpRequest)) {
 			return new ResponseEntity<>("Activated !", HttpStatus.OK);
 		}
 		return new ResponseEntity<>("Not Activated !", HttpStatus.NOT_FOUND);

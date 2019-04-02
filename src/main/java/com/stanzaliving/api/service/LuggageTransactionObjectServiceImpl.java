@@ -65,7 +65,6 @@ public class LuggageTransactionObjectServiceImpl implements LuggageTransactionOb
 				LuggageOtpDetail luggageOtpDetail = luggageOtpDetailService
 						.findById(luggageTransactionStatusDto.getLuggageOtpDetailId());
 				if (luggageOtpDetail != null) {
-					System.out.println("=========================");
 					luggageOtpDetailService.saveOrUpdateLuggageOtpDetail(luggageOtpDetail, luggageTransactionDetails);
 				}
 			}

@@ -8,11 +8,15 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
+import com.stanzaliving.api.constants.OTPConstants;
+import com.stanzaliving.api.dto.LuggageOtpDetailDto;
 import com.stanzaliving.api.dto.UserDto;
 import com.stanzaliving.api.model.LuggageOtpDetail;
 import com.stanzaliving.api.service.LuggageOtpDetailService;
+import com.stanzaliving.api.service.OTPService;
 import com.stanzaliving.api.service.SpringRestClientService;
 
 @Component
@@ -23,6 +27,41 @@ public class LuggageOtpDetailUtil {
 
 	@Autowired
 	SpringRestClientService springRestClientService;
+
+	@Autowired
+	OTPService oTPService;
+
+	@Autowired
+	LuggageOtpDetailUtil luggageOtpDetailUtil;
+
+	public boolean areMandatoryFieldsPresentForSave(HashMap<String, Object> request) {
+		if (request.containsKey("sentTo") && request.containsKey("sentBy")) {
+			return true;
+		}
+		return false;
+	}
+
+	public Object saveLuggageOtpDetail(HttpServletRequest httpRequest, LuggageOtpDetailDto luggageOtpDetailDto) {
+		String otp = luggageOtpDetailUtil.generateOtp();
+		LuggageOtpDetail luggageOtpDetail = luggageOtpDetailUtil.saveLuggageOtpDetailObject(httpRequest, otp,
+				luggageOtpDetailDto.getSentTo(), luggageOtpDetailDto.getSentBy());
+		if (luggageOtpDetail == null) {
+			return null;
+		}
+		luggageOtpDetailUtil.sendOtp(luggageOtpDetailDto, otp);
+		HashMap<String, Object> createOtpHashMap = luggageOtpDetailUtil.pupulateCreateOtpHashMap(luggageOtpDetail, otp);
+		return createOtpHashMap;
+	}
+
+	public String generateOtp() {
+		String otp = null;
+		try {
+			otp = oTPService.generateOTP(OTPConstants.OTP_LENGTH);
+		} catch (Exception exception) {
+			exception.printStackTrace();
+		}
+		return otp;
+	}
 
 	public LuggageOtpDetail saveLuggageOtpDetailObject(HttpServletRequest httpRequest, String otp, String sentTo,
 			String sentBy) {
@@ -54,6 +93,14 @@ public class LuggageOtpDetailUtil {
 		return luggageOtpDetail;
 	}
 
+	public void sendOtp(LuggageOtpDetailDto luggageOtpDetailDto, String otp) {
+		try {
+			oTPService.sendOTP(luggageOtpDetailDto.getSentTo(), otp);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public String decodeOtp(String otp) {
 		byte[] decodedBytes = Base64.decodeBase64(otp);
 		String decodedOtp = null;
@@ -79,6 +126,7 @@ public class LuggageOtpDetailUtil {
 		HashMap<String, Object> hashMap = new HashMap<>();
 		hashMap.put("status", "Validated !");
 		hashMap.put("sentTo", luggageOtpDetail.getSentTo());
+		hashMap.put("luggageOtpDetailId", luggageOtpDetail.getId());
 		return hashMap;
 	}
 
@@ -87,6 +135,42 @@ public class LuggageOtpDetailUtil {
 		hashMap.put("luggageOtpDetailId", luggageOtpDetail.getId());
 		hashMap.put("sentTo", luggageOtpDetail.getSentTo());
 		hashMap.put("otp", decodedOtp);
+		return hashMap;
+	}
+
+	public boolean areMandatoryFieldsPresentToValidate(HashMap<String, Object> request) {
+		if (request.containsKey("luggageOtpDetailId") && request.containsKey("sentTo") && request.containsKey("otp")) {
+			return true;
+		}
+		return false;
+	}
+
+	public HashMap<String, Object> validateLuggageOtpDetail(LuggageOtpDetailDto luggageOtpDetailDto) {
+		if (luggageOtpDetailService.findById(luggageOtpDetailDto.getLuggageOtpDetailId()) == null) {
+			return statusHashMap(
+					"No record found with the luggageOtpDetailId: " + luggageOtpDetailDto.getLuggageOtpDetailId(),
+					HttpStatus.CONFLICT);
+		}
+		if (luggageOtpDetailService.checkIfOtpExpired(luggageOtpDetailDto.getLuggageOtpDetailId())) {
+			return statusHashMap("OTP already expired !", HttpStatus.CONFLICT);
+		}
+		LuggageOtpDetail luggageOtpDetail = luggageOtpDetailService.validateOtp(luggageOtpDetailDto.getSentTo(),
+				luggageOtpDetailDto.getOtp(), luggageOtpDetailDto.getLuggageOtpDetailId());
+		if (luggageOtpDetail != null) {
+			if (luggageOtpDetail.getIsValidated()) {
+				return statusHashMap("Already Validated !", HttpStatus.OK);
+			}
+			luggageOtpDetail = luggageOtpDetailService.validateLuggageOtpDetail(luggageOtpDetail);
+			HashMap<String, Object> statusHashMap = luggageOtpDetailUtil.pupulateStatusHashMap(luggageOtpDetail);
+			return statusHashMap(statusHashMap, HttpStatus.OK);
+		}
+		return statusHashMap("Not validated !", HttpStatus.CONFLICT);
+	}
+
+	public HashMap<String, Object> statusHashMap(Object object, HttpStatus httpStatus) {
+		HashMap<String, Object> hashMap = new HashMap<>();
+		hashMap.put("body", object);
+		hashMap.put("httpStatus", httpStatus);
 		return hashMap;
 	}
 }

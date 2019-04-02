@@ -59,21 +59,25 @@ public class LuggageTransactionStatusUtil {
 
 	public Object createHashMapListForStatuses(HttpServletRequest request,
 			List<LuggageTransactionStatus> luggageTransactionStatuses) {
+		UserDto currentUserDto = springRestClientService.getUserDto(request);
+		Integer currentUserHostel = currentUserDto.getHostelID();
 		List<HashMap<String, Object>> listHashMaps = new ArrayList<>();
 		luggageTransactionStatuses.stream().forEach(entry -> {
-			List<HashMap<String, Object>> statusHashMaps = new ArrayList<>();
 			UserDto userDto = springRestClientService.getUserDtoForOtherUser(request, entry.getUserMobile());
-			for (LuggageTransaction luggageTransaction : entry.getLuggageTransactions()) {
-				HashMap<String, Object> hashMap = new HashMap<>();
-				hashMap.put("luggageTransactionStatusId", entry.getId());
-				hashMap.put("status", entry.getLuggageActivityStatus().getStatusName());
-				if (entry.getLuggageActivityStatus().getStatusName().equalsIgnoreCase("Deposit")) {
-					hashMap.put("luggageStorageRoom", luggageTransaction.getLuggageStoreRoom().getRoomName());
+			Integer userHostel = userDto.getHostelID();
+			if (userHostel == currentUserHostel) {
+				for (LuggageTransaction luggageTransaction : entry.getLuggageTransactions()) {
+					HashMap<String, Object> hashMap = new HashMap<>();
+					hashMap.put("luggageTransactionStatusId", entry.getId());
+					hashMap.put("status", entry.getLuggageActivityStatus().getStatusName());
+					if (entry.getLuggageActivityStatus().getStatusName().equalsIgnoreCase("Deposit")) {
+						hashMap.put("luggageStorageRoom", luggageTransaction.getLuggageStoreRoom().getRoomName());
+					}
+					hashMap.put("expectedDate", luggageTransaction.getExpectedDate());
+					hashMap.put("user", createUserHashMap(userDto));
+					listHashMaps.add(hashMap);
+					break;
 				}
-				hashMap.put("expectedDate", luggageTransaction.getExpectedDate());
-				hashMap.put("user", createUserHashMap(userDto));
-				listHashMaps.add(hashMap);
-				break;
 			}
 		});
 		return listHashMaps;
