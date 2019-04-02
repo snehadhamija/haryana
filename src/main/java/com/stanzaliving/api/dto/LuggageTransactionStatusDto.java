@@ -9,6 +9,7 @@ import com.stanzaliving.api.util.DateUtil;
 
 public class LuggageTransactionStatusDto {
 
+	private Integer luggageOtpDetailId = 0;
 	private Integer luggageTransactionStatusId = 0;
 	private HashMap<String, Object> user = null;
 	private String mobileNo = null;
@@ -20,6 +21,14 @@ public class LuggageTransactionStatusDto {
 	private Integer luggageActivityId = 0;
 	private Integer luggageStorageRoomId = 0;
 	private List<HashMap<String, Object>> luggageSummary = new ArrayList<>();
+
+	public Integer getLuggageOtpDetailId() {
+		return luggageOtpDetailId;
+	}
+
+	public void setLuggageOtpDetailId(Integer luggageOtpDetailId) {
+		this.luggageOtpDetailId = luggageOtpDetailId;
+	}
 
 	public Integer getLuggageTransactionStatusId() {
 		return luggageTransactionStatusId;
@@ -111,6 +120,8 @@ public class LuggageTransactionStatusDto {
 
 	public LuggageTransactionStatusDto(HashMap<String, Object> request) {
 		super();
+		if (request.containsKey("luggageOtpDetailId"))
+			this.luggageOtpDetailId = (Integer) request.get("luggageOtpDetailId");
 		if (request.containsKey("luggageTransactionStatusId"))
 			this.luggageTransactionStatusId = (Integer) request.get("luggageTransactionStatusId");
 		if (request.containsKey("user"))
@@ -136,11 +147,12 @@ public class LuggageTransactionStatusDto {
 
 	@Override
 	public String toString() {
-		return "LuggageTransactionStatusDto [luggageTransactionStatusId=" + luggageTransactionStatusId + ", user="
-				+ user + ", mobileNo=" + mobileNo + ", totalBoxes=" + totalBoxes + ", expectedDate=" + expectedDate
-				+ ", expectedDateString=" + expectedDateString + ", amount=" + amount + ", luggagePaymentModeId="
-				+ luggagePaymentModeId + ", luggageActivityId=" + luggageActivityId + ", luggageStorageRoomId="
-				+ luggageStorageRoomId + ", luggageSummary=" + luggageSummary + "]";
+		return "LuggageTransactionStatusDto [luggageOtpDetailId=" + luggageOtpDetailId + ", luggageTransactionStatusId="
+				+ luggageTransactionStatusId + ", user=" + user + ", mobileNo=" + mobileNo + ", totalBoxes="
+				+ totalBoxes + ", expectedDate=" + expectedDate + ", expectedDateString=" + expectedDateString
+				+ ", amount=" + amount + ", luggagePaymentModeId=" + luggagePaymentModeId + ", luggageActivityId="
+				+ luggageActivityId + ", luggageStorageRoomId=" + luggageStorageRoomId + ", luggageSummary="
+				+ luggageSummary + "]";
 	}
 
 	public LuggageTransactionStatusDto() {

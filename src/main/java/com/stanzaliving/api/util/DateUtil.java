@@ -59,4 +59,10 @@ public class DateUtil {
 		return formatedDate;
 	}
 
+	public static Date addDaysToDate(Date d1, long days) {
+		long ltime = d1.getTime() + days * 24 * 60 * 60 * 1000;
+		Date newdate = new Date(ltime);
+		return newdate;
+	}
+
 }

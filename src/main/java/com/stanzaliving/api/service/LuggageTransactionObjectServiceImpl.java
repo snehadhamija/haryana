@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.stanzaliving.api.dto.LuggageTransactionStatusDto;
 import com.stanzaliving.api.dto.UserDto;
 import com.stanzaliving.api.model.LuggageActivityStatus;
+import com.stanzaliving.api.model.LuggageOtpDetail;
 import com.stanzaliving.api.model.LuggageTransaction;
 import com.stanzaliving.api.model.LuggageTransactionDetail;
 import com.stanzaliving.api.model.LuggageTransactionStatus;
@@ -45,17 +46,29 @@ public class LuggageTransactionObjectServiceImpl implements LuggageTransactionOb
 	@Autowired
 	LuggageTransactionDetailService luggageTransactionDetailService;
 
+	@Autowired
+	LuggageOtpDetailService luggageOtpDetailService;
+
 	@Override
 	public void saveOrUpdateLuggageTransactionStatusObject(LuggageTransactionStatusDto luggageTransactionStatusDto,
 			HttpServletRequest httpRequest) {
 		LuggageTransaction luggageTransaction = luggageTransactionUtil
 				.saveLuggageTransactionObject(luggageTransactionStatusDto);
-		luggageTransactionDetailUtil.saveLuggageTransactionDetailObject(luggageTransactionStatusDto,
-				luggageTransaction);
+		List<LuggageTransactionDetail> luggageTransactionDetails = luggageTransactionDetailUtil
+				.saveLuggageTransactionDetailObject(luggageTransactionStatusDto, luggageTransaction);
 		List<LuggageActivityStatus> luggageActivityStatuses = luggageActivityStatusService
 				.findAllLuggageActivityStatusesForLuggageActivity(luggageTransaction.getLuggageActivity());
 		if (luggageTransactionStatusDto.getLuggageTransactionStatusId() != null
 				&& luggageTransactionStatusDto.getLuggageTransactionStatusId() != 0) {
+			if (luggageTransactionStatusDto.getLuggageOtpDetailId() != null
+					&& luggageTransactionStatusDto.getLuggageOtpDetailId() != 0) {
+				LuggageOtpDetail luggageOtpDetail = luggageOtpDetailService
+						.findById(luggageTransactionStatusDto.getLuggageOtpDetailId());
+				if (luggageOtpDetail != null) {
+					System.out.println("=========================");
+					luggageOtpDetailService.saveOrUpdateLuggageOtpDetail(luggageOtpDetail, luggageTransactionDetails);
+				}
+			}
 			LuggageTransactionStatus luggageTransactionStatus = luggageTransactionStatusService
 					.findById(luggageTransactionStatusDto.getLuggageTransactionStatusId());
 			Set<LuggageTransaction> existingLuggageTransactions = luggageTransactionStatus.getLuggageTransactions();

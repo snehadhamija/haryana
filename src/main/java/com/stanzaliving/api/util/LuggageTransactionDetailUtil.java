@@ -1,5 +1,6 @@
 package com.stanzaliving.api.util;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -27,9 +28,10 @@ public class LuggageTransactionDetailUtil {
 	@Autowired
 	LuggageImageService luggageImageService;
 
-	public void saveLuggageTransactionDetailObject(LuggageTransactionStatusDto luggageTransactionStatusDto,
-			LuggageTransaction luggageTransaction) {
+	public List<LuggageTransactionDetail> saveLuggageTransactionDetailObject(
+			LuggageTransactionStatusDto luggageTransactionStatusDto, LuggageTransaction luggageTransaction) {
 		Integer activityId = luggageTransaction.getLuggageActivity().getId();
+		List<LuggageTransactionDetail> luggageTransactionDetails = new ArrayList<>();
 		for (HashMap<String, Object> entry : luggageTransactionStatusDto.getLuggageSummary()) {
 			String weight = (String) entry.get("weight");
 			String luggageId = (String) entry.get("luggageId");
@@ -39,11 +41,13 @@ public class LuggageTransactionDetailUtil {
 			LuggageTransactionDetail luggageTransactionDetail = luggageTransactionDetailService
 					.saveLuggageTransactionDetail(luggageId, weight, luggageStatusId, luggageCategory,
 							luggageTransaction);
+			luggageTransactionDetails.add(luggageTransactionDetail);
 			List<String> luggageImages = (List<String>) entry.get("luggageImages");
 			luggageImages.forEach(imageUrl -> {
 				LuggageImage luggageImage = luggageImageService.saveLuggageImage(luggageTransactionDetail, imageUrl);
 			});
 		}
+		return luggageTransactionDetails;
 	}
 
 	public Integer getLuggageStatusId(Integer activityId, HashMap<String, Object> entry) {

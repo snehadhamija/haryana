@@ -29,7 +29,10 @@ public class LuggageOtpDetail {
 	private int id;
 
 	@Column(name = "SENT_BY", nullable = false)
-	private Integer sentBy;
+	private String sentBy;
+
+	@Column(name = "SENT_TO", nullable = false)
+	private String sentTo;
 
 	@Column(name = "OTP", nullable = false)
 	private String otp;
@@ -57,6 +60,14 @@ public class LuggageOtpDetail {
 					@JoinColumn(name = "LUGGAGE_TRANSACTION_DETAIL_ID") })
 	private Set<LuggageTransactionDetail> luggageTransactionDetails = new HashSet<LuggageTransactionDetail>();
 
+	public Set<LuggageTransactionDetail> getLuggageTransactionDetails() {
+		return luggageTransactionDetails;
+	}
+
+	public void setLuggageTransactionDetails(Set<LuggageTransactionDetail> luggageTransactionDetails) {
+		this.luggageTransactionDetails = luggageTransactionDetails;
+	}
+
 	public int getId() {
 		return id;
 	}
@@ -65,12 +76,20 @@ public class LuggageOtpDetail {
 		this.id = id;
 	}
 
-	public Integer getSentBy() {
+	public String getSentBy() {
 		return sentBy;
 	}
 
-	public void setSentBy(Integer sentBy) {
+	public void setSentBy(String sentBy) {
 		this.sentBy = sentBy;
+	}
+
+	public String getSentTo() {
+		return sentTo;
+	}
+
+	public void setSentTo(String sentTo) {
+		this.sentTo = sentTo;
 	}
 
 	public String getOtp() {
