@@ -14,13 +14,14 @@ import com.stanzaliving.api.model.LuggagePaymentMode;
 import com.stanzaliving.api.service.LuggagePaymentModeService;
 
 @RestController
+@RequestMapping("/luggagePaymentMode")
 public class LuggagePaymentModeRestController {
 
 	@Autowired
 	LuggagePaymentModeService luggagePaymentModeService;
 
 	// ----- Retrieve all luggage payment modes -----
-	@RequestMapping(value = "/luggagePaymentMode", method = RequestMethod.GET)
+	@RequestMapping(value = "", method = RequestMethod.GET)
 	public ResponseEntity<Object> findAllLuggagePaymentModes() {
 		List<LuggagePaymentMode> luggagePaymentModes = luggagePaymentModeService.findAllLuggagePaymentModes();
 		if (luggagePaymentModes.isEmpty()) {
@@ -30,7 +31,7 @@ public class LuggagePaymentModeRestController {
 	}
 
 	// ----- Retrieve luggagePaymentMode by id -----
-	@RequestMapping(value = "/luggagePaymentMode/{id}", method = RequestMethod.GET)
+	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public ResponseEntity<Object> findLuggagePaymentModeById(@PathVariable("id") int id) {
 		LuggagePaymentMode luggagePaymentMode = luggagePaymentModeService.findById(id);
 		if (luggagePaymentMode == null) {
@@ -40,7 +41,7 @@ public class LuggagePaymentModeRestController {
 	}
 
 	// ----- Retrieve all active luggage payment modes -----
-	@RequestMapping(value = "/luggagePaymentMode/", method = RequestMethod.GET)
+	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public ResponseEntity<Object> findAllActiveLuggagePaymentModes() {
 		List<LuggagePaymentMode> activeLuggagePaymentModes = luggagePaymentModeService
 				.findAllActiveLuggagePaymentModes();

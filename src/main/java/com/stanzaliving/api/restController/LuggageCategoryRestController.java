@@ -14,13 +14,14 @@ import com.stanzaliving.api.model.LuggageCategory;
 import com.stanzaliving.api.service.LuggageCategoryService;
 
 @RestController
+@RequestMapping("/luggageCategory")
 public class LuggageCategoryRestController {
 
 	@Autowired
 	LuggageCategoryService luggageCategoryService;
 
 	// ----- Retrieve all luggage Categories -----
-	@RequestMapping(value = "/luggageCategory", method = RequestMethod.GET)
+	@RequestMapping(value = "", method = RequestMethod.GET)
 	public ResponseEntity<Object> findAllLuggageCategories() {
 		List<LuggageCategory> luggageCategories = luggageCategoryService.findAllLuggageCategories();
 		if (luggageCategories.isEmpty()) {
@@ -30,7 +31,7 @@ public class LuggageCategoryRestController {
 	}
 
 	// ----- Retrieve luggageCategory by id -----
-	@RequestMapping(value = "/luggageCategory/{id}", method = RequestMethod.GET)
+	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public ResponseEntity<Object> findLuggageCategoryById(@PathVariable("id") int id) {
 		LuggageCategory luggageCategory = luggageCategoryService.findById(id);
 		if (luggageCategory == null) {
@@ -40,7 +41,7 @@ public class LuggageCategoryRestController {
 	}
 
 	// ----- Retrieve all active luggage Categories -----
-	@RequestMapping(value = "/luggageCategory/", method = RequestMethod.GET)
+	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public ResponseEntity<Object> findAllActiveLuggageCategories() {
 		List<LuggageCategory> activeLuggageCategories = luggageCategoryService.findAllActiveLuggageCategories();
 		if (activeLuggageCategories.isEmpty()) {

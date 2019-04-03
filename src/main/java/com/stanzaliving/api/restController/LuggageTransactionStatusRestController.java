@@ -27,6 +27,7 @@ import com.stanzaliving.api.service.LuggageTransactionStatusService;
 import com.stanzaliving.api.util.LuggageTransactionStatusUtil;
 
 @RestController
+@RequestMapping("/luggageTransactionStatus")
 public class LuggageTransactionStatusRestController {
 
 	@Autowired
@@ -41,7 +42,7 @@ public class LuggageTransactionStatusRestController {
 	private static Logger logger = LoggerFactory.getLogger(LuggageTransactionStatusRestController.class);
 
 	// ----- Retrieve all luggage transaction statuses -----
-	@RequestMapping(value = "/luggageTransactionStatus", method = RequestMethod.GET)
+	@RequestMapping(value = "", method = RequestMethod.GET)
 	public ResponseEntity<Object> findAllLuggageTransactionStatuses(HttpServletRequest request,
 			@RequestParam(value = "expectedDate", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date expectedDate) {
 		List<LuggageTransactionStatus> luggageTransactionStatuses = new ArrayList<>();
@@ -60,7 +61,7 @@ public class LuggageTransactionStatusRestController {
 	}
 
 	// ----- Retrieve luggageTransactionStatus by id -----
-	@RequestMapping(value = "/luggageTransactionStatus/{id}", method = RequestMethod.GET)
+	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public ResponseEntity<Object> findLuggageTransactionStatusById(HttpServletRequest request,
 			@PathVariable("id") int id) {
 		LuggageTransactionStatus luggageTransactionStatus = luggageTransactionStatusService.findById(id);
@@ -72,7 +73,7 @@ public class LuggageTransactionStatusRestController {
 	}
 
 	// ----- Retrieve all luggage transactions for a date -----
-	@RequestMapping(value = "/luggageTransactionStatus/date", method = RequestMethod.GET)
+	@RequestMapping(value = "/date", method = RequestMethod.GET)
 	public ResponseEntity<Object> findAllLuggageTransactionsForDate(HttpServletRequest request,
 			@RequestParam(value = "expectedDate", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date expectedDate) {
 		List<LuggageTransactionStatus> luggageTransactionStatuses = new ArrayList<>();
@@ -102,7 +103,7 @@ public class LuggageTransactionStatusRestController {
 	// "amount":"250.00",
 	// "luggagePaymentMode":1,
 	// "user":{"mobileNo":"9906000101"}}
-	@RequestMapping(value = "/luggageTransactionStatus", method = RequestMethod.POST)
+	@RequestMapping(value = "", method = RequestMethod.POST)
 	public ResponseEntity<Object> saveLuggageTransaction(@RequestBody HashMap<String, Object> request,
 			HttpServletRequest httpRequest) {
 		try {

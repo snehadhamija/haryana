@@ -14,13 +14,14 @@ import com.stanzaliving.api.model.Luggage;
 import com.stanzaliving.api.service.LuggageService;
 
 @RestController
+@RequestMapping("/luggage")
 public class LuggageRestController {
 
 	@Autowired
 	LuggageService luggageService;
 
 	// ----- Retrieve all luggage Ids -----
-	@RequestMapping(value = "/luggage", method = RequestMethod.GET)
+	@RequestMapping(value = "", method = RequestMethod.GET)
 	public ResponseEntity<Object> findAllLuggageIds() {
 		List<Luggage> luggages = luggageService.findAllLuggages();
 		if (luggages.isEmpty()) {
@@ -30,7 +31,7 @@ public class LuggageRestController {
 	}
 
 	// ----- Retrieve luggage by id -----
-	@RequestMapping(value = "/luggage/{id}", method = RequestMethod.GET)
+	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public ResponseEntity<Object> findLuggageById(@PathVariable("id") int id) {
 		Luggage luggage = luggageService.findById(id);
 		if (luggage == null) {

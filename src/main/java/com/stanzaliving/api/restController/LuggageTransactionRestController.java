@@ -19,6 +19,7 @@ import com.stanzaliving.api.service.LuggageTransactionService;
 import com.stanzaliving.api.util.DateUtil;
 
 @RestController
+@RequestMapping("/luggageTransaction")
 public class LuggageTransactionRestController {
 
 	@Autowired
@@ -28,7 +29,7 @@ public class LuggageTransactionRestController {
 	LuggageActivityService luggageActivityService;
 
 	// ----- Retrieve all luggage transactions -----
-	@RequestMapping(value = "/luggageTransaction", method = RequestMethod.GET)
+	@RequestMapping(value = "", method = RequestMethod.GET)
 	public ResponseEntity<Object> findAllLuggageTransactions() {
 		List<LuggageTransaction> luggageTransactions = luggageTransactionService.findAllLuggageTransactions();
 		if (luggageTransactions.isEmpty()) {
@@ -38,7 +39,7 @@ public class LuggageTransactionRestController {
 	}
 
 	// ----- Retrieve luggageTransaction by id -----
-	@RequestMapping(value = "/luggageTransaction/{id}", method = RequestMethod.GET)
+	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public ResponseEntity<Object> findLuggageTransactionById(@PathVariable("id") int id) {
 		LuggageTransaction luggageTransaction = luggageTransactionService.findById(id);
 		if (luggageTransaction == null) {
@@ -48,7 +49,7 @@ public class LuggageTransactionRestController {
 	}
 
 	// ----- Retrieve all luggage transactions for a date -----
-	@RequestMapping(value = "/luggageTransaction/date", method = RequestMethod.GET)
+	@RequestMapping(value = "/date", method = RequestMethod.GET)
 	public ResponseEntity<Object> findAllLuggageTransactionsForDate(
 			@RequestParam(value = "expectedDate", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date expectedDate) {
 		if (expectedDate == null) {

@@ -17,6 +17,7 @@ import com.stanzaliving.api.service.LuggageLifecycleService;
 import com.stanzaliving.api.service.LuggageTransactionDetailService;
 
 @RestController
+@RequestMapping("/luggageLifecycle")
 public class LuggageLifecycleRestController {
 
 	@Autowired
@@ -26,7 +27,7 @@ public class LuggageLifecycleRestController {
 	LuggageTransactionDetailService luggageTransactionDetailService;
 
 	// ----- Retrieve luggageLifecycle by id -----
-	@RequestMapping(value = "/luggageLifecycle/{id}", method = RequestMethod.GET)
+	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public ResponseEntity<Object> findLuggageLifecycleById(@PathVariable("id") int id) {
 		LuggageLifecycle luggageLifecycle = luggageLifecycleService.findById(id);
 		if (luggageLifecycle == null) {
@@ -36,7 +37,7 @@ public class LuggageLifecycleRestController {
 	}
 
 	// ----- Retrieve luggage lifecyle entry for luggage transaction detail
-	@RequestMapping(value = "/luggageLifecycle", method = RequestMethod.GET)
+	@RequestMapping(value = "", method = RequestMethod.GET)
 	public ResponseEntity<Object> findLuggageLifecycleForLuggageTransactionDetail(
 			@RequestParam(value = "luggageTransactionDetailId", required = false) Integer luggageTransactionDetailId,
 			@RequestParam(value = "luggageId", required = false) String luggageId) {

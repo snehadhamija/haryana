@@ -14,13 +14,14 @@ import com.stanzaliving.api.model.LuggageImage;
 import com.stanzaliving.api.service.LuggageImageService;
 
 @RestController
+@RequestMapping("/luggageImage")
 public class LuggageImageRestController {
 
 	@Autowired
 	LuggageImageService luggageImageService;
 
 	// ----- Retrieve all luggage images -----
-	@RequestMapping(value = "/luggageImage", method = RequestMethod.GET)
+	@RequestMapping(value = "", method = RequestMethod.GET)
 	public ResponseEntity<Object> findAllLuggageImages() {
 		List<LuggageImage> luggageImages = luggageImageService.findAllLuggageImages();
 		if (luggageImages.isEmpty()) {
@@ -30,7 +31,7 @@ public class LuggageImageRestController {
 	}
 
 	// ----- Retrieve luggageImage by id -----
-	@RequestMapping(value = "/luggageImage/{id}", method = RequestMethod.GET)
+	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public ResponseEntity<Object> findLuggageImageById(@PathVariable("id") int id) {
 		LuggageImage luggageImage = luggageImageService.findById(id);
 		if (luggageImage == null) {

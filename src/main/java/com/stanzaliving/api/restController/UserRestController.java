@@ -14,13 +14,14 @@ import com.stanzaliving.api.dto.UserDto;
 import com.stanzaliving.api.service.SpringRestClientService;
 
 @RestController
+@RequestMapping("/user")
 public class UserRestController {
 
 	@Autowired
 	SpringRestClientService springRestClientService;
 
 	// ----- Retrieve user info -----
-	@RequestMapping(value = "/user", method = RequestMethod.GET)
+	@RequestMapping(value = "", method = RequestMethod.GET)
 	public ResponseEntity<Object> findUserByMobileNumber(HttpServletRequest httpRequest,
 			@RequestParam(value = "mobileNumber", required = true) String mobileNumber) {
 		UserDto currentUserDto = springRestClientService.getUserDto(httpRequest);

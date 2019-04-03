@@ -18,6 +18,7 @@ import com.stanzaliving.api.service.LuggageHostelService;
 import com.stanzaliving.api.util.LuggageActivityUtil;
 
 @RestController
+@RequestMapping("/luggageHostel")
 public class LuggageHostelRestController {
 
 	@Autowired
@@ -27,7 +28,7 @@ public class LuggageHostelRestController {
 	LuggageActivityUtil luggageActivityUtil;
 
 	// ----- Retrieve all luggage hostels -----
-	@RequestMapping(value = "/luggageHostel", method = RequestMethod.GET)
+	@RequestMapping(value = "", method = RequestMethod.GET)
 	public ResponseEntity<Object> findAllLuggageHostels() {
 		List<LuggageHostel> luggageHostels = luggageHostelService.findAllLuggageHostels();
 		if (luggageHostels.isEmpty()) {
@@ -37,7 +38,7 @@ public class LuggageHostelRestController {
 	}
 
 	// ----- Retrieve luggageHostel by id -----
-	@RequestMapping(value = "/luggageHostel/{id}", method = RequestMethod.GET)
+	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public ResponseEntity<Object> findLuggageHostelById(@PathVariable("id") int id) {
 		LuggageHostel luggageHostel = luggageHostelService.findById(id);
 		if (luggageHostel == null) {
@@ -47,7 +48,7 @@ public class LuggageHostelRestController {
 	}
 
 	// ----- Check is luggage activated for current hostel -----
-	@RequestMapping(value = "/luggageHostel/", method = RequestMethod.GET)
+	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public ResponseEntity<Object> findIfLuggageModuleActivatedForCurrentHostel(HttpServletRequest httpRequest) {
 		if (luggageActivityUtil.checkIfLuggageActivatedForHostel(httpRequest)) {
 			return new ResponseEntity<>("Activated !", HttpStatus.OK);
@@ -56,7 +57,7 @@ public class LuggageHostelRestController {
 	}
 
 	// ----- Check is luggage activated for a given hostel -----
-	@RequestMapping(value = "/luggageHostel/hostel", method = RequestMethod.GET)
+	@RequestMapping(value = "/hostel", method = RequestMethod.GET)
 	public ResponseEntity<Object> findIfLuggageModuleActivatedForGivenHostel(HttpServletRequest httpRequest,
 			@RequestParam(value = "hostelId", required = true) Integer hostelId) {
 		boolean isHostelActivated = luggageHostelService.findIfLuggageModuleActivatedForCurrentHostel(hostelId);

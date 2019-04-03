@@ -20,6 +20,7 @@ import com.stanzaliving.api.service.LuggageOtpDetailService;
 import com.stanzaliving.api.util.LuggageOtpDetailUtil;
 
 @RestController
+@RequestMapping("/luggageOtpDetail")
 public class LuggageOtpDetailRestController {
 
 	@Autowired
@@ -29,7 +30,7 @@ public class LuggageOtpDetailRestController {
 	LuggageOtpDetailUtil luggageOtpDetailUtil;
 
 	// ----- Retrieve all luggage otp details -----
-	@RequestMapping(value = "/luggageOtpDetail", method = RequestMethod.GET)
+	@RequestMapping(value = "", method = RequestMethod.GET)
 	public ResponseEntity<Object> findAllLuggageOtpDetails() {
 		List<LuggageOtpDetail> luggageOtpDetails = luggageOtpDetailService.findAllLuggageOtpDetails();
 		if (luggageOtpDetails.isEmpty()) {
@@ -39,7 +40,7 @@ public class LuggageOtpDetailRestController {
 	}
 
 	// ----- Retrieve luggageOtpDetail by id -----
-	@RequestMapping(value = "/luggageOtpDetail/{id}", method = RequestMethod.GET)
+	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public ResponseEntity<Object> findLuggageOtpDetailById(@PathVariable("id") int id) {
 		LuggageOtpDetail luggageOtpDetail = luggageOtpDetailService.findById(id);
 		if (luggageOtpDetail == null) {
@@ -53,7 +54,7 @@ public class LuggageOtpDetailRestController {
 	// ----Save Luggage OTP Detail
 	// Sample request payload:
 	// {"sentTo":"9906000101","sentBy":"9906000101"}
-	@RequestMapping(value = "/luggageOtpDetail", method = RequestMethod.POST)
+	@RequestMapping(value = "", method = RequestMethod.POST)
 	public ResponseEntity<Object> saveLuggageOtpDetail(HttpServletRequest httpRequest,
 			@RequestBody HashMap<String, Object> request) {
 		if (luggageOtpDetailUtil.areMandatoryFieldsPresentForSave(request)) {
@@ -71,7 +72,7 @@ public class LuggageOtpDetailRestController {
 	// -----Validate Luggage OTP Detail
 	// Sample request payload
 	// {"luggageOtpDetailId":1,"sentTo":"9906000101","otp": "3132"}
-	@RequestMapping(value = "/luggageOtpDetail/", method = RequestMethod.POST)
+	@RequestMapping(value = "/", method = RequestMethod.POST)
 	public ResponseEntity<Object> validateVendorOtpDetails(@RequestBody HashMap<String, Object> request) {
 		if (luggageOtpDetailUtil.areMandatoryFieldsPresentToValidate(request)) {
 			LuggageOtpDetailDto luggageOtpDetailDto = new LuggageOtpDetailDto(request);

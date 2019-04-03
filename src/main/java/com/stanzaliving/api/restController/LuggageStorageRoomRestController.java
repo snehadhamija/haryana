@@ -20,6 +20,7 @@ import com.stanzaliving.api.service.LuggageStoreRoomService;
 import com.stanzaliving.api.service.SpringRestClientService;
 
 @RestController
+@RequestMapping("/luggageStoreRoom")
 public class LuggageStorageRoomRestController {
 
 	@Autowired
@@ -29,7 +30,7 @@ public class LuggageStorageRoomRestController {
 	SpringRestClientService springRestClientService;
 
 	// ----- Retrieve all luggage storage rooms -----
-	@RequestMapping(value = "/luggageStoreRoom", method = RequestMethod.GET)
+	@RequestMapping(value = "", method = RequestMethod.GET)
 	public ResponseEntity<Object> findAllLuggageStoreRooms(
 			@RequestParam(value = "hostelId", required = false) Integer hostelId) {
 		List<LuggageStoreRoom> luggageStoreRooms = new ArrayList<>();
@@ -45,7 +46,7 @@ public class LuggageStorageRoomRestController {
 	}
 
 	// ----- Retrieve luggageStoreRoom by id -----
-	@RequestMapping(value = "/luggageStoreRoom/{id}", method = RequestMethod.GET)
+	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public ResponseEntity<Object> findLuggageStoreRoomById(@PathVariable("id") int id) {
 		LuggageStoreRoom luggageStoreRoom = luggageStoreRoomService.findById(id);
 		if (luggageStoreRoom == null) {
@@ -55,7 +56,7 @@ public class LuggageStorageRoomRestController {
 	}
 
 	// ----- Retrieve luggageStoreRoom for hostel -----
-	@RequestMapping(value = "/luggageStoreRoom/hostel", method = RequestMethod.GET)
+	@RequestMapping(value = "/hostel", method = RequestMethod.GET)
 	public ResponseEntity<Object> findLuggageStoreRoomForHostel(HttpServletRequest request) {
 		UserDto userDto = springRestClientService.getUserDto(request);
 		List<LuggageStoreRoom> luggageStoreRooms = new ArrayList<>();

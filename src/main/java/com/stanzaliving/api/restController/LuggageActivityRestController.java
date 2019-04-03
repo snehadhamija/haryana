@@ -17,6 +17,7 @@ import com.stanzaliving.api.service.LuggageActivityService;
 import com.stanzaliving.api.util.LuggageActivityUtil;
 
 @RestController
+@RequestMapping("/luggageActivity")
 public class LuggageActivityRestController {
 
 	@Autowired
@@ -26,7 +27,7 @@ public class LuggageActivityRestController {
 	LuggageActivityUtil luggageActivityUtil;
 
 	// ----- Retrieve all luggage activities -----
-	@RequestMapping(value = "/luggageActivity", method = RequestMethod.GET)
+	@RequestMapping(value = "", method = RequestMethod.GET)
 	public ResponseEntity<Object> findAllLuggageActivities() {
 		List<LuggageActivity> luggageActivities = luggageActivityService.findAllLuggageActivities();
 		if (luggageActivities.isEmpty()) {
@@ -36,7 +37,7 @@ public class LuggageActivityRestController {
 	}
 
 	// ----- Retrieve luggageActivity by id -----
-	@RequestMapping(value = "/luggageActivity/{id}", method = RequestMethod.GET)
+	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public ResponseEntity<Object> findLuggageActivityById(@PathVariable("id") int id) {
 		LuggageActivity luggageActivity = luggageActivityService.findById(id);
 		if (luggageActivity == null) {
@@ -46,7 +47,7 @@ public class LuggageActivityRestController {
 	}
 
 	// ----- Retrieve all active luggage activities -----
-	@RequestMapping(value = "/luggageActivity/", method = RequestMethod.GET)
+	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public ResponseEntity<Object> findAllActiveLuggageActivities(HttpServletRequest httpRequest) {
 		if (!luggageActivityUtil.checkIfLuggageActivatedForHostel(httpRequest)) {
 			return new ResponseEntity<>("Luggage service not activated for hostel!", HttpStatus.CONFLICT);
