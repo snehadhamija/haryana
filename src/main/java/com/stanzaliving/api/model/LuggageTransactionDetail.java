@@ -21,10 +21,6 @@ public class LuggageTransactionDetail {
 	@JoinColumn(name = "LUGGAGE_TRANSACTION_ID")
 	private LuggageTransaction luggageTransaction;
 
-	@ManyToOne
-	@JoinColumn(name = "LUGGAGE_STATUS_ID")
-	private LuggageStatus luggageStatus;
-
 	@Column(name = "LUGGAGE_ID", nullable = false)
 	private String luggageId;
 
@@ -75,27 +71,17 @@ public class LuggageTransactionDetail {
 		this.luggageCategory = luggageCategory;
 	}
 
-	public LuggageStatus getLuggageStatus() {
-		return luggageStatus;
-	}
-
-	public void setLuggageStatus(LuggageStatus luggageStatus) {
-		this.luggageStatus = luggageStatus;
-	}
-
 	@Override
 	public String toString() {
-		return "LuggageTransactionDetail [id=" + id + ", luggageTransaction=" + luggageTransaction + ", luggageStatus="
-				+ luggageStatus + ", luggageId=" + luggageId + ", weight=" + weight + ", luggageCategory="
-				+ luggageCategory + "]";
+		return "LuggageTransactionDetail [id=" + id + ", luggageTransaction=" + luggageTransaction + ", luggageId="
+				+ luggageId + ", weight=" + weight + ", luggageCategory=" + luggageCategory + "]";
 	}
 
-	public LuggageTransactionDetail(int id, LuggageTransaction luggageTransaction, LuggageStatus luggageStatus,
-			String luggageId, String weight, LuggageCategory luggageCategory) {
+	public LuggageTransactionDetail(int id, LuggageTransaction luggageTransaction, String luggageId, String weight,
+			LuggageCategory luggageCategory) {
 		super();
 		this.id = id;
 		this.luggageTransaction = luggageTransaction;
-		this.luggageStatus = luggageStatus;
 		this.luggageId = luggageId;
 		this.weight = weight;
 		this.luggageCategory = luggageCategory;

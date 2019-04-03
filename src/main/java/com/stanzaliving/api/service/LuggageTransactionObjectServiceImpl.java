@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.stanzaliving.api.dto.LuggageTransactionStatusDto;
 import com.stanzaliving.api.dto.UserDto;
 import com.stanzaliving.api.model.LuggageActivityStatus;
+import com.stanzaliving.api.model.LuggageLifecycle;
 import com.stanzaliving.api.model.LuggageOtpDetail;
 import com.stanzaliving.api.model.LuggageTransaction;
 import com.stanzaliving.api.model.LuggageTransactionDetail;
@@ -49,6 +50,9 @@ public class LuggageTransactionObjectServiceImpl implements LuggageTransactionOb
 	@Autowired
 	LuggageOtpDetailService luggageOtpDetailService;
 
+	@Autowired
+	LuggageLifecycleService luggageLifecycleService;
+
 	@Override
 	public void saveOrUpdateLuggageTransactionStatusObject(LuggageTransactionStatusDto luggageTransactionStatusDto,
 			HttpServletRequest httpRequest) {
@@ -79,7 +83,9 @@ public class LuggageTransactionObjectServiceImpl implements LuggageTransactionOb
 			List<LuggageTransactionDetail> luggageTransactionDetails = luggageTransactionDetailService
 					.findAllLuggageTransactionDetailsForTransaction(luggageTransaction);
 			for (LuggageTransactionDetail luggageTransactionDetail : luggageTransactionDetails) {
-				if (luggageTransactionDetail.getLuggageStatus().getId() == 2) {
+				LuggageLifecycle luggageLifecycle = luggageLifecycleService
+						.findLuggageLifecycleForLuggageTransactionDetail(luggageTransactionDetail);
+				if (luggageLifecycle.getLuggageStatus().getId() == 2) {
 					return true;
 				}
 			}
@@ -130,7 +136,7 @@ public class LuggageTransactionObjectServiceImpl implements LuggageTransactionOb
 		} else if (bagsRemaining < currentNumberOfBags) {
 			// conflict
 			// update status entry with status conflict
-			luggageActivityStatusId = 4;
+			luggageActivityStatusId = 5;
 		}
 		return luggageActivityStatusId;
 	}

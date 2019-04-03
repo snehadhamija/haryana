@@ -10,10 +10,13 @@ import org.springframework.stereotype.Component;
 import com.stanzaliving.api.dto.LuggageTransactionStatusDto;
 import com.stanzaliving.api.model.LuggageCategory;
 import com.stanzaliving.api.model.LuggageImage;
+import com.stanzaliving.api.model.LuggageStatus;
 import com.stanzaliving.api.model.LuggageTransaction;
 import com.stanzaliving.api.model.LuggageTransactionDetail;
 import com.stanzaliving.api.service.LuggageCategoryService;
 import com.stanzaliving.api.service.LuggageImageService;
+import com.stanzaliving.api.service.LuggageLifecycleService;
+import com.stanzaliving.api.service.LuggageStatusService;
 import com.stanzaliving.api.service.LuggageTransactionDetailService;
 
 @Component
@@ -27,6 +30,12 @@ public class LuggageTransactionDetailUtil {
 
 	@Autowired
 	LuggageImageService luggageImageService;
+
+	@Autowired
+	LuggageLifecycleService luggageLifecycleService;
+
+	@Autowired
+	LuggageStatusService luggageStatusService;
 
 	public List<LuggageTransactionDetail> saveLuggageTransactionDetailObject(
 			LuggageTransactionStatusDto luggageTransactionStatusDto, LuggageTransaction luggageTransaction) {
@@ -42,6 +51,8 @@ public class LuggageTransactionDetailUtil {
 					.saveLuggageTransactionDetail(luggageId, weight, luggageStatusId, luggageCategory,
 							luggageTransaction);
 			luggageTransactionDetails.add(luggageTransactionDetail);
+			LuggageStatus luggageStatus = luggageStatusService.findById(luggageStatusId);
+			luggageLifecycleService.saveLuggageLifecycle(luggageStatus, luggageTransactionDetail);
 			List<String> luggageImages = (List<String>) entry.get("luggageImages");
 			luggageImages.forEach(imageUrl -> {
 				LuggageImage luggageImage = luggageImageService.saveLuggageImage(luggageTransactionDetail, imageUrl);
