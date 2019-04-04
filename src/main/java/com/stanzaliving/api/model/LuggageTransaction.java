@@ -10,6 +10,11 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 @Entity
 @Table(name = "LUGGAGE_TRANSACTION")
@@ -35,6 +40,16 @@ public class LuggageTransaction {
 	@ManyToOne
 	@JoinColumn(name = "LUGGAGE_STORAGE_ROOM_ID")
 	private LuggageStoreRoom luggageStoreRoom;
+
+	@CreationTimestamp
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "CREATED_AT")
+	private Date createdAt;
+
+	@UpdateTimestamp
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "UPDATED_AT")
+	private Date updatedAt;
 
 	public int getId() {
 		return id;
@@ -84,15 +99,32 @@ public class LuggageTransaction {
 		this.luggageStoreRoom = luggageStoreRoom;
 	}
 
+	public Date getCreatedAt() {
+		return createdAt;
+	}
+
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
+	}
+
+	public Date getUpdatedAt() {
+		return updatedAt;
+	}
+
+	public void setUpdatedAt(Date updatedAt) {
+		this.updatedAt = updatedAt;
+	}
+
 	@Override
 	public String toString() {
 		return "LuggageTransaction [id=" + id + ", luggageActivity=" + luggageActivity + ", numberOfBags="
 				+ numberOfBags + ", totalWeight=" + totalWeight + ", expectedDate=" + expectedDate
-				+ ", luggageStoreRoom=" + luggageStoreRoom + "]";
+				+ ", luggageStoreRoom=" + luggageStoreRoom + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt
+				+ "]";
 	}
 
 	public LuggageTransaction(int id, LuggageActivity luggageActivity, Integer numberOfBags, String totalWeight,
-			Date expectedDate, LuggageStoreRoom luggageStoreRoom) {
+			Date expectedDate, LuggageStoreRoom luggageStoreRoom, Date createdAt, Date updatedAt) {
 		super();
 		this.id = id;
 		this.luggageActivity = luggageActivity;
@@ -100,6 +132,8 @@ public class LuggageTransaction {
 		this.totalWeight = totalWeight;
 		this.expectedDate = expectedDate;
 		this.luggageStoreRoom = luggageStoreRoom;
+		this.createdAt = createdAt;
+		this.updatedAt = updatedAt;
 	}
 
 	public LuggageTransaction() {

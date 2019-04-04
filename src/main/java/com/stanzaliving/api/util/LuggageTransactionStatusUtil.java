@@ -71,6 +71,7 @@ public class LuggageTransactionStatusUtil {
 				statusHashMap.put("amount", luggageCharge.getCharge());
 			}
 			statusHashMap.put("luggageSummary", createLuggageSummaryHashMap(luggageTransaction));
+			statusHashMap.put("createdAt", luggageTransaction.getCreatedAt());
 			statusHashMaps.add(statusHashMap);
 		}
 		return statusHashMaps;
@@ -82,6 +83,7 @@ public class LuggageTransactionStatusUtil {
 		Integer currentUserHostel = currentUserDto.getHostelID();
 		List<HashMap<String, Object>> listHashMaps = new ArrayList<>();
 		luggageTransactionStatuses.stream().forEach(entry -> {
+			Object luggageIds = getDepositedLuggageIdList(entry);
 			UserDto userDto = springRestClientService.getUserDtoForOtherUser(request, entry.getUserMobile());
 			Integer userHostel = userDto.getHostelID();
 			if (userHostel == currentUserHostel) {
@@ -94,6 +96,7 @@ public class LuggageTransactionStatusUtil {
 					}
 					hashMap.put("expectedDate", luggageTransaction.getExpectedDate());
 					hashMap.put("user", createUserHashMap(userDto));
+					hashMap.put("luggageIds", luggageIds);
 					listHashMaps.add(hashMap);
 					break;
 				}
@@ -138,5 +141,22 @@ public class LuggageTransactionStatusUtil {
 		luggageCategoryMap.put("id", luggageTransactionDetail.getLuggageCategory().getId());
 		luggageCategoryMap.put("categoryName", luggageTransactionDetail.getLuggageCategory().getCategoryName());
 		return luggageCategoryMap;
+	}
+
+	public Object getDepositedLuggageIdList(LuggageTransactionStatus luggageTransactionStatus) {
+		List<String> luggageIds = new ArrayList<>();
+		for (LuggageTransaction luggageTransaction : luggageTransactionStatus.getLuggageTransactions()) {
+			if (luggageTransaction.getLuggageActivity().getId() == 1) {
+				List<LuggageTransactionDetail> luggageTransactionDetails = luggageTransactionDetailService
+						.findAllLuggageTransactionDetailsForTransaction(luggageTransaction);
+				luggageTransactionDetails.forEach(luggageTransactionDetail -> {
+					if (luggageTransactionDetail.getLuggageId() != null
+							&& luggageTransactionDetail.getLuggageId() != "") {
+						luggageIds.add(luggageTransactionDetail.getLuggageId());
+					}
+				});
+			}
+		}
+		return luggageIds;
 	}
 }
