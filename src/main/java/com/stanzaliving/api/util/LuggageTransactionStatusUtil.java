@@ -48,7 +48,7 @@ public class LuggageTransactionStatusUtil {
 		finalHashMap.put("luggageSummaryList", statusHashMaps);
 		finalHashMap.put("user", createUserHashMap(userDto));
 		LuggageTransaction luggageTransaction = getUnitLuggageTransaction(luggageTransactionStatus);
-		finalHashMap.put("luggageStorageRoom", luggageTransaction.getLuggageStoreRoom().getRoomName());
+		finalHashMap.put("luggageStorageRoom", luggageTransaction.getLuggageStoreRoom().getId());
 		finalHashMap.put("expectedDate", luggageTransaction.getExpectedDate());
 		return finalHashMap;
 	}

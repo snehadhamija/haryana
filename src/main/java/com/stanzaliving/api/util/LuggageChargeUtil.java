@@ -1,5 +1,7 @@
 package com.stanzaliving.api.util;
 
+import java.text.DecimalFormat;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -22,9 +24,13 @@ public class LuggageChargeUtil {
 	public void saveLuggageChargeObject(LuggageTransactionStatusDto luggageTransactionStatusDto,
 			LuggageTransaction luggageTransaction) {
 		String amount = luggageTransactionStatusDto.getAmount();
+		Double smaountDouble = Double.valueOf(amount);
+		DecimalFormat decimalFormat = new DecimalFormat(".##");
+		Double multipliedValueRounded = Double.valueOf(decimalFormat.format(smaountDouble));
+		String amountString = multipliedValueRounded.toString();
 		Integer luggagePaymentModeId = luggageTransactionStatusDto.getLuggagePaymentModeId();
 		LuggagePaymentMode luggagePaymentMode = luggagePaymentModeService.findById(luggagePaymentModeId);
-		LuggageCharge luggageCharge = luggageChargeService.saveLuggageCharge(amount, luggagePaymentMode,
+		LuggageCharge luggageCharge = luggageChargeService.saveLuggageCharge(amountString, luggagePaymentMode,
 				luggageTransaction);
 	}
 }

@@ -130,9 +130,10 @@ public class LuggageTransactionObjectServiceImpl implements LuggageTransactionOb
 			if (checkIfItemMissing(luggageTransactionStatusDto)
 					|| checkIfAlreadyItemMissed(existingLuggageTransactions)) {
 				luggageActivityStatusId = 4;
+			} else {
+				// update status entry with status partial-handover
+				luggageActivityStatusId = 3;
 			}
-			// update status entry with status partial-handover
-			luggageActivityStatusId = 3;
 		} else if (bagsRemaining < currentNumberOfBags) {
 			// conflict
 			// update status entry with status conflict
