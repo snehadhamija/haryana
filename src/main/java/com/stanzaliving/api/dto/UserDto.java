@@ -26,6 +26,8 @@ public class UserDto {
 
 	private String image;
 
+	private String email;
+
 	public String getRoom() {
 		return room;
 	}
@@ -114,15 +116,24 @@ public class UserDto {
 		this.userProfiles = userProfiles;
 	}
 
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
 	@Override
 	public String toString() {
 		return "UserDto [userId=" + userId + ", userName=" + userName + ", password=" + password + ", status=" + status
 				+ ", mobileNo=" + mobileNo + ", hostel=" + hostel + ", hostelID=" + hostelID + ", userProfiles="
-				+ userProfiles + ", userCode=" + userCode + ", room=" + room + ", image=" + image + "]";
+				+ userProfiles + ", userCode=" + userCode + ", room=" + room + ", image=" + image + ", email=" + email
+				+ "]";
 	}
 
 	public UserDto(int userId, String userName, String password, String status, String mobileNo, String hostel,
-			int hostelID, List<String> userProfiles, String userCode, String room, String image) {
+			int hostelID, List<String> userProfiles, String userCode, String room, String image, String email) {
 		super();
 		this.userId = userId;
 		this.userName = userName;
@@ -135,6 +146,7 @@ public class UserDto {
 		this.userCode = userCode;
 		this.room = room;
 		this.image = image;
+		this.email = email;
 	}
 
 	public UserDto() {

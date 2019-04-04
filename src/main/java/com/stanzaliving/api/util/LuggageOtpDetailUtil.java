@@ -1,6 +1,7 @@
 package com.stanzaliving.api.util;
 
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 
@@ -11,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
+import com.stanzaliving.api.Gateway.EmailModel;
+import com.stanzaliving.api.Gateway.GatewayUtil;
 import com.stanzaliving.api.constants.OTPConstants;
 import com.stanzaliving.api.dto.LuggageOtpDetailDto;
 import com.stanzaliving.api.dto.UserDto;
@@ -34,6 +37,11 @@ public class LuggageOtpDetailUtil {
 	@Autowired
 	LuggageOtpDetailUtil luggageOtpDetailUtil;
 
+	@Autowired
+	GatewayUtil gatewayUtil;
+
+	public final String CHECKIN_MAILER = "checkins@stanzaliving.com";
+
 	public boolean areMandatoryFieldsPresentForSave(HashMap<String, Object> request) {
 		if (request.containsKey("sentTo") && request.containsKey("sentBy")) {
 			return true;
@@ -49,6 +57,7 @@ public class LuggageOtpDetailUtil {
 			return null;
 		}
 		luggageOtpDetailUtil.sendOtp(luggageOtpDetailDto, otp);
+		luggageOtpDetailUtil.sendLuggageEmail(httpRequest, luggageOtpDetailDto, otp);
 		HashMap<String, Object> createOtpHashMap = luggageOtpDetailUtil.pupulateCreateOtpHashMap(luggageOtpDetail, otp);
 		return createOtpHashMap;
 	}
@@ -172,5 +181,18 @@ public class LuggageOtpDetailUtil {
 		hashMap.put("body", object);
 		hashMap.put("httpStatus", httpStatus);
 		return hashMap;
+	}
+
+	public void sendLuggageEmail(HttpServletRequest httpRequest, LuggageOtpDetailDto luggageOtpDetailDto, String otp) {
+		UserDto sentToUser = springRestClientService.getUserDtoForOtherUser(httpRequest,
+				luggageOtpDetailDto.getSentTo());
+		String sentToUserEmail = sentToUser.getEmail();
+		ArrayList<String> mailersList = new ArrayList<>();
+		mailersList.add(sentToUserEmail);
+		String emailContent = "";
+		emailContent = String.format(OTPConstants.OTP_MESSAGE, otp, "");
+		EmailModel em = new EmailModel(CHECKIN_MAILER, "STANZA Luggage OTP", mailersList, emailContent, null);
+		em.setContentType(EmailConfig.HTML_MAIL_CONTENT_TYPE);
+		gatewayUtil.SendEmail(em);
 	}
 }
