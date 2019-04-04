@@ -6,6 +6,8 @@ import com.stanzaliving.api.dto.LuggageTransactionStatusDto;
 
 public interface LuggageTransactionObjectService {
 
+	Object checkExistanceOfLuggageIdInSystem(LuggageTransactionStatusDto luggageTransactionStatusDto);
+
 	void saveOrUpdateLuggageTransactionStatusObject(LuggageTransactionStatusDto luggageTransactionStatusDto,
 			HttpServletRequest httpRequest);
 }

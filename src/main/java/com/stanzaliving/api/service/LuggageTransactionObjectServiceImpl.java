@@ -53,6 +53,34 @@ public class LuggageTransactionObjectServiceImpl implements LuggageTransactionOb
 	@Autowired
 	LuggageLifecycleService luggageLifecycleService;
 
+	public Object areDuplicateLuggageIdsPresent(LuggageTransactionStatusDto luggageTransactionStatusDto) {
+		for (HashMap<String, Object> entry : luggageTransactionStatusDto.getLuggageSummary()) {
+			String luggageId = (String) entry.get("luggageId");
+			List<LuggageLifecycle> luggageLifecycle = luggageLifecycleService
+					.findAllLuggageLifecyclesForLuggageId(luggageId);
+			if (!luggageLifecycle.isEmpty()) {
+				return luggageId;
+			}
+		}
+		return null;
+	}
+
+	public boolean isDepositActivity(LuggageTransactionStatusDto luggageTransactionStatusDto) {
+		if (luggageTransactionStatusDto.getLuggageActivityId() == 1) {
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	public Object checkExistanceOfLuggageIdInSystem(LuggageTransactionStatusDto luggageTransactionStatusDto) {
+		if (isDepositActivity(luggageTransactionStatusDto)
+				&& areDuplicateLuggageIdsPresent(luggageTransactionStatusDto) != null) {
+			return areDuplicateLuggageIdsPresent(luggageTransactionStatusDto);
+		}
+		return null;
+	}
+
 	@Override
 	public void saveOrUpdateLuggageTransactionStatusObject(LuggageTransactionStatusDto luggageTransactionStatusDto,
 			HttpServletRequest httpRequest) {
@@ -120,23 +148,16 @@ public class LuggageTransactionObjectServiceImpl implements LuggageTransactionOb
 			LuggageTransactionStatusDto luggageTransactionStatusDto,
 			Set<LuggageTransaction> existingLuggageTransactions) {
 		Integer luggageActivityStatusId = 0;
-		// rules
 		if (bagsRemaining == currentNumberOfBags) {
-			// cycle completed !
-			// update status entry with status handover
 			luggageActivityStatusId = 2;
 		} else if (bagsRemaining > currentNumberOfBags) {
-			// partial handover or missing
 			if (checkIfItemMissing(luggageTransactionStatusDto)
 					|| checkIfAlreadyItemMissed(existingLuggageTransactions)) {
 				luggageActivityStatusId = 4;
 			} else {
-				// update status entry with status partial-handover
 				luggageActivityStatusId = 3;
 			}
 		} else if (bagsRemaining < currentNumberOfBags) {
-			// conflict
-			// update status entry with status conflict
 			luggageActivityStatusId = 5;
 		}
 		return luggageActivityStatusId;

@@ -25,7 +25,6 @@ import com.stanzaliving.api.model.LuggageTransactionStatus;
 import com.stanzaliving.api.service.LuggageTransactionObjectService;
 import com.stanzaliving.api.service.LuggageTransactionStatusService;
 import com.stanzaliving.api.util.LuggageTransactionStatusUtil;
-import com.stanzaliving.api.util.LuggageTransactionUtil;
 
 @RestController
 @RequestMapping("/luggageTransactionStatus")
@@ -39,9 +38,6 @@ public class LuggageTransactionStatusRestController {
 
 	@Autowired
 	LuggageTransactionObjectService luggageTransactionObjectService;
-
-	@Autowired
-	LuggageTransactionUtil luggageTransactionUtil;
 
 	private static Logger logger = LoggerFactory.getLogger(LuggageTransactionStatusRestController.class);
 
@@ -108,24 +104,25 @@ public class LuggageTransactionStatusRestController {
 	// "luggagePaymentMode":1,
 	// "user":{"mobileNo":"9906000101"}}
 	@RequestMapping(value = "", method = RequestMethod.POST)
-	public ResponseEntity<Object> saveLuggageTransaction(@RequestBody HashMap<String, Object> request,
+	public ResponseEntity<Object> saveOrUpdateLuggageTransactionStatus(@RequestBody HashMap<String, Object> request,
 			HttpServletRequest httpRequest) {
 		try {
 			LuggageTransactionStatusDto luggageTransactionStatusDto = new LuggageTransactionStatusDto(request);
-			if (luggageTransactionUtil.checkExistanceOfLuggageIdInSystem(luggageTransactionStatusDto) == null) {
-				luggageTransactionObjectService.saveOrUpdateLuggageTransactionStatusObject(luggageTransactionStatusDto,
-						httpRequest);
-			} else {
-				Object luggageId = luggageTransactionUtil
+			if (luggageTransactionObjectService
+					.checkExistanceOfLuggageIdInSystem(luggageTransactionStatusDto) != null) {
+				Object luggageId = luggageTransactionObjectService
 						.checkExistanceOfLuggageIdInSystem(luggageTransactionStatusDto);
 				return new ResponseEntity<Object>("LuggageId " + luggageId + " already submitted!",
 						HttpStatus.CONFLICT);
 			}
+			luggageTransactionObjectService.saveOrUpdateLuggageTransactionStatusObject(luggageTransactionStatusDto,
+					httpRequest);
+			return new ResponseEntity<Object>(HttpStatus.OK);
 		} catch (Exception e) {
-			logger.info("Exception caught while hitting post call for luggage deposit activity !");
+			String errorMsg = "Exception caught while hitting post call for luggage transaction status !";
+			logger.info(errorMsg);
 			e.printStackTrace();
-			return new ResponseEntity<Object>(HttpStatus.CONFLICT);
+			return new ResponseEntity<Object>(errorMsg, HttpStatus.CONFLICT);
 		}
-		return new ResponseEntity<Object>(HttpStatus.OK);
 	}
 }
