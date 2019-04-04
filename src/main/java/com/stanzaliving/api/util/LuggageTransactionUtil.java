@@ -2,16 +2,18 @@ package com.stanzaliving.api.util;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.stanzaliving.api.dto.LuggageTransactionStatusDto;
 import com.stanzaliving.api.model.LuggageActivity;
-import com.stanzaliving.api.model.LuggagePaymentMode;
+import com.stanzaliving.api.model.LuggageLifecycle;
 import com.stanzaliving.api.model.LuggageStoreRoom;
 import com.stanzaliving.api.model.LuggageTransaction;
 import com.stanzaliving.api.service.LuggageActivityService;
+import com.stanzaliving.api.service.LuggageLifecycleService;
 import com.stanzaliving.api.service.LuggagePaymentModeService;
 import com.stanzaliving.api.service.LuggageStoreRoomService;
 import com.stanzaliving.api.service.LuggageTransactionService;
@@ -30,6 +32,37 @@ public class LuggageTransactionUtil {
 
 	@Autowired
 	LuggageTransactionService luggageTransactionService;
+
+	@Autowired
+	LuggageLifecycleService luggageLifecycleService;
+
+	public Object areDuplicateLuggageIdsPresent(LuggageTransactionStatusDto luggageTransactionStatusDto) {
+		for (HashMap<String, Object> entry : luggageTransactionStatusDto.getLuggageSummary()) {
+			String luggageId = (String) entry.get("luggageId");
+			List<LuggageLifecycle> luggageLifecycle = luggageLifecycleService
+					.findAllLuggageLifecyclesForLuggageId(luggageId);
+			if (!luggageLifecycle.isEmpty()) {
+				return luggageId;
+			}
+		}
+		return null;
+	}
+
+	public boolean isDepositActivity(LuggageTransactionStatusDto luggageTransactionStatusDto) {
+		Integer luggageActivityId = luggageTransactionStatusDto.getLuggageActivityId();
+		if (luggageActivityId == 1) {
+			return true;
+		}
+		return false;
+	}
+
+	public Object checkExistanceOfLuggageIdInSystem(LuggageTransactionStatusDto luggageTransactionStatusDto) {
+		if (isDepositActivity(luggageTransactionStatusDto)
+				&& areDuplicateLuggageIdsPresent(luggageTransactionStatusDto) != null) {
+			return areDuplicateLuggageIdsPresent(luggageTransactionStatusDto);
+		}
+		return null;
+	}
 
 	public LuggageTransaction saveLuggageTransactionObject(LuggageTransactionStatusDto luggageTransactionStatusDto) {
 		Double totalWeightDouble = 0.00;

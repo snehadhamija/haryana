@@ -25,6 +25,7 @@ import com.stanzaliving.api.model.LuggageTransactionStatus;
 import com.stanzaliving.api.service.LuggageTransactionObjectService;
 import com.stanzaliving.api.service.LuggageTransactionStatusService;
 import com.stanzaliving.api.util.LuggageTransactionStatusUtil;
+import com.stanzaliving.api.util.LuggageTransactionUtil;
 
 @RestController
 @RequestMapping("/luggageTransactionStatus")
@@ -38,6 +39,9 @@ public class LuggageTransactionStatusRestController {
 
 	@Autowired
 	LuggageTransactionObjectService luggageTransactionObjectService;
+
+	@Autowired
+	LuggageTransactionUtil luggageTransactionUtil;
 
 	private static Logger logger = LoggerFactory.getLogger(LuggageTransactionStatusRestController.class);
 
@@ -108,8 +112,15 @@ public class LuggageTransactionStatusRestController {
 			HttpServletRequest httpRequest) {
 		try {
 			LuggageTransactionStatusDto luggageTransactionStatusDto = new LuggageTransactionStatusDto(request);
-			luggageTransactionObjectService.saveOrUpdateLuggageTransactionStatusObject(luggageTransactionStatusDto,
-					httpRequest);
+			if (luggageTransactionUtil.checkExistanceOfLuggageIdInSystem(luggageTransactionStatusDto) == null) {
+				luggageTransactionObjectService.saveOrUpdateLuggageTransactionStatusObject(luggageTransactionStatusDto,
+						httpRequest);
+			} else {
+				Object luggageId = luggageTransactionUtil
+						.checkExistanceOfLuggageIdInSystem(luggageTransactionStatusDto);
+				return new ResponseEntity<Object>("LuggageId " + luggageId + " already submitted!",
+						HttpStatus.CONFLICT);
+			}
 		} catch (Exception e) {
 			logger.info("Exception caught while hitting post call for luggage deposit activity !");
 			e.printStackTrace();
