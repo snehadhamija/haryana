@@ -10,6 +10,7 @@ import java.util.StringTokenizer;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.codec.binary.Base64;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -23,12 +24,17 @@ import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import com.stanzaliving.api.constants.Constants;
+import com.stanzaliving.api.dto.LuggageTransactionStatusDto;
 import com.stanzaliving.api.dto.UserDto;
+import com.stanzaliving.api.model.LuggageTransactionDetail;
 import com.stanzaliving.api.util.BaseUtil;
 
 @Service("springRestClientService")
 @Transactional
 public class SpringRestClientServiceImpl implements SpringRestClientService {
+
+	@Autowired
+	LuggageComplaintService luggageComplaintService;
 
 	// Fetching user details when call is made from any of the end-points
 	// and finally mapping the response to userdto.class
@@ -188,6 +194,37 @@ public class SpringRestClientServiceImpl implements SpringRestClientService {
 		ResponseEntity<List<HashMap<String, Object>>> response = restTemplate
 				.exchange(Constants.CORESERVERURL + "user/list", HttpMethod.GET, req, responseType);
 		return response.getBody();
+	}
+
+	@Override
+	public Object createComplaintForMissingItems(LuggageTransactionStatusDto luggageTransactionStatusDto,
+			List<LuggageTransactionDetail> luggageTransactionDetails) {
+		// ResponseEntity<HashMap<String, Object>> response = null;
+		ResponseEntity<String> response = null;
+		try {
+			RestTemplate restTemplate = new RestTemplate();
+			HashMap<String, Object> map = new HashMap<>();
+			map = luggageComplaintService.createComplaintObject(luggageTransactionStatusDto, luggageTransactionDetails);
+			HttpEntity<HashMap<String, Object>> req = new HttpEntity<HashMap<String, Object>>(map,
+					getDefaultHeadersForPost());
+			ParameterizedTypeReference<HashMap<String, Object>> responseType = new ParameterizedTypeReference<HashMap<String, Object>>() {
+			};
+			System.out.println("=============request============");
+			System.out.println(map);
+			System.out.println(map.toString());
+			System.out.println(req);
+			System.out.println(req.toString());
+			System.out.println("=============request============");
+			response = restTemplate.exchange(Constants.COMPLAINTBETAURL + "complaint/", HttpMethod.POST, req,
+					String.class);
+			System.out.println(response);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		if (response != null && response.getBody() != null) {
+			return response.getBody();
+		}
+		return null;
 	}
 
 }

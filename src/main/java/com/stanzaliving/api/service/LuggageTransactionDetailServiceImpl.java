@@ -34,9 +34,6 @@ public class LuggageTransactionDetailServiceImpl implements LuggageTransactionDe
 		luggageTransactionDetail.setLuggageId(luggageId);
 		luggageTransactionDetail.setLuggageTransaction(luggageTransaction);
 		luggageTransactionDetail.setWeight(weight);
-		// LuggageStatus luggageStatus =
-		// luggageStatusService.findById(luggageStatusId);
-		// luggageTransactionDetail.setLuggageStatus(luggageStatus);
 		dao.save(luggageTransactionDetail);
 		return luggageTransactionDetail;
 	}

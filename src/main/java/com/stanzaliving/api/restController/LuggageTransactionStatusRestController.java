@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.stanzaliving.api.dto.LuggageTransactionStatusDto;
+import com.stanzaliving.api.model.LuggageTransactionDetail;
 import com.stanzaliving.api.model.LuggageTransactionStatus;
 import com.stanzaliving.api.service.LuggageTransactionObjectService;
 import com.stanzaliving.api.service.LuggageTransactionStatusService;
@@ -115,10 +116,14 @@ public class LuggageTransactionStatusRestController {
 				return new ResponseEntity<Object>("LuggageId " + luggageId + " already submitted!",
 						HttpStatus.CONFLICT);
 			}
-			luggageTransactionObjectService.saveOrUpdateLuggageTransactionStatusObject(luggageTransactionStatusDto,
-					httpRequest);
+			List<LuggageTransactionDetail> luggageTransactionDetails = luggageTransactionObjectService
+					.saveOrUpdateLuggageTransactionStatusObject(luggageTransactionStatusDto, httpRequest);
 			luggageTransactionObjectService.sendLuggageTransactionStatusEmailAndSms(luggageTransactionStatusDto,
 					httpRequest);
+			if (luggageTransactionObjectService.shouldCreateComplaint(luggageTransactionDetails)) {
+				luggageTransactionObjectService.createComplaintForMissingItems(luggageTransactionStatusDto,
+						luggageTransactionDetails);
+			}
 			return new ResponseEntity<Object>(HttpStatus.OK);
 		} catch (Exception e) {
 			String errorMsg = "Exception caught while hitting post call for luggage transaction status !";
