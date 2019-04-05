@@ -199,7 +199,6 @@ public class SpringRestClientServiceImpl implements SpringRestClientService {
 	@Override
 	public Object createComplaintForMissingItems(LuggageTransactionStatusDto luggageTransactionStatusDto,
 			List<LuggageTransactionDetail> luggageTransactionDetails) {
-		// ResponseEntity<HashMap<String, Object>> response = null;
 		ResponseEntity<String> response = null;
 		try {
 			RestTemplate restTemplate = new RestTemplate();
@@ -209,12 +208,6 @@ public class SpringRestClientServiceImpl implements SpringRestClientService {
 					getDefaultHeadersForPost());
 			ParameterizedTypeReference<HashMap<String, Object>> responseType = new ParameterizedTypeReference<HashMap<String, Object>>() {
 			};
-			System.out.println("=============request============");
-			System.out.println(map);
-			System.out.println(map.toString());
-			System.out.println(req);
-			System.out.println(req.toString());
-			System.out.println("=============request============");
 			response = restTemplate.exchange(Constants.COMPLAINTBETAURL + "complaint/", HttpMethod.POST, req,
 					String.class);
 			System.out.println(response);

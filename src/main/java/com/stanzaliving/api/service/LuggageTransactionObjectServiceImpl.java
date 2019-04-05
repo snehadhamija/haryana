@@ -65,6 +65,26 @@ public class LuggageTransactionObjectServiceImpl implements LuggageTransactionOb
 	@Autowired
 	LuggageTransactionStatusComplaintUtil luggageTransactionStatusComplaintUtil;
 
+	@Override
+	public Object checkExistanceOfLuggageIdInSystem(LuggageTransactionStatusDto luggageTransactionStatusDto) {
+		if (isDepositActivity(luggageTransactionStatusDto)
+				&& areDuplicateLuggageIdsPresent(luggageTransactionStatusDto) != null) {
+			return areDuplicateLuggageIdsPresent(luggageTransactionStatusDto);
+		}
+		return null;
+	}
+
+	@Override
+	public void createCompleteLuggageTransaction(HttpServletRequest httpRequest,
+			LuggageTransactionStatusDto luggageTransactionStatusDto) {
+		List<LuggageTransactionDetail> luggageTransactionDetails = saveOrUpdateLuggageTransactionStatusObject(
+				luggageTransactionStatusDto, httpRequest);
+		sendLuggageTransactionStatusEmailAndSms(luggageTransactionStatusDto, httpRequest);
+		if (shouldCreateComplaint(luggageTransactionDetails)) {
+			createComplaintForMissingItems(luggageTransactionStatusDto, luggageTransactionDetails);
+		}
+	}
+
 	public Object areDuplicateLuggageIdsPresent(LuggageTransactionStatusDto luggageTransactionStatusDto) {
 		for (HashMap<String, Object> entry : luggageTransactionStatusDto.getLuggageSummary()) {
 			String luggageId = (String) entry.get("luggageId");
@@ -84,16 +104,6 @@ public class LuggageTransactionObjectServiceImpl implements LuggageTransactionOb
 		return false;
 	}
 
-	@Override
-	public Object checkExistanceOfLuggageIdInSystem(LuggageTransactionStatusDto luggageTransactionStatusDto) {
-		if (isDepositActivity(luggageTransactionStatusDto)
-				&& areDuplicateLuggageIdsPresent(luggageTransactionStatusDto) != null) {
-			return areDuplicateLuggageIdsPresent(luggageTransactionStatusDto);
-		}
-		return null;
-	}
-
-	@Override
 	public List<LuggageTransactionDetail> saveOrUpdateLuggageTransactionStatusObject(
 			LuggageTransactionStatusDto luggageTransactionStatusDto, HttpServletRequest httpRequest) {
 		LuggageTransaction luggageTransaction = luggageTransactionUtil
@@ -211,14 +221,12 @@ public class LuggageTransactionObjectServiceImpl implements LuggageTransactionOb
 				luggageTransaction);
 	}
 
-	@Override
 	public void sendLuggageTransactionStatusEmailAndSms(LuggageTransactionStatusDto luggageTransactionStatusDto,
 			HttpServletRequest httpRequest) {
 		luggageTransactionStatusEmailUtil.sendLuggageTransactionStatusEmail(luggageTransactionStatusDto, httpRequest);
 		luggageTransactionStatusSmsUtil.sendLuggageTransactionStatusSms(luggageTransactionStatusDto, httpRequest);
 	}
 
-	@Override
 	public boolean shouldCreateComplaint(List<LuggageTransactionDetail> luggageTransactionDetails) {
 		for (LuggageTransactionDetail luggageTransactionDetail : luggageTransactionDetails) {
 			LuggageLifecycle luggageLifecycle = luggageLifecycleService
@@ -232,7 +240,6 @@ public class LuggageTransactionObjectServiceImpl implements LuggageTransactionOb
 		return false;
 	}
 
-	@Override
 	public void createComplaintForMissingItems(LuggageTransactionStatusDto luggageTransactionStatusDto,
 			List<LuggageTransactionDetail> luggageTransactionDetails) {
 		luggageTransactionStatusComplaintUtil.createComplaintForMissingItems(luggageTransactionStatusDto,
