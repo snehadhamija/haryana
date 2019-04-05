@@ -11,6 +11,6 @@ public interface LuggageTransactionObjectService {
 	void saveOrUpdateLuggageTransactionStatusObject(LuggageTransactionStatusDto luggageTransactionStatusDto,
 			HttpServletRequest httpRequest);
 
-	void sendLuggageTransactionStatusEmail(LuggageTransactionStatusDto luggageTransactionStatusDto,
+	void sendLuggageTransactionStatusEmailAndSms(LuggageTransactionStatusDto luggageTransactionStatusDto,
 			HttpServletRequest httpRequest);
 }

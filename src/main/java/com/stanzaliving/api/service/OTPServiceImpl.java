@@ -36,7 +36,6 @@ public class OTPServiceImpl implements OTPService {
 
 	public void sendOTPMessage(String mobileNumber, String message) {
 		SmsModel sms = new SmsModel(mobileNumber, message);
-		logger.info("Email OTP at email:{}", mobileNumber);
 		kafkaUtil.produceSms(sms);
 	}
 

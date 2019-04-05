@@ -117,7 +117,8 @@ public class LuggageTransactionStatusRestController {
 			}
 			luggageTransactionObjectService.saveOrUpdateLuggageTransactionStatusObject(luggageTransactionStatusDto,
 					httpRequest);
-			luggageTransactionObjectService.sendLuggageTransactionStatusEmail(luggageTransactionStatusDto, httpRequest);
+			luggageTransactionObjectService.sendLuggageTransactionStatusEmailAndSms(luggageTransactionStatusDto,
+					httpRequest);
 			return new ResponseEntity<Object>(HttpStatus.OK);
 		} catch (Exception e) {
 			String errorMsg = "Exception caught while hitting post call for luggage transaction status !";
