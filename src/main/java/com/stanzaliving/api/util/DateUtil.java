@@ -65,4 +65,9 @@ public class DateUtil {
 		return newdate;
 	}
 
+	public static String dateToStringCustomFormat(Date date, String format) {
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat(format);
+		return simpleDateFormat.format(date);
+	}
+
 }

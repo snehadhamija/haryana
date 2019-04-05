@@ -40,7 +40,7 @@ public class LuggageOtpDetailUtil {
 	@Autowired
 	GatewayUtil gatewayUtil;
 
-	public final String CHECKIN_MAILER = "checkins@stanzaliving.com";
+	public final String LUGGAGE_MAILER = "luggage@stanzaliving.com";
 
 	public boolean areMandatoryFieldsPresentForSave(HashMap<String, Object> request) {
 		if (request.containsKey("sentTo") && request.containsKey("sentBy")) {
@@ -191,7 +191,7 @@ public class LuggageOtpDetailUtil {
 		mailersList.add(sentToUserEmail);
 		String emailContent = "";
 		emailContent = String.format(OTPConstants.OTP_MESSAGE, otp, "");
-		EmailModel em = new EmailModel(CHECKIN_MAILER, "STANZA Luggage OTP", mailersList, emailContent, null);
+		EmailModel em = new EmailModel(LUGGAGE_MAILER, "Stanza Luggage OTP", mailersList, emailContent, null);
 		em.setContentType(EmailConfig.HTML_MAIL_CONTENT_TYPE);
 		gatewayUtil.SendEmail(em);
 	}

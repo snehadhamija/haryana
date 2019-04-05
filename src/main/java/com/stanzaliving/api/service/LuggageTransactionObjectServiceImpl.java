@@ -20,6 +20,7 @@ import com.stanzaliving.api.model.LuggageTransactionDetail;
 import com.stanzaliving.api.model.LuggageTransactionStatus;
 import com.stanzaliving.api.util.LuggageChargeUtil;
 import com.stanzaliving.api.util.LuggageTransactionDetailUtil;
+import com.stanzaliving.api.util.LuggageTransactionStatusEmailUtil;
 import com.stanzaliving.api.util.LuggageTransactionUtil;
 
 @Service("luggageTransactionObjectService")
@@ -52,6 +53,9 @@ public class LuggageTransactionObjectServiceImpl implements LuggageTransactionOb
 
 	@Autowired
 	LuggageLifecycleService luggageLifecycleService;
+
+	@Autowired
+	LuggageTransactionStatusEmailUtil luggageTransactionStatusEmailUtil;
 
 	public Object areDuplicateLuggageIdsPresent(LuggageTransactionStatusDto luggageTransactionStatusDto) {
 		for (HashMap<String, Object> entry : luggageTransactionStatusDto.getLuggageSummary()) {
@@ -196,5 +200,11 @@ public class LuggageTransactionObjectServiceImpl implements LuggageTransactionOb
 				.findAllLuggageActivityStatusesForLuggageActivity(luggageTransaction.getLuggageActivity());
 		luggageTransactionStatusService.saveLuggageTransactionStatus(userDto, luggageActivityStatuses.get(0),
 				luggageTransaction);
+	}
+
+	@Override
+	public void sendLuggageTransactionStatusEmail(LuggageTransactionStatusDto luggageTransactionStatusDto,
+			HttpServletRequest httpRequest) {
+		luggageTransactionStatusEmailUtil.sendLuggageTransactionStatusEmail(luggageTransactionStatusDto, httpRequest);
 	}
 }
