@@ -206,7 +206,7 @@ public class SpringRestClientServiceImpl implements SpringRestClientService {
 			map = luggageComplaintService.createComplaintObject(luggageTransactionStatusDto, luggageTransactionDetails);
 			HttpEntity<HashMap<String, Object>> req = new HttpEntity<HashMap<String, Object>>(map,
 					getDefaultHeadersForPost());
-			response = restTemplate.exchange(Constants.COMPLAINTBETAURL + "complaint/", HttpMethod.POST, req,
+			response = restTemplate.exchange(Constants.COMPLAINTPRODURL + "complaint/", HttpMethod.POST, req,
 					String.class);
 			System.out.println(response);
 		} catch (Exception e) {
