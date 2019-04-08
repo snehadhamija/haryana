@@ -173,7 +173,7 @@ public class LuggageOtpDetailUtil {
 			HashMap<String, Object> statusHashMap = luggageOtpDetailUtil.pupulateStatusHashMap(luggageOtpDetail);
 			return statusHashMap(statusHashMap, HttpStatus.OK);
 		}
-		return statusHashMap("Not validated !", HttpStatus.CONFLICT);
+		return statusHashMap("* Invalid OTP", HttpStatus.CONFLICT);
 	}
 
 	public HashMap<String, Object> statusHashMap(Object object, HttpStatus httpStatus) {
