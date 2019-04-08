@@ -46,7 +46,7 @@ public class LuggageTransactionStatusEmailUtil {
 		ArrayList<String> mailersList = new ArrayList<>();
 		mailersList.add(sentToUserEmail);
 		String emailContent = luggage_email_table(luggageTransactionStatusDto);
-		EmailModel em = new EmailModel(LUGGAGE_MAILER, "Stanza Luggage OTP", mailersList, emailContent, null);
+		EmailModel em = new EmailModel(LUGGAGE_MAILER, "Stanza Luggage", mailersList, emailContent, null);
 		em.setContentType(EmailConfig.HTML_MAIL_CONTENT_TYPE);
 		gatewayUtil.SendEmail(em);
 	}
