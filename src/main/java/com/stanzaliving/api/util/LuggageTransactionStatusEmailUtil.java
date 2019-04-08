@@ -65,6 +65,45 @@ public class LuggageTransactionStatusEmailUtil {
 		return myHashMultimap;
 	}
 
+	public List<HashMap<String, Object>> populateHashMap(LuggageTransactionStatusDto luggageTransactionStatusDto) {
+		List<HashMap<String, Object>> hashMaps = new ArrayList<>();
+		for (HashMap<String, Object> luggageSummary : luggageTransactionStatusDto.getLuggageSummary()) {
+			HashMap<String, Object> hashMap = new HashMap<>();
+			Integer luggageCategoryId = (Integer) luggageSummary.get("luggageCategory");
+			LuggageCategory luggageCategory = luggageCategoryService.findById(luggageCategoryId);
+			String weight = (String) luggageSummary.get("weight");
+			String luggageId = (String) luggageSummary.get("luggageId");
+			hashMap.put(" LuggageId", luggageId);
+			hashMap.put(" Luggage Category", luggageCategory.getCategoryName());
+			hashMap.put(" Weight", weight);
+			hashMaps.add(hashMap);
+		}
+		for (HashMap<String, Object> hashMap : hashMaps) {
+			System.out.println(hashMap.keySet());
+			System.out.println(hashMap.values());
+		}
+		return hashMaps;
+	}
+
+	public String createLuggageDataTableUsingHashMap(List<HashMap<String, Object>> hashMaps) {
+		String luggageDataTable = "";
+		if (!hashMaps.isEmpty()) {
+			luggageDataTable += "<tr>";
+			for (String key : hashMaps.get(0).keySet()) {
+				luggageDataTable += "<th>" + key + "</th>";
+			}
+			luggageDataTable += "</tr>";
+			for (HashMap<String, Object> hm : hashMaps) {
+				luggageDataTable += "<tr>";
+				for (Object o : hm.values()) {
+					luggageDataTable += "<td align=center style=\"color:blue\">" + o + "</td>";
+				}
+				luggageDataTable += "</tr>";
+			}
+		}
+		return luggageDataTable;
+	}
+
 	public String createLuggageDataTable(List<Multimap<String, Object>> luggageHashMapList) {
 		String luggageDataTable = "";
 		if (!luggageHashMapList.isEmpty()) {
@@ -105,9 +144,11 @@ public class LuggageTransactionStatusEmailUtil {
 	public String luggage_email_table(LuggageTransactionStatusDto luggageTransactionStatusDto) {
 		String luggageDataTable = null;
 		List<Multimap<String, Object>> luggageHashMapList = new ArrayList<>();
+		List<HashMap<String, Object>> hashMaps = populateHashMap(luggageTransactionStatusDto);
 		Multimap<String, Object> luggageHashMap = populateMultiMap(luggageTransactionStatusDto);
 		luggageHashMapList.add(luggageHashMap);
-		luggageDataTable = createLuggageDataTable(luggageHashMapList);
+		luggageDataTable = createLuggageDataTableUsingHashMap(hashMaps);
+		// luggageDataTable = createLuggageDataTable(luggageHashMapList);
 		String luggage_email_content = luggage_email_content(luggageTransactionStatusDto, luggageDataTable);
 		return luggage_email_content;
 	}
