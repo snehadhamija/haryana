@@ -27,7 +27,7 @@ public class UserRestController {
 		UserDto currentUserDto = springRestClientService.getUserDto(httpRequest);
 		UserDto userDto = springRestClientService.getUserDtoForOtherUser(httpRequest, mobileNumber);
 		if (userDto == null) {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			return new ResponseEntity<>("User doesn't exist. Please check the mobile number", HttpStatus.NOT_FOUND);
 		}
 		if (userDto.getHostelID() != currentUserDto.getHostelID()) {
 			return new ResponseEntity<Object>(
