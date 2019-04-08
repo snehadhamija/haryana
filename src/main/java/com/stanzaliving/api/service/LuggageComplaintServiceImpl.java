@@ -28,9 +28,9 @@ public class LuggageComplaintServiceImpl implements LuggageComplaintService {
 		HashMap<String, Object> userHashMap = new HashMap<>();
 		userHashMap.put("mobileNumber", luggageTransactionStatusDto.getUser().get("mobileNo"));
 		map.put("user", userHashMap);
-		categoryMap.put("id", 16);
+		categoryMap.put("id", 12);
 		map.put("complainType", categoryMap);
-		subCategoryMap.put("id", 55);
+		subCategoryMap.put("id", 51);
 		map.put("complainTypeCategory", subCategoryMap);
 		List<Object> list = new ArrayList<>();
 		map.put("complaintTypeSubCategories", list);
