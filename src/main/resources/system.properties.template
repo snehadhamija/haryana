@@ -1,0 +1,15 @@
+system.type = beta
+beta.host = https://betacore.stanzaliving.com/
+prod.host = https://core.stanzaliving.com/
+beta.core.context = core/
+prod.core.context = core/
+beta.electricity.context = electricity/
+prod.electricity.context = electricity/
+beta.feedback.context = feedback/
+prod.feedback.context = feedback/
+beta.complaint.context = complaint/
+prod.complaint.context = complaint/
+beta.food.context = food/
+prod.food.context = food/
+beta.oauth.context = oauth/
+prod.oauth.context = oauth/
