@@ -51,7 +51,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		.antMatchers("/**").access("hasAnyRole('SUPERADMIN','RC','ADMIN')")
 		.and().formLogin().loginPage("/login.html").and().httpBasic().realmName(REALM)
 		.authenticationEntryPoint(getBasicAuthEntryPoint()).and().sessionManagement()
-		.sessionCreationPolicy(SessionCreationPolicy.ALWAYS);
+		.sessionCreationPolicy(SessionCreationPolicy.NEVER);
 	}
 
 	@Bean
