@@ -82,7 +82,7 @@ public class LuggageTransactionStatusUtil {
 		UserDto currentUserDto = springRestClientService.getUserDto(request);
 		Integer currentUserHostel = currentUserDto.getHostelID();
 		List<HashMap<String, Object>> listHashMaps = new ArrayList<>();
-		luggageTransactionStatuses.parallelStream().forEach(entry -> {
+		luggageTransactionStatuses.stream().forEach(entry -> {
 			Object luggageIds = getDepositedLuggageIdList(entry);
 			UserDto userDto = springRestClientService.getUserDtoForOtherUser(request, entry.getUserMobile());
 			Integer userHostel = userDto.getHostelID();
