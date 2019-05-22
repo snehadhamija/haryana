@@ -57,7 +57,7 @@ public class LuggageTransactionStatusRestController {
 		}
 		long t2 = System.currentTimeMillis();
 		logger.info("time taken to fetch luggage status: "+ (t2-t1));
-		if (luggageTransactionStatuses.isEmpty()) {
+		if (luggageTransactionStatuses == null || luggageTransactionStatuses.isEmpty()) {
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		}
 		
