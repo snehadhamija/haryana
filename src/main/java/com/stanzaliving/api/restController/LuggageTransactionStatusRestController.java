@@ -46,9 +46,7 @@ public class LuggageTransactionStatusRestController {
 	public ResponseEntity<Object> findAllLuggageTransactionStatuses(HttpServletRequest request,
 			@RequestParam(value = "expectedDate", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date expectedDate) {
 		List<LuggageTransactionStatus> luggageTransactionStatuses = new ArrayList<>();
-
 		long t1 = System.currentTimeMillis();
-
 		if (expectedDate == null) {
 			luggageTransactionStatuses = luggageTransactionStatusService.findAllLuggageTransactionStatuses();
 		} else {
@@ -58,9 +56,11 @@ public class LuggageTransactionStatusRestController {
 		long t2 = System.currentTimeMillis();
 		logger.info("time taken to fetch luggage status: " + (t2 - t1));
 		if (luggageTransactionStatuses.isEmpty()) {
+			logger.info("time taken to fetch luggage status: " + (t2 - t1));
+		}
+		if (luggageTransactionStatuses == null || luggageTransactionStatuses.isEmpty()) {
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		}
-
 		Object hashMaps = luggageTransactionStatusUtil.createHashMapListForStatuses(request,
 				luggageTransactionStatuses);
 		t1 = System.currentTimeMillis();
