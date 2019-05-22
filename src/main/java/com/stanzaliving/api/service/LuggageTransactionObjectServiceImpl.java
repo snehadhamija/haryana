@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.stanzaliving.api.constants.Constants;
 import com.stanzaliving.api.dto.LuggageTransactionStatusDto;
 import com.stanzaliving.api.dto.UserDto;
 import com.stanzaliving.api.model.LuggageActivityStatus;
@@ -244,6 +245,11 @@ public class LuggageTransactionObjectServiceImpl implements LuggageTransactionOb
 			List<LuggageTransactionDetail> luggageTransactionDetails) {
 		luggageTransactionStatusComplaintUtil.createComplaintForMissingItems(luggageTransactionStatusDto,
 				luggageTransactionDetails);
+	}
+
+	@Override
+	public boolean isMaximumLimitForTotalBoxesExceeded(LuggageTransactionStatusDto luggageTransactionStatusDto) {
+		return luggageTransactionStatusDto.getTotalBoxes() > Constants.MAXIMUM_TOTAL_BOXES_VALUE ? true : false;
 	}
 
 }

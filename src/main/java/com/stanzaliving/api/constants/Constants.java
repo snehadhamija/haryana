@@ -22,4 +22,5 @@ public class Constants {
 	public static final String MULTIPLE_CRITERIA_VALUE = "9";
 	public static final String AVERAGE_CRITERIA_PERCENTAGE_VALUE = "200";
 	public static final String AVERAGE_CRITERIA_AVERAGE_VALUE = "7";
+	public static final Integer MAXIMUM_TOTAL_BOXES_VALUE = 6;
 }

@@ -73,9 +73,12 @@ public class LuggageTransactionStatusEmailUtil {
 			LuggageCategory luggageCategory = luggageCategoryService.findById(luggageCategoryId);
 			String weight = (String) luggageSummary.get("weight");
 			String luggageId = (String) luggageSummary.get("luggageId");
+			List<String> luggageImages = (List<String>) luggageSummary.get("luggageImages");
 			hashMap.put(" LuggageId", luggageId);
 			hashMap.put(" Luggage Category", luggageCategory.getCategoryName());
 			hashMap.put(" Weight", weight);
+			if (luggageImages.size() > 0)
+				hashMap.put(" Luggage Image", luggageImages.get(0));
 			hashMaps.add(hashMap);
 		}
 		for (HashMap<String, Object> hashMap : hashMaps) {
@@ -96,7 +99,9 @@ public class LuggageTransactionStatusEmailUtil {
 			for (HashMap<String, Object> hm : hashMaps) {
 				luggageDataTable += "<tr>";
 				for (Object o : hm.values()) {
-					luggageDataTable += "<td align=center style=\"color:blue\">" + o + "</td>";
+					luggageDataTable += o.toString().startsWith("http")
+							? "<td align=center style=\"color:blue\" href=" + o + ">" + o + "</td>"
+							: "<td align=center style=\"color:blue\">" + o + "</td>";
 				}
 				luggageDataTable += "</tr>";
 			}
@@ -145,10 +150,10 @@ public class LuggageTransactionStatusEmailUtil {
 		String luggageDataTable = null;
 		List<Multimap<String, Object>> luggageHashMapList = new ArrayList<>();
 		List<HashMap<String, Object>> hashMaps = populateHashMap(luggageTransactionStatusDto);
-		Multimap<String, Object> luggageHashMap = populateMultiMap(luggageTransactionStatusDto);
-		luggageHashMapList.add(luggageHashMap);
+		// Multimap<String, Object> luggageHashMap =
+		// populateMultiMap(luggageTransactionStatusDto);
+		// luggageHashMapList.add(luggageHashMap);
 		luggageDataTable = createLuggageDataTableUsingHashMap(hashMaps);
-		// luggageDataTable = createLuggageDataTable(luggageHashMapList);
 		String luggage_email_content = luggage_email_content(luggageTransactionStatusDto, luggageDataTable);
 		return luggage_email_content;
 	}

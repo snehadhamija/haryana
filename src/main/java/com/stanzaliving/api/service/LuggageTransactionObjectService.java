@@ -11,4 +11,6 @@ public interface LuggageTransactionObjectService {
 
 	Object checkExistanceOfLuggageIdInSystem(LuggageTransactionStatusDto luggageTransactionStatusDto);
 
+	boolean isMaximumLimitForTotalBoxesExceeded(LuggageTransactionStatusDto luggageTransactionStatusDto);
+
 }
