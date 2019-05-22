@@ -28,4 +28,6 @@ public interface SpringRestClientService {
 
 	Object createComplaintForMissingItems(LuggageTransactionStatusDto luggageTransactionStatusDto,
 			List<LuggageTransactionDetail> luggageTransactionDetails);
+
+	Map<String, UserDto> getUserDtoForOtherUsers(HttpServletRequest request, List<String> mobileNumbers);
 }

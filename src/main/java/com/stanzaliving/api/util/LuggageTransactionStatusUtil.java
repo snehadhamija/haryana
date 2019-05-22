@@ -82,12 +82,13 @@ public class LuggageTransactionStatusUtil {
 		UserDto currentUserDto = springRestClientService.getUserDto(request);
 		Integer currentUserHostel = currentUserDto.getHostelID();
 		List<HashMap<String, Object>> listHashMaps = new ArrayList<>();
-		luggageTransactionStatuses.stream().forEach(entry -> {
+		luggageTransactionStatuses.parallelStream().forEach(entry -> {
 			Object luggageIds = getDepositedLuggageIdList(entry);
 			UserDto userDto = springRestClientService.getUserDtoForOtherUser(request, entry.getUserMobile());
 			Integer userHostel = userDto.getHostelID();
 			if (userHostel == currentUserHostel) {
-				for (LuggageTransaction luggageTransaction : entry.getLuggageTransactions()) {
+//				for (LuggageTransaction luggageTransaction : entry.getLuggageTransactions()) {
+				entry.getLuggageTransactions().parallelStream().forEach(luggageTransaction->{
 					HashMap<String, Object> hashMap = new HashMap<>();
 					hashMap.put("luggageTransactionStatusId", entry.getId());
 					hashMap.put("status", entry.getLuggageActivityStatus().getStatusName());
@@ -98,8 +99,8 @@ public class LuggageTransactionStatusUtil {
 					hashMap.put("user", createUserHashMap(userDto));
 					hashMap.put("luggageIds", luggageIds);
 					listHashMaps.add(hashMap);
-					break;
-				}
+//					break;
+				});
 			}
 		});
 		return listHashMaps;

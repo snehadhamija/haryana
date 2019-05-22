@@ -1,6 +1,5 @@
 package com.stanzaliving.api.service;
 
-import com.stanzaliving.api.configuration.application.SystemConfiguration;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -24,6 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
+import com.stanzaliving.api.configuration.application.SystemConfiguration;
 import com.stanzaliving.api.constants.Constants;
 import com.stanzaliving.api.dto.LuggageTransactionStatusDto;
 import com.stanzaliving.api.dto.UserDto;
@@ -73,6 +73,34 @@ public class SpringRestClientServiceImpl implements SpringRestClientService {
             return userDto;
         } catch (RestClientException e) {
             // TODO Auto-generated catch block
+            e.printStackTrace();
+            return null;
+        }
+    }
+    
+    
+    @Override
+    public Map<String, UserDto> getUserDtoForOtherUsers(HttpServletRequest request, List<String> mobileNumbers) {
+        RestTemplate restTemplate = new RestTemplate();
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String authCredentials = request.getHeader("Authorization");
+        HttpEntity<String> req = new HttpEntity<String>(getHeaders(principal, authCredentials));
+        ResponseEntity<UserDto[]> response;
+//        ResponseEntity<List<UserDto>> response;
+        try {
+        	
+//        	 ParameterizedTypeReference<List<UserDto>> myBean = new ParameterizedTypeReference<List<UserDto>>() {};
+//        	 ResponseEntity<List<MyBean>> response = template.exchange("http://example.com",HttpMethod.GET, null, myBean);
+        	 
+            response = restTemplate.exchange(systemConfiguration.getServiceUrl("CORE") + "userdto/mobiles/" + mobileNumbers, HttpMethod.GET, req,
+                    UserDto[].class);
+            UserDto[] userDtos = response.getBody();
+            Map<String, UserDto> map = new HashMap<String, UserDto>();
+            for (UserDto dto : userDtos) {
+            	map.put(dto.getMobileNo(), dto);
+            }
+            return map;
+        } catch (RestClientException e) {
             e.printStackTrace();
             return null;
         }
