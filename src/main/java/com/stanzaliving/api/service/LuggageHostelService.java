@@ -13,4 +13,6 @@ public interface LuggageHostelService {
 	List<LuggageHostel> findAllLuggageHostels();
 
 	boolean findIfLuggageModuleActivatedForCurrentHostel(Integer hostelId);
+
+	boolean isLuggageActivatedForHostel(int hostelId);
 }

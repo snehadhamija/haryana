@@ -38,4 +38,12 @@ public class LuggageHostelDaoImpl extends AbstractDao<Integer, LuggageHostel> im
 		}
 		return false;
 	}
+
+	@Override
+	public LuggageHostel findByHostelId (int hostelId) {
+		Criteria criteria = createEntityCriteria();
+		criteria.add(Restrictions.eq("hostelId", hostelId));
+		LuggageHostel luggageHostel = (LuggageHostel) criteria.uniqueResult();
+		return luggageHostel;
+	}
 }
