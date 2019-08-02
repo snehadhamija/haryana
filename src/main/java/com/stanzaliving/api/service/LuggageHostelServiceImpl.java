@@ -35,4 +35,9 @@ public class LuggageHostelServiceImpl implements LuggageHostelService {
 	public boolean findIfLuggageModuleActivatedForCurrentHostel(Integer hostelId) {
 		return dao.findIfLuggageModuleActivatedForCurrentHostel(hostelId);
 	}
+
+	@Override
+	public boolean isLuggageActivatedForHostel(int hostelId) {
+		return dao.findByHostelId(hostelId) != null;
+	}
 }

@@ -4,6 +4,8 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +22,7 @@ import com.stanzaliving.api.util.LuggageActivityUtil;
 @RestController
 @RequestMapping("/luggageHostel")
 public class LuggageHostelRestController {
+	private static final Logger logger = LoggerFactory.getLogger(LuggageHostelRestController.class);
 
 	@Autowired
 	LuggageHostelService luggageHostelService;
@@ -65,5 +68,23 @@ public class LuggageHostelRestController {
 			return new ResponseEntity<>("Activated !", HttpStatus.OK);
 		}
 		return new ResponseEntity<>("Not Activated !", HttpStatus.NOT_FOUND);
+	}
+
+	@RequestMapping(value = "/hostel/{hostelId}", method = RequestMethod.POST)
+	public ResponseEntity<LuggageHostel> addLuggageHostelMap (@PathVariable("hostelId") int hostelId) {
+		try {
+			if (luggageHostelService.isLuggageActivatedForHostel(hostelId)) {
+				return new ResponseEntity<LuggageHostel>(HttpStatus.CONFLICT);
+			}
+			LuggageHostel luggageHostel = new LuggageHostel();
+			luggageHostel.setHostelId(hostelId);
+			luggageHostel.setIsActivated(true);
+			luggageHostelService.save(luggageHostel);
+			return new ResponseEntity<LuggageHostel>(luggageHostel, HttpStatus.CREATED);
+		} catch (Exception e) {
+			logger.info(e.getMessage());
+			e.printStackTrace();
+			return new ResponseEntity<LuggageHostel>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 	}
 }
