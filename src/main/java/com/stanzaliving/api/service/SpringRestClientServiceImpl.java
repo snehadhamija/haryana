@@ -50,8 +50,8 @@ public class SpringRestClientServiceImpl implements SpringRestClientService {
 		String currentUser = BaseUtil.getPrincipal();
 		HttpEntity<String> req = new HttpEntity<String>(getHeaders(principal, authCredentials));
 		ResponseEntity<UserDto> response = restTemplate.exchange(
-				systemConfiguration.getServiceUrl("CORE") + "user/userDetailDto/" + currentUser, HttpMethod.GET, req,
-				UserDto.class);
+				systemConfiguration.getServiceUrl("CORE") + "user/userDetailDto?userMobile=" + currentUser,
+				HttpMethod.GET, req, UserDto.class);
 		UserDto userDto = response.getBody();
 		return userDto;
 	}
@@ -69,8 +69,8 @@ public class SpringRestClientServiceImpl implements SpringRestClientService {
 		ResponseEntity<UserDto> response;
 		try {
 			response = restTemplate.exchange(
-					systemConfiguration.getServiceUrl("CORE") + "user/userDetailDto/" + mobileNumber, HttpMethod.GET,
-					req, UserDto.class);
+					systemConfiguration.getServiceUrl("CORE") + "user/userDetailDto?userMobile=" + mobileNumber,
+					HttpMethod.GET, req, UserDto.class);
 			UserDto userDto = response.getBody();
 			return userDto;
 		} catch (RestClientException e) {
@@ -134,8 +134,8 @@ public class SpringRestClientServiceImpl implements SpringRestClientService {
 		RestTemplate restTemplate = new RestTemplate();
 		HttpEntity<String> req = new HttpEntity<String>(getDefaultHeaders());
 		ResponseEntity<UserDto> response = restTemplate.exchange(
-				systemConfiguration.getServiceUrl("CORE") + "user/userDetailDto/" + mobileNumber, HttpMethod.GET, req,
-				UserDto.class);
+				systemConfiguration.getServiceUrl("CORE") + "user/userDetailDto?userMobile=" + mobileNumber,
+				HttpMethod.GET, req, UserDto.class);
 		UserDto userDto = response.getBody();
 		return userDto;
 	}
@@ -152,8 +152,8 @@ public class SpringRestClientServiceImpl implements SpringRestClientService {
 		ParameterizedTypeReference<Map<Object, Object>> responseType = new ParameterizedTypeReference<Map<Object, Object>>() {
 		};
 		ResponseEntity<Map<Object, Object>> response = restTemplate.exchange(
-				systemConfiguration.getServiceUrl("CORE") + "user/userDetailDto/" + currentUser, HttpMethod.GET, req,
-				responseType);
+				systemConfiguration.getServiceUrl("CORE") + "user/userDetailDto?userMobile=" + currentUser,
+				HttpMethod.GET, req, responseType);
 		return response.getBody();
 	}
 
