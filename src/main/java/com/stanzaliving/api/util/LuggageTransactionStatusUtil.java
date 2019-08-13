@@ -85,22 +85,24 @@ public class LuggageTransactionStatusUtil {
 		luggageTransactionStatuses.stream().forEach(entry -> {
 			Object luggageIds = getDepositedLuggageIdList(entry);
 			UserDto userDto = springRestClientService.getUserDtoForOtherUser(request, entry.getUserMobile());
-			Integer userHostel = userDto.getHostelID();
-			if (userHostel == currentUserHostel) {
-//				for (LuggageTransaction luggageTransaction : entry.getLuggageTransactions()) {
-				entry.getLuggageTransactions().parallelStream().forEach(luggageTransaction->{
-					HashMap<String, Object> hashMap = new HashMap<>();
-					hashMap.put("luggageTransactionStatusId", entry.getId());
-					hashMap.put("status", entry.getLuggageActivityStatus().getStatusName());
-					if (entry.getLuggageActivityStatus().getStatusName().equalsIgnoreCase("Deposit")) {
-						hashMap.put("luggageStorageRoom", luggageTransaction.getLuggageStoreRoom().getRoomName());
-					}
-					hashMap.put("expectedDate", luggageTransaction.getExpectedDate());
-					hashMap.put("user", createUserHashMap(userDto));
-					hashMap.put("luggageIds", luggageIds);
-					listHashMaps.add(hashMap);
-//					break;
-				});
+			if(userDto != null) {
+				Integer userHostel = userDto.getHostelID();
+				if (userHostel == currentUserHostel) {
+	//				for (LuggageTransaction luggageTransaction : entry.getLuggageTransactions()) {
+					entry.getLuggageTransactions().parallelStream().forEach(luggageTransaction->{
+						HashMap<String, Object> hashMap = new HashMap<>();
+						hashMap.put("luggageTransactionStatusId", entry.getId());
+						hashMap.put("status", entry.getLuggageActivityStatus().getStatusName());
+						if (entry.getLuggageActivityStatus().getStatusName().equalsIgnoreCase("Deposit")) {
+							hashMap.put("luggageStorageRoom", luggageTransaction.getLuggageStoreRoom().getRoomName());
+						}
+						hashMap.put("expectedDate", luggageTransaction.getExpectedDate());
+						hashMap.put("user", createUserHashMap(userDto));
+						hashMap.put("luggageIds", luggageIds);
+						listHashMaps.add(hashMap);
+	//					break;
+					});
+				}
 			}
 		});
 		return listHashMaps;
