@@ -6,9 +6,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import com.stanzaliving.api.dto.LuggageTransactionStatusDto;
 import com.stanzaliving.api.dto.UserDto;
-import com.stanzaliving.api.model.LuggageTransactionDetail;
 
 public interface SpringRestClientService {
 
@@ -25,9 +23,6 @@ public interface SpringRestClientService {
 	List<HashMap<String, Object>> getAllUserDto(HttpServletRequest request);
 
 	UserDto getUserDtoForOtherUserById(HttpServletRequest request, Integer userId);
-
-	Object createComplaintForMissingItems(LuggageTransactionStatusDto luggageTransactionStatusDto,
-			List<LuggageTransactionDetail> luggageTransactionDetails);
 
 	Map<String, UserDto> getUserDtoForOtherUsers(HttpServletRequest request, List<String> mobileNumbers);
 }

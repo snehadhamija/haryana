@@ -25,9 +25,7 @@ import org.springframework.web.client.RestTemplate;
 
 import com.stanzaliving.api.configuration.application.SystemConfiguration;
 import com.stanzaliving.api.constants.Constants;
-import com.stanzaliving.api.dto.LuggageTransactionStatusDto;
 import com.stanzaliving.api.dto.UserDto;
-import com.stanzaliving.api.model.LuggageTransactionDetail;
 import com.stanzaliving.api.util.BaseUtil;
 
 @Service("springRestClientService")
@@ -36,9 +34,6 @@ public class SpringRestClientServiceImpl implements SpringRestClientService {
 
 	@Autowired
 	SystemConfiguration systemConfiguration;
-
-	@Autowired
-	LuggageComplaintService luggageComplaintService;
 
 	// Fetching user details when call is made from any of the end-points
 	// and finally mapping the response to userdto.class
@@ -235,27 +230,4 @@ public class SpringRestClientServiceImpl implements SpringRestClientService {
 				.exchange(systemConfiguration.getServiceUrl("CORE") + "user/list", HttpMethod.GET, req, responseType);
 		return response.getBody();
 	}
-
-	@Override
-	public Object createComplaintForMissingItems(LuggageTransactionStatusDto luggageTransactionStatusDto,
-			List<LuggageTransactionDetail> luggageTransactionDetails) {
-		ResponseEntity<String> response = null;
-		try {
-			RestTemplate restTemplate = new RestTemplate();
-			HashMap<String, Object> map = new HashMap<>();
-			map = luggageComplaintService.createComplaintObject(luggageTransactionStatusDto, luggageTransactionDetails);
-			HttpEntity<HashMap<String, Object>> req = new HttpEntity<HashMap<String, Object>>(map,
-					getDefaultHeadersForPost());
-			response = restTemplate.exchange(systemConfiguration.getServiceUrl("COMPLAINT") + "complaint/",
-					HttpMethod.POST, req, String.class);
-			System.out.println(response);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		if (response != null && response.getBody() != null) {
-			return response.getBody();
-		}
-		return null;
-	}
-
 }
