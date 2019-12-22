@@ -47,10 +47,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		http.csrf().disable()
 		.authorizeRequests()
-		.antMatchers("/beat").permitAll()
-		.antMatchers("/**").access("hasAnyRole('SUPERADMIN','RC','ADMIN')")
-		.and().formLogin().loginPage("/login.html").and().httpBasic().realmName(REALM)
-		.authenticationEntryPoint(getBasicAuthEntryPoint()).and().sessionManagement()
+		.antMatchers("/**").permitAll()
+		//.antMatchers("/**").access("hasAnyRole('SUPERADMIN','RC','ADMIN')")
+		//.and().formLogin().loginPage("/login.html").and().httpBasic().realmName(REALM)
+		//.authenticationEntryPoint(getBasicAuthEntryPoint())
+		.and().sessionManagement()
 		.sessionCreationPolicy(SessionCreationPolicy.NEVER);
 	}
 
