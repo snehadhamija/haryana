@@ -11,4 +11,6 @@ public interface DiseaseDao {
 	Disease findById(int id);
 
 	List<Disease> findAllDiseases();
+
+	List<Disease> findAllActiveDiseases(Boolean isActive);
 }

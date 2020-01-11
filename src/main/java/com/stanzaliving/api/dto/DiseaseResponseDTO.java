@@ -7,6 +7,7 @@ package com.stanzaliving.api.dto;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
@@ -20,7 +21,7 @@ public class DiseaseResponseDTO {
 	private Boolean isActive;
 	private Integer sequenceId;
 	private String imgurl;
-	@JsonProperty("productCategories")
+	@JsonProperty(value = "productCategories", access = JsonProperty.Access.WRITE_ONLY)
 	private Set<ProductCategoryResponseDTO> productCategoryResponseDTOs = new HashSet<ProductCategoryResponseDTO>();
 
 	public Integer getDiseaseId() {

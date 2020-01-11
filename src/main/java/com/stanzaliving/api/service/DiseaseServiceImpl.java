@@ -30,4 +30,9 @@ public class DiseaseServiceImpl implements DiseaseService {
 	public List<Disease> findAllDiseases() {
 		return dao.findAllDiseases();
 	}
+
+	@Override
+	public List<Disease> findAllActiveDiseases(Boolean isActive) {
+		return dao.findAllActiveDiseases(isActive);
+	}
 }
