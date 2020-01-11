@@ -4,12 +4,22 @@
  */
 package com.stanzaliving.api.model;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 /**
  * @author nipunaggarwal
@@ -35,6 +45,12 @@ public class ProductCategory {
 
 	@Column(name = "IMG_URL", nullable = true)
 	private String imgurl;
+
+	@ManyToMany(fetch = FetchType.EAGER)
+	@JoinTable(name = "PRODUCT_CATEGORY_PRODUCT", joinColumns = { @JoinColumn(name = "PRODUCT_CATEGORY_ID") }, inverseJoinColumns = {
+			@JoinColumn(name = "PRODUCT_ID") })
+	@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+	private Set<Product> products = new HashSet<Product>();
 
 	public int getProductCategoryId() {
 		return productCategoryId;
@@ -74,6 +90,14 @@ public class ProductCategory {
 
 	public void setImgurl(String imgurl) {
 		this.imgurl = imgurl;
+	}
+
+	public Set<Product> getProducts() {
+		return products;
+	}
+
+	public void setProducts(Set<Product> products) {
+		this.products = products;
 	}
 
 }

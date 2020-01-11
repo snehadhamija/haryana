@@ -36,7 +36,7 @@ public class DiseaseRestController {
 
 	// ----- Get diseases -----
 	@RequestMapping(value = "", method = RequestMethod.GET)
-	public ResponseEntity<Object> findAllConditions() {
+	public ResponseEntity<Object> findAllDiseases() {
 		List<Disease> diseases = diseaseService.findAllDiseases();
 		return !CollectionUtils.isNullOrEmpty(diseases)
 				? new ResponseEntity<Object>(diseaseUtil.getSortedDiseaseResponseDtoList(diseases), HttpStatus.OK)
