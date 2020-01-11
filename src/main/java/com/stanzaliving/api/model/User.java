@@ -29,7 +29,7 @@ public class User {
 	@Column(name = "PASSWORD", nullable = true)
 	private String password;
 
-	@Column(name = "full_name", nullable = false)
+	@Column(name = "FULL_NAME", nullable = false)
 	private String fullName;
 
 	@Column(name = "EMAIL", nullable = false)
@@ -51,7 +51,7 @@ public class User {
 
 	@UpdateTimestamp
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "UPDATED_AT", updatable = false, nullable = false)
+	@Column(name = "UPDATED_AT", updatable = true, nullable = false)
 	private Date updated_at;
 
 	public int getUserId() {
