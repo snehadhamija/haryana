@@ -25,8 +25,8 @@ import com.stanzaliving.api.constants.Constants;
 public class CookieUtil {
 
 	public String getCookieListFromFilter() {
-		return !StringUtils.isEmpty(MDC.get(Constants.COOKIE_LIST))
-				? MDC.get(Constants.COOKIE_LIST)
+		return !StringUtils.isEmpty(MDC.get(Constants.vCareToken))
+				? MDC.get(Constants.vCareToken)
 				: null;
 	}
 

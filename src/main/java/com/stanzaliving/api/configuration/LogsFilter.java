@@ -44,8 +44,9 @@ public class LogsFilter implements Filter {
 
 		String guid = UUID.randomUUID().toString().replace("-", ""); // globally unique identifier
 		String luid = UUID.randomUUID().toString().replace("-", ""); // locally unique identifier
-		String cookiesList = null;
+
 		Cookie customCookie = null;
+		String customCookieValue = null;
 
 		if (request instanceof HttpServletRequest) {
 			HttpServletRequest httpRequest = (HttpServletRequest) request;
@@ -62,14 +63,14 @@ public class LogsFilter implements Filter {
 							.findFirst()
 							.orElse(new Cookie("vCareToken", guid));
 
-			cookiesList = customCookie.getValue();
-			System.out.println("cookiesList: " + cookiesList);
+			customCookieValue = customCookie.getValue();
+			System.out.println("cookiesList: " + customCookieValue);
 		}
 
 		MDC.put(Constants.GUID, guid);
 		MDC.put(Constants.LUID, luid);
-		if (Objects.nonNull(cookiesList)) {
-			MDC.put(Constants.COOKIE_LIST, cookiesList);
+		if (Objects.nonNull(customCookieValue)) {
+			MDC.put(Constants.vCareToken, customCookieValue);
 		}
 
 		if (request instanceof HttpServletRequest) {
@@ -79,8 +80,8 @@ public class LogsFilter implements Filter {
 		}
 
 		request.setAttribute(Constants.GUID, guid);
-		if (Objects.nonNull(cookiesList)) {
-			request.setAttribute(Constants.COOKIE_LIST, cookiesList);
+		if (Objects.nonNull(customCookieValue)) {
+			request.setAttribute(Constants.vCareToken, customCookieValue);
 			HttpServletResponse httpResponse = (HttpServletResponse) response;
 			httpResponse.addCookie(customCookie);
 		}
@@ -91,7 +92,7 @@ public class LogsFilter implements Filter {
 		}
 		MDC.remove(Constants.GUID);
 		MDC.remove(Constants.LUID);
-		MDC.remove(Constants.COOKIE_LIST);
+		MDC.remove(Constants.vCareToken);
 	}
 
 	@Override
