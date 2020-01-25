@@ -70,7 +70,7 @@ public class LogsFilter implements Filter {
 		MDC.put(Constants.GUID, guid);
 		MDC.put(Constants.LUID, luid);
 		if (Objects.nonNull(customCookieValue)) {
-			MDC.put(Constants.vCareToken, customCookieValue);
+			MDC.put(Constants.V_CARE_TOKEN, customCookieValue);
 		}
 
 		if (request instanceof HttpServletRequest) {
@@ -81,7 +81,7 @@ public class LogsFilter implements Filter {
 
 		request.setAttribute(Constants.GUID, guid);
 		if (Objects.nonNull(customCookieValue)) {
-			request.setAttribute(Constants.vCareToken, customCookieValue);
+			request.setAttribute(Constants.V_CARE_TOKEN, customCookieValue);
 			HttpServletResponse httpResponse = (HttpServletResponse) response;
 			httpResponse.addCookie(customCookie);
 		}
@@ -92,7 +92,7 @@ public class LogsFilter implements Filter {
 		}
 		MDC.remove(Constants.GUID);
 		MDC.remove(Constants.LUID);
-		MDC.remove(Constants.vCareToken);
+		MDC.remove(Constants.V_CARE_TOKEN);
 	}
 
 	@Override

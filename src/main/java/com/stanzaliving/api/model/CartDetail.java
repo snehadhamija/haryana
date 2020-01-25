@@ -24,8 +24,8 @@ public class CartDetail {
 	@Column(name = "CART_DETAIL_ID")
 	private int cartDetailId;
 
-	@Column(name = "SESSION_ID", nullable = false)
-	private String sessionId;
+	@Column(name = "TOKEN", nullable = false)
+	private String token;
 
 	@Column(name = "CART_DETAIL", nullable = false, columnDefinition = "LONGTEXT")
 	private String cartDetail;
@@ -38,12 +38,12 @@ public class CartDetail {
 		this.cartDetailId = cartDetailId;
 	}
 
-	public String getSessionId() {
-		return sessionId;
+	public String getToken() {
+		return token;
 	}
 
-	public void setSessionId(String sessionId) {
-		this.sessionId = sessionId;
+	public void setToken(String token) {
+		this.token = token;
 	}
 
 	public String getCartDetail() {
