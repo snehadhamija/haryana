@@ -22,7 +22,7 @@ public class ServletConfiguration extends AbstractAnnotationConfigDispatcherServ
 
     @Override
     protected Filter[] getServletFilters() {
-        Filter[] singleton = {new CORSFilter()};
+        Filter[] singleton = {new CORSFilter(), new LogsFilter()};
         return singleton;
     }
 

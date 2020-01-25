@@ -6,10 +6,16 @@ package com.stanzaliving.api.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 /**
  * @author nipunaggarwal
@@ -35,6 +41,11 @@ public class ProductVariant {
 
 	@Column(name = "IMG_URL", nullable = true)
 	private String imgurl;
+
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "PRODUCT_ID")
+	@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+	private Product product;
 
 	public int getProductVariantId() {
 		return productVariantId;
@@ -74,6 +85,14 @@ public class ProductVariant {
 
 	public void setImgurl(String imgurl) {
 		this.imgurl = imgurl;
+	}
+
+	public Product getProduct() {
+		return product;
+	}
+
+	public void setProduct(Product product) {
+		this.product = product;
 	}
 
 }

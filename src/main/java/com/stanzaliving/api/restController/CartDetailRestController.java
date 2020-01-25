@@ -4,7 +4,10 @@
  */
 package com.stanzaliving.api.restController;
 
+import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,20 +24,27 @@ import com.stanzaliving.api.util.CookieUtil;
  */
 @RestController
 @RequestMapping(value = {
-		"/cookie"
+		"/cartDetail"
 })
-public class CookieRestController {
+public class CartDetailRestController {
 
 	@Autowired
-	private CookieUtil cookieUtil;
+	CookieUtil cookieUtil;
 
-	// ----- Read cookie -----
+	// ----- get cart detail -----
 	@RequestMapping(value = "", method = RequestMethod.GET)
-	public ResponseEntity<Object> findCookies() {
-		String cookieList = cookieUtil.getCookieListFromFilter();
-		return Objects.nonNull(cookieList)
-				? new ResponseEntity<Object>(cookieList, HttpStatus.OK)
-				: new ResponseEntity<Object>(HttpStatus.NO_CONTENT);
+	public ResponseEntity<Object> findCartDetails() {
+		String cookies = cookieUtil.getCookieListFromFilter();
+		if (Objects.nonNull(cookies)) {
+			List<String> cookieList =
+					Stream.of(
+							cookies.split(","))
+							.collect(Collectors.toList());
+			if(cookieList.contains("JSESSIONID")){
+				String sessionId;
+			}
+		}
+		return new ResponseEntity<Object>(HttpStatus.NO_CONTENT);
 	}
 
 }
