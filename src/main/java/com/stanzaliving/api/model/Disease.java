@@ -65,7 +65,7 @@ public class Disease {
 	@JsonBackReference
 	@JoinColumn(name = "DISEASE_ID")
 	@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-	private Set<SubDisease> subDiseases = new HashSet<SubDisease>();;
+	private Set<SubDisease> subDiseases = new HashSet<SubDisease>();
 
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JsonManagedReference
