@@ -41,7 +41,7 @@ public class FAQ {
 	private int sequenceId = 0;
 
 	@JsonBackReference
-	@ManyToMany(mappedBy = "faqs", fetch = FetchType.EAGER)
+	@ManyToMany(mappedBy = "faqs", fetch = FetchType.LAZY)
 	private Set<SubDisease> subDiseases = new HashSet<SubDisease>();
 
 	public int getFaqId() {

@@ -54,7 +54,7 @@ public class SubDisease {
 	@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 	private Disease disease;
 
-	@ManyToMany(fetch = FetchType.EAGER)
+	@ManyToMany(fetch = FetchType.LAZY)
 	@JsonManagedReference
 	@JoinTable(name = "SUB_DISEASE_FAQ", joinColumns = { @JoinColumn(name = "SUB_DISEASE_ID") }, inverseJoinColumns = {
 			@JoinColumn(name = "FAQ_ID") })
