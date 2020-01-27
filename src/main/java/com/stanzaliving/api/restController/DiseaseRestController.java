@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.amazonaws.util.CollectionUtils;
@@ -36,8 +37,9 @@ public class DiseaseRestController {
 
 	// ----- Get diseases -----
 	@RequestMapping(value = "", method = RequestMethod.GET)
-	public ResponseEntity<Object> findAllDiseases() {
-		List<Disease> diseases = diseaseService.findAllDiseases();
+	public ResponseEntity<Object> findAllDiseases(
+			@RequestParam(name = "isActive", required = false, defaultValue = "true") boolean isActive) {
+		List<Disease> diseases = diseaseService.findAllActiveDiseases(isActive);
 		return !CollectionUtils.isNullOrEmpty(diseases)
 				? new ResponseEntity<Object>(diseaseUtil.getSortedDiseaseResponseDtoList(diseases), HttpStatus.OK)
 				: new ResponseEntity<Object>(HttpStatus.NO_CONTENT);
