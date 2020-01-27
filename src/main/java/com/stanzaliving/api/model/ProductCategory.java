@@ -100,4 +100,15 @@ public class ProductCategory {
 		this.products = products;
 	}
 
+	@Override
+	public String toString() {
+		return "ProductCategory "
+				+ "[productCategoryId=" + productCategoryId + ", "
+				+ "productCategoryName=" + productCategoryName + ", "
+				+ "isActive=" + isActive + ", "
+				+ "sequenceId=" + sequenceId + ", "
+				+ "imgurl=" + imgurl + ", "
+				+ "products=" + products + "]";
+	}
+
 }

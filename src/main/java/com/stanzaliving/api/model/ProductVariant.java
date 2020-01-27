@@ -95,4 +95,15 @@ public class ProductVariant {
 		this.product = product;
 	}
 
+	@Override
+	public String toString() {
+		return "ProductVariant "
+				+ "[productVariantId=" + productVariantId + ", "
+				+ "productVariantName=" + productVariantName + ", "
+				+ "isActive=" + isActive + ", "
+				+ "sequenceId=" + sequenceId + ", "
+				+ "imgurl=" + imgurl + ", "
+				+ "product=" + product + "]";
+	}
+
 }

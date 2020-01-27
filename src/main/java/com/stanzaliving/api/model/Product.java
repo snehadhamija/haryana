@@ -76,4 +76,14 @@ public class Product {
 		this.imgurl = imgurl;
 	}
 
+	@Override
+	public String toString() {
+		return "Product "
+				+ "[productId=" + productId + ", "
+				+ "productName=" + productName + ", "
+				+ "isActive=" + isActive + ", "
+				+ "sequenceId=" + sequenceId + ", "
+				+ "imgurl=" + imgurl + "]";
+	}
+
 }

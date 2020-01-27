@@ -54,4 +54,12 @@ public class CartDetail {
 		this.cartDetail = cartDetail;
 	}
 
+	@Override
+	public String toString() {
+		return "CartDetail "
+				+ "[cartDetailId=" + cartDetailId + ", "
+				+ "token=" + token + ", "
+				+ "cartDetail=" + cartDetail + "]";
+	}
+
 }

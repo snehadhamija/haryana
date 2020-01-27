@@ -99,4 +99,15 @@ public class Disease {
 	public void setProductCategories(Set<ProductCategory> productCategories) {
 		this.productCategories = productCategories;
 	}
+
+	@Override
+	public String toString() {
+		return "Disease "
+				+ "[diseaseId=" + diseaseId + ", "
+				+ "diseaseName=" + diseaseName + ", "
+				+ "isActive=" + isActive + ", "
+				+ "sequenceId=" + sequenceId + ", "
+				+ "imgurl=" + imgurl + ", "
+				+ "productCategories=" + productCategories + "]";
+	}
 }

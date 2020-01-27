@@ -4,6 +4,9 @@
  */
 package com.stanzaliving.api.model;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -11,11 +14,15 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 /**
  * @author nipunaggarwal
@@ -46,6 +53,13 @@ public class SubDisease {
 	@JoinColumn(name = "DISEASE_ID")
 	@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 	private Disease disease;
+
+	@ManyToMany(fetch = FetchType.EAGER)
+	@JsonManagedReference
+	@JoinTable(name = "SUB_DISEASE_FAQ", joinColumns = { @JoinColumn(name = "SUB_DISEASE_ID") }, inverseJoinColumns = {
+			@JoinColumn(name = "FAQ_ID") })
+	@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+	private Set<FAQ> faqs = new HashSet<FAQ>();
 
 	public int getSubDiseaseId() {
 		return subDiseaseId;
@@ -93,6 +107,26 @@ public class SubDisease {
 
 	public void setDisease(Disease disease) {
 		this.disease = disease;
+	}
+
+	public Set<FAQ> getFaqs() {
+		return faqs;
+	}
+
+	public void setFaqs(Set<FAQ> faqs) {
+		this.faqs = faqs;
+	}
+
+	@Override
+	public String toString() {
+		return "SubDisease "
+				+ "[subDiseaseId=" + subDiseaseId + ", "
+				+ "subDiseaseName=" + subDiseaseName + ", "
+				+ "isActive=" + isActive + ", "
+				+ "sequenceId=" + sequenceId + ", "
+				+ "imgurl=" + imgurl + ", "
+				+ "disease=" + disease + ", "
+				+ "faqs=" + faqs + "]";
 	}
 
 }

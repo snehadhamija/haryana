@@ -26,7 +26,8 @@ import com.stanzaliving.api.util.SubDiseaseUtil;
  */
 @RestController
 @RequestMapping(value = {
-		"/subDisease"
+		"/subDisease",
+		"/subdisease"
 })
 public class SubDiseaseRestController {
 
