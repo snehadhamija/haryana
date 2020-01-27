@@ -18,12 +18,23 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+
 /**
  * @author nipunaggarwal
  *
  */
 @Entity
 @Table(name = "FAQ")
+@Getter
+@Setter
+@ToString
+@AllArgsConstructor
+@NoArgsConstructor
 public class FAQ {
 
 	@Id
@@ -43,55 +54,5 @@ public class FAQ {
 	@JsonBackReference
 	@ManyToMany(mappedBy = "faqs", fetch = FetchType.LAZY)
 	private Set<SubDisease> subDiseases = new HashSet<SubDisease>();
-
-	public int getFaqId() {
-		return faqId;
-	}
-
-	public void setFaqId(int faqId) {
-		this.faqId = faqId;
-	}
-
-	public String getQuestion() {
-		return question;
-	}
-
-	public void setQuestion(String question) {
-		this.question = question;
-	}
-
-	public Boolean getIsActive() {
-		return isActive;
-	}
-
-	public void setIsActive(Boolean isActive) {
-		this.isActive = isActive;
-	}
-
-	public int getSequenceId() {
-		return sequenceId;
-	}
-
-	public void setSequenceId(int sequenceId) {
-		this.sequenceId = sequenceId;
-	}
-
-	public Set<SubDisease> getSubDiseases() {
-		return subDiseases;
-	}
-
-	public void setSubDiseases(Set<SubDisease> subDiseases) {
-		this.subDiseases = subDiseases;
-	}
-
-	@Override
-	public String toString() {
-		return "FAQ "
-				+ "[faqId=" + faqId + ", "
-				+ "question=" + question + ", "
-				+ "isActive=" + isActive + ", "
-				+ "sequenceId=" + sequenceId + ", "
-				+ "subDiseases=" + subDiseases + "]";
-	}
 
 }

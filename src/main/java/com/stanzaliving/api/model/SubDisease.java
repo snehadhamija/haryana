@@ -24,12 +24,23 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+
 /**
  * @author nipunaggarwal
  *
  */
 @Entity
 @Table(name = "SUB_DISEASE")
+@Getter
+@Setter
+@ToString
+@AllArgsConstructor
+@NoArgsConstructor
 public class SubDisease {
 
 	@Id
@@ -49,7 +60,8 @@ public class SubDisease {
 	@Column(name = "IMG_URL", nullable = true)
 	private String imgurl;
 
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JsonManagedReference
 	@JoinColumn(name = "DISEASE_ID")
 	@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 	private Disease disease;
@@ -60,73 +72,5 @@ public class SubDisease {
 			@JoinColumn(name = "FAQ_ID") })
 	@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 	private Set<FAQ> faqs = new HashSet<FAQ>();
-
-	public int getSubDiseaseId() {
-		return subDiseaseId;
-	}
-
-	public void setSubDiseaseId(int subDiseaseId) {
-		this.subDiseaseId = subDiseaseId;
-	}
-
-	public String getSubDiseaseName() {
-		return subDiseaseName;
-	}
-
-	public void setSubDiseaseName(String subDiseaseName) {
-		this.subDiseaseName = subDiseaseName;
-	}
-
-	public Boolean getIsActive() {
-		return isActive;
-	}
-
-	public void setIsActive(Boolean isActive) {
-		this.isActive = isActive;
-	}
-
-	public int getSequenceId() {
-		return sequenceId;
-	}
-
-	public void setSequenceId(int sequenceId) {
-		this.sequenceId = sequenceId;
-	}
-
-	public String getImgurl() {
-		return imgurl;
-	}
-
-	public void setImgurl(String imgurl) {
-		this.imgurl = imgurl;
-	}
-
-	public Disease getDisease() {
-		return disease;
-	}
-
-	public void setDisease(Disease disease) {
-		this.disease = disease;
-	}
-
-	public Set<FAQ> getFaqs() {
-		return faqs;
-	}
-
-	public void setFaqs(Set<FAQ> faqs) {
-		this.faqs = faqs;
-	}
-
-	@Override
-	public String toString() {
-		return "SubDisease "
-				+ "[subDiseaseId=" + subDiseaseId + ", "
-				+ "subDiseaseName=" + subDiseaseName + ", "
-				+ "isActive=" + isActive + ", "
-				+ "sequenceId=" + sequenceId + ", "
-				+ "imgurl=" + imgurl + ", "
-				+ "disease=" + disease + ", "
-				+ "faqs=" + faqs + "]";
-	}
 
 }

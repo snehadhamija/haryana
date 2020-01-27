@@ -11,12 +11,23 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+
 /**
  * @author nipunaggarwal
  *
  */
 @Entity
 @Table(name = "CART_DETAIL")
+@Getter
+@Setter
+@ToString
+@AllArgsConstructor
+@NoArgsConstructor
 public class CartDetail {
 
 	@Id
@@ -29,37 +40,5 @@ public class CartDetail {
 
 	@Column(name = "CART_DETAIL", nullable = false, columnDefinition = "LONGTEXT")
 	private String cartDetail;
-
-	public int getCartDetailId() {
-		return cartDetailId;
-	}
-
-	public void setCartDetailId(int cartDetailId) {
-		this.cartDetailId = cartDetailId;
-	}
-
-	public String getToken() {
-		return token;
-	}
-
-	public void setToken(String token) {
-		this.token = token;
-	}
-
-	public String getCartDetail() {
-		return cartDetail;
-	}
-
-	public void setCartDetail(String cartDetail) {
-		this.cartDetail = cartDetail;
-	}
-
-	@Override
-	public String toString() {
-		return "CartDetail "
-				+ "[cartDetailId=" + cartDetailId + ", "
-				+ "token=" + token + ", "
-				+ "cartDetail=" + cartDetail + "]";
-	}
 
 }

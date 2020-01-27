@@ -13,4 +13,6 @@ public interface ProductCategoryService {
 	List<ProductCategory> findAllProductCategories();
 
 	List<ProductCategory> findAllActiveProductCategories(Boolean isActive);
+
+	List<ProductCategory> findAllProductCategoriesForProductId(Boolean isActive, Integer productId);
 }

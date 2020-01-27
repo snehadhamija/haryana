@@ -43,4 +43,20 @@ public class ProductCategoryDaoImpl extends AbstractDao<Integer, ProductCategory
 		crit.addOrder(Order.asc("sequenceId"));
 		return (List<ProductCategory>) crit.list();
 	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<ProductCategory> findAllProductCategoriesForProductId(Boolean isActive, Integer productId) {
+		Criteria crit = createEntityCriteria();
+		if (Objects.nonNull(isActive)) {
+			crit.add(Restrictions.eq("isActive", isActive));
+		}
+		if (Objects.nonNull(productId)) {
+			crit.createAlias("products", "product");
+			crit.add(Restrictions.eq("product.productId", productId));
+		}
+		crit.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
+		crit.addOrder(Order.asc("sequenceId"));
+		return (List<ProductCategory>) crit.list();
+	}
 }

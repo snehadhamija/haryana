@@ -35,4 +35,9 @@ public class ProductCategoryServiceImpl implements ProductCategoryService {
 	public List<ProductCategory> findAllActiveProductCategories(Boolean isActive) {
 		return dao.findAllActiveProductCategories(isActive);
 	}
+
+	@Override
+	public List<ProductCategory> findAllProductCategoriesForProductId(Boolean isActive, Integer productId) {
+		return dao.findAllProductCategoriesForProductId(isActive, productId);
+	}
 }

@@ -12,10 +12,11 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import javax.transaction.Transactional;
+
+import org.hibernate.Hibernate;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
 import com.stanzaliving.api.dto.ProductCategoryResponseDTO;
@@ -30,13 +31,13 @@ import com.stanzaliving.api.service.ProductCategoryService;
  */
 @Component
 public class ProductCategoryUtil {
-	
+
 	@Autowired
 	private ProductCategoryService productCategoryService;
-	
+
 	@Autowired
 	private DiseaseService diseaseService;
-	
+
 	public Comparator<ProductCategoryResponseDTO> compareBySequenceId() {
 		return (ProductCategoryResponseDTO dto1, ProductCategoryResponseDTO dto2) -> dto1.getSequenceId().compareTo(dto2.getSequenceId());
 	}
@@ -56,14 +57,19 @@ public class ProductCategoryUtil {
 		Collections.sort(productCategoryResponseDTOs, compareBySequenceId());
 		return productCategoryResponseDTOs;
 	}
-	
+
+	@Transactional
 	public Set<ProductCategory> getProductCategorySet(Integer diseaseId) {
 		Set<ProductCategory> productCategories = new HashSet<ProductCategory>();
 		if (Objects.isNull(diseaseId)) {
 			productCategories = new HashSet<ProductCategory>(productCategoryService.findAllProductCategories());
 		} else {
 			Disease disease = diseaseService.findById(diseaseId);
-			return Objects.isNull(disease) ? null : disease.getProductCategories();
+			if (Objects.nonNull(disease)) {
+				Hibernate.initialize(disease.getProductCategories());
+				return disease.getProductCategories();
+			}
+			return null;
 		}
 		return productCategories;
 	}

@@ -25,7 +25,8 @@ import com.stanzaliving.api.util.ProductVariantUtil;
  */
 @RestController
 @RequestMapping(value = {
-		"/productVariant"
+		"/productVariant",
+		"/productvariant"
 })
 public class ProductVariantRestController {
 

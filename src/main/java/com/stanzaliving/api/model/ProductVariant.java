@@ -17,12 +17,23 @@ import javax.persistence.Table;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+
 /**
  * @author nipunaggarwal
  *
  */
 @Entity
 @Table(name = "PRODUCT_VARIANT")
+@Getter
+@Setter
+@ToString
+@AllArgsConstructor
+@NoArgsConstructor
 public class ProductVariant {
 
 	@Id
@@ -42,68 +53,9 @@ public class ProductVariant {
 	@Column(name = "IMG_URL", nullable = true)
 	private String imgurl;
 
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "PRODUCT_ID")
 	@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 	private Product product;
-
-	public int getProductVariantId() {
-		return productVariantId;
-	}
-
-	public void setProductVariantId(int productVariantId) {
-		this.productVariantId = productVariantId;
-	}
-
-	public String getProductVariantName() {
-		return productVariantName;
-	}
-
-	public void setProductVariantName(String productVariantName) {
-		this.productVariantName = productVariantName;
-	}
-
-	public Boolean getIsActive() {
-		return isActive;
-	}
-
-	public void setIsActive(Boolean isActive) {
-		this.isActive = isActive;
-	}
-
-	public int getSequenceId() {
-		return sequenceId;
-	}
-
-	public void setSequenceId(int sequenceId) {
-		this.sequenceId = sequenceId;
-	}
-
-	public String getImgurl() {
-		return imgurl;
-	}
-
-	public void setImgurl(String imgurl) {
-		this.imgurl = imgurl;
-	}
-
-	public Product getProduct() {
-		return product;
-	}
-
-	public void setProduct(Product product) {
-		this.product = product;
-	}
-
-	@Override
-	public String toString() {
-		return "ProductVariant "
-				+ "[productVariantId=" + productVariantId + ", "
-				+ "productVariantName=" + productVariantName + ", "
-				+ "isActive=" + isActive + ", "
-				+ "sequenceId=" + sequenceId + ", "
-				+ "imgurl=" + imgurl + ", "
-				+ "product=" + product + "]";
-	}
 
 }

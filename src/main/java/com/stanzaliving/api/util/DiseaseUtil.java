@@ -4,6 +4,7 @@
  */
 package com.stanzaliving.api.util;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -14,6 +15,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.amazonaws.util.CollectionUtils;
 import com.stanzaliving.api.dto.DiseaseResponseDTO;
 import com.stanzaliving.api.model.Disease;
 import com.stanzaliving.api.service.DiseaseService;
@@ -24,7 +26,7 @@ import com.stanzaliving.api.service.DiseaseService;
  */
 @Component
 public class DiseaseUtil {
-	
+
 	@Autowired
 	private DiseaseService diseaseService;
 
@@ -52,5 +54,17 @@ public class DiseaseUtil {
 		Disease disease = diseaseService.findById(diseaseId);
 		return Objects.isNull(disease) ? null : disease;
 	}
-	
+
+	public List<Disease> getDiseases(List<Integer> subDiseaseIds, List<Integer> productCategoryIds, boolean isActive) {
+		List<Disease> diseases = new ArrayList<Disease>();
+		if (!CollectionUtils.isNullOrEmpty(subDiseaseIds)) {
+			diseases = diseaseService.findAllDiseasesForSubDiseases(isActive, subDiseaseIds);
+		} else if (!CollectionUtils.isNullOrEmpty(productCategoryIds)) {
+			diseases = diseaseService.findAllDiseasesForProductCategories(isActive, productCategoryIds);
+		} else if (Objects.nonNull(isActive)) {
+			diseases = diseaseService.findAllActiveDiseases(isActive);
+		}
+		return diseases;
+	}
+
 }

@@ -16,10 +16,20 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 /**
  * @author nipunaggarwal
@@ -27,6 +37,11 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
  */
 @Entity
 @Table(name = "DISEASE")
+@Getter
+@Setter
+@ToString
+@AllArgsConstructor
+@NoArgsConstructor
 public class Disease {
 
 	@Id
@@ -46,68 +61,17 @@ public class Disease {
 	@Column(name = "IMG_URL", nullable = true)
 	private String imgurl;
 
-	@ManyToMany(fetch = FetchType.EAGER)
+	@OneToMany(fetch = FetchType.LAZY)
+	@JsonBackReference
+	@JoinColumn(name = "DISEASE_ID")
+	@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+	private Set<SubDisease> subDiseases = new HashSet<SubDisease>();;
+
+	@ManyToMany(fetch = FetchType.LAZY)
+	@JsonManagedReference
 	@JoinTable(name = "DISEASE_PRODUCT_CATEGORY", joinColumns = { @JoinColumn(name = "DISEASE_ID") }, inverseJoinColumns = {
 			@JoinColumn(name = "PRODUCT_CATEGORY_ID") })
 	@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 	private Set<ProductCategory> productCategories = new HashSet<ProductCategory>();
 
-	public int getDiseaseId() {
-		return diseaseId;
-	}
-
-	public void setDiseaseId(int diseaseId) {
-		this.diseaseId = diseaseId;
-	}
-
-	public String getDiseaseName() {
-		return diseaseName;
-	}
-
-	public void setDiseaseName(String diseaseName) {
-		this.diseaseName = diseaseName;
-	}
-
-	public Boolean getIsActive() {
-		return isActive;
-	}
-
-	public void setIsActive(Boolean isActive) {
-		this.isActive = isActive;
-	}
-
-	public int getSequenceId() {
-		return sequenceId;
-	}
-
-	public void setSequenceId(int sequenceId) {
-		this.sequenceId = sequenceId;
-	}
-
-	public String getImgurl() {
-		return imgurl;
-	}
-
-	public void setImgurl(String imgurl) {
-		this.imgurl = imgurl;
-	}
-
-	public Set<ProductCategory> getProductCategories() {
-		return productCategories;
-	}
-
-	public void setProductCategories(Set<ProductCategory> productCategories) {
-		this.productCategories = productCategories;
-	}
-
-	@Override
-	public String toString() {
-		return "Disease "
-				+ "[diseaseId=" + diseaseId + ", "
-				+ "diseaseName=" + diseaseName + ", "
-				+ "isActive=" + isActive + ", "
-				+ "sequenceId=" + sequenceId + ", "
-				+ "imgurl=" + imgurl + ", "
-				+ "productCategories=" + productCategories + "]";
-	}
 }

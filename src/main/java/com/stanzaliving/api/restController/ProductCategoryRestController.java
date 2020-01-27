@@ -24,7 +24,8 @@ import com.stanzaliving.api.util.ProductCategoryUtil;
  */
 @RestController
 @RequestMapping(value = {
-		"/productCategory"
+		"/productCategory",
+		"/productcategory"
 })
 public class ProductCategoryRestController {
 

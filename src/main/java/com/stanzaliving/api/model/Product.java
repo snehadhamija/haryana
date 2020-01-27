@@ -4,12 +4,25 @@
  */
 package com.stanzaliving.api.model;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 /**
  * @author nipunaggarwal
@@ -17,6 +30,11 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "PRODUCT")
+@Getter
+@Setter
+@ToString
+@AllArgsConstructor
+@NoArgsConstructor
 public class Product {
 
 	@Id
@@ -36,54 +54,7 @@ public class Product {
 	@Column(name = "IMG_URL", nullable = true)
 	private String imgurl;
 
-	public int getProductId() {
-		return productId;
-	}
-
-	public void setProductId(int productId) {
-		this.productId = productId;
-	}
-
-	public String getProductName() {
-		return productName;
-	}
-
-	public void setProductName(String productName) {
-		this.productName = productName;
-	}
-
-	public Boolean getIsActive() {
-		return isActive;
-	}
-
-	public void setIsActive(Boolean isActive) {
-		this.isActive = isActive;
-	}
-
-	public int getSequenceId() {
-		return sequenceId;
-	}
-
-	public void setSequenceId(int sequenceId) {
-		this.sequenceId = sequenceId;
-	}
-
-	public String getImgurl() {
-		return imgurl;
-	}
-
-	public void setImgurl(String imgurl) {
-		this.imgurl = imgurl;
-	}
-
-	@Override
-	public String toString() {
-		return "Product "
-				+ "[productId=" + productId + ", "
-				+ "productName=" + productName + ", "
-				+ "isActive=" + isActive + ", "
-				+ "sequenceId=" + sequenceId + ", "
-				+ "imgurl=" + imgurl + "]";
-	}
-
+	@JsonBackReference
+	@ManyToMany(mappedBy = "products", fetch = FetchType.LAZY)
+	private Set<ProductCategory> productCategories = new HashSet<ProductCategory>();
 }

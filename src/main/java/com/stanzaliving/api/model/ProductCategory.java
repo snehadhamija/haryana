@@ -21,12 +21,26 @@ import javax.persistence.Table;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+
 /**
  * @author nipunaggarwal
  *
  */
 @Entity
 @Table(name = "PRODUCT_CATEGORY")
+@Getter
+@Setter
+@ToString
+@AllArgsConstructor
+@NoArgsConstructor
 public class ProductCategory {
 
 	@Id
@@ -46,69 +60,15 @@ public class ProductCategory {
 	@Column(name = "IMG_URL", nullable = true)
 	private String imgurl;
 
-	@ManyToMany(fetch = FetchType.EAGER)
+	@JsonBackReference
+	@ManyToMany(mappedBy = "productCategories", fetch = FetchType.LAZY)
+	private Set<Disease> diseases = new HashSet<Disease>();
+
+	@ManyToMany(fetch = FetchType.LAZY)
+	@JsonManagedReference
 	@JoinTable(name = "PRODUCT_CATEGORY_PRODUCT", joinColumns = { @JoinColumn(name = "PRODUCT_CATEGORY_ID") }, inverseJoinColumns = {
 			@JoinColumn(name = "PRODUCT_ID") })
 	@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 	private Set<Product> products = new HashSet<Product>();
-
-	public int getProductCategoryId() {
-		return productCategoryId;
-	}
-
-	public void setProductCategoryId(int productCategoryId) {
-		this.productCategoryId = productCategoryId;
-	}
-
-	public String getProductCategoryName() {
-		return productCategoryName;
-	}
-
-	public void setProductCategoryName(String productCategoryName) {
-		this.productCategoryName = productCategoryName;
-	}
-
-	public Boolean getIsActive() {
-		return isActive;
-	}
-
-	public void setIsActive(Boolean isActive) {
-		this.isActive = isActive;
-	}
-
-	public int getSequenceId() {
-		return sequenceId;
-	}
-
-	public void setSequenceId(int sequenceId) {
-		this.sequenceId = sequenceId;
-	}
-
-	public String getImgurl() {
-		return imgurl;
-	}
-
-	public void setImgurl(String imgurl) {
-		this.imgurl = imgurl;
-	}
-
-	public Set<Product> getProducts() {
-		return products;
-	}
-
-	public void setProducts(Set<Product> products) {
-		this.products = products;
-	}
-
-	@Override
-	public String toString() {
-		return "ProductCategory "
-				+ "[productCategoryId=" + productCategoryId + ", "
-				+ "productCategoryName=" + productCategoryName + ", "
-				+ "isActive=" + isActive + ", "
-				+ "sequenceId=" + sequenceId + ", "
-				+ "imgurl=" + imgurl + ", "
-				+ "products=" + products + "]";
-	}
 
 }

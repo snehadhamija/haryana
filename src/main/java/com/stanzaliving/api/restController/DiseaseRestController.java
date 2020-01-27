@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.amazonaws.util.CollectionUtils;
 import com.stanzaliving.api.model.Disease;
-import com.stanzaliving.api.service.DiseaseService;
 import com.stanzaliving.api.util.DiseaseUtil;
 
 /**
@@ -30,16 +29,15 @@ import com.stanzaliving.api.util.DiseaseUtil;
 public class DiseaseRestController {
 
 	@Autowired
-	private DiseaseService diseaseService;
-
-	@Autowired
 	private DiseaseUtil diseaseUtil;
 
 	// ----- Get diseases -----
 	@RequestMapping(value = "", method = RequestMethod.GET)
 	public ResponseEntity<Object> findAllDiseases(
+			@RequestParam(name = "subDiseaseIds", required = false) List<Integer> subDiseaseIds,
+			@RequestParam(name = "productCategoryIds", required = false) List<Integer> productCategoryIds,
 			@RequestParam(name = "isActive", required = false, defaultValue = "true") boolean isActive) {
-		List<Disease> diseases = diseaseService.findAllActiveDiseases(isActive);
+		List<Disease> diseases = diseaseUtil.getDiseases(subDiseaseIds, productCategoryIds, isActive);
 		return !CollectionUtils.isNullOrEmpty(diseases)
 				? new ResponseEntity<Object>(diseaseUtil.getSortedDiseaseResponseDtoList(diseases), HttpStatus.OK)
 				: new ResponseEntity<Object>(HttpStatus.NO_CONTENT);
