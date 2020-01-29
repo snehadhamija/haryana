@@ -1,7 +1,9 @@
 package com.vcare.api.service;
 
 import java.util.List;
+import java.util.Objects;
 
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,7 +25,12 @@ public class FAQServiceImpl implements FAQService {
 
 	@Override
 	public FAQ findById(int id) {
-		return dao.findById(id);
+		FAQ faq = dao.findById(id);
+		if (Objects.nonNull(faq)) {
+			Hibernate.initialize(faq.getSubDiseases());
+			return faq;
+		}
+		return null;
 	}
 
 	@Override

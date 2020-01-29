@@ -6,13 +6,14 @@ package com.vcare.api.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.Cache;
@@ -57,7 +58,8 @@ public class AskAQuery {
 	@Column(name = "EMAIL", nullable = false)
 	private String email;
 
-	@Column(name = "GENDER", nullable = false)
+	@Enumerated(EnumType.STRING)
+	@Column(name = "GENDER", columnDefinition = "varchar(255) NOT NULL", nullable = false)
 	private Gender gender;
 
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -65,7 +67,8 @@ public class AskAQuery {
 	@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 	private FAQ faq;
 
-	@Column(name = "CONTACT_MODE", nullable = false)
+	@Enumerated(EnumType.STRING)
+	@Column(name = "CONTACT_MODE", columnDefinition = "varchar(255) NOT NULL", nullable = false)
 	private ContactMode contactMode;
 
 }

@@ -14,6 +14,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.amazonaws.util.StringUtils;
 import com.vcare.api.dto.FAQResponseDTO;
 import com.vcare.api.model.FAQ;
 import com.vcare.api.service.FAQService;
@@ -52,5 +53,22 @@ public class FAQUtil {
 		FAQ faq = faqService.findById(faqId);
 		return Objects.isNull(faq) ? null : faq;
 	}
+	
+	public FAQ saveFaq(String question) {
+		FAQ faq = new FAQ(question);
+		faqService.save(faq);
+		return faq;
+	}
 
+	public FAQ getFaqForIdOrQuestion(Integer id, String question) {
+		FAQ faq = null;
+		if (Objects.isNull(id)) {
+			if (!StringUtils.isNullOrEmpty(question)) {
+				faq = saveFaq(question);
+			}
+		} else {
+			faq = faqService.findById(id);
+		}
+		return faq;
+	}
 }

@@ -31,12 +31,10 @@ public abstract class AbstractDao<PK extends Serializable, T> {
 	}
 
 	public void persist(T entity) {
-		// return getSession().merge(entity);
 		getSession().persist(entity);
 	}
 
 	public void saveOrUpdate(T entity) {
-		// return getSession().merge(entity);
 		getSession().saveOrUpdate(entity);
 	}
 

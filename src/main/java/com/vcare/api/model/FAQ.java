@@ -21,6 +21,8 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
@@ -35,6 +37,7 @@ import lombok.ToString;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
+@RequiredArgsConstructor
 public class FAQ {
 
 	@Id
@@ -43,6 +46,7 @@ public class FAQ {
 	private int faqId;
 
 	@Column(name = "QUESTION", nullable = false)
+	@NonNull
 	private String question;
 
 	@Column(name = "IS_ACTIVE", nullable = false)
