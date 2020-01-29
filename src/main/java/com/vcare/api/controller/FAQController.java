@@ -2,7 +2,7 @@
  * @author nipunaggarwal
  *
  */
-package com.vcare.api.restController;
+package com.vcare.api.controller;
 
 import java.util.List;
 
@@ -30,7 +30,7 @@ import com.vcare.api.util.FAQUtil;
 		"/FAQ",
 		"fAQ"
 })
-public class FAQRestController {
+public class FAQController {
 
 	@Autowired
 	private FAQService fAQService;

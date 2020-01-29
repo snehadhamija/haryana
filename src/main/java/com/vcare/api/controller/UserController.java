@@ -1,4 +1,4 @@
-package com.vcare.api.restController;
+package com.vcare.api.controller;
 
 import java.util.Arrays;
 import java.util.Objects;
@@ -19,7 +19,7 @@ import com.vcare.api.service.UserService;
 
 @RestController
 @RequestMapping("/user")
-public class UserRestController {
+public class UserController {
 
 	@Autowired
 	UserService userService;

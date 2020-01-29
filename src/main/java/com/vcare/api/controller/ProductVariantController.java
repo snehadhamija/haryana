@@ -2,7 +2,7 @@
  * @author nipunaggarwal
  *
  */
-package com.vcare.api.restController;
+package com.vcare.api.controller;
 
 import java.util.List;
 
@@ -28,7 +28,7 @@ import com.vcare.api.util.ProductVariantUtil;
 		"/productVariant",
 		"/productvariant"
 })
-public class ProductVariantRestController {
+public class ProductVariantController {
 
 	@Autowired
 	private ProductVariantUtil productVariantUtil;

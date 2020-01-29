@@ -2,7 +2,7 @@
  * @author nipunaggarwal
  *
  */
-package com.vcare.api.restController;
+package com.vcare.api.controller;
 
 import java.util.Objects;
 
@@ -26,7 +26,7 @@ import com.vcare.api.util.CookieUtil;
 @RequestMapping(value = {
 		"/cartDetail"
 })
-public class CartDetailRestController {
+public class CartDetailController {
 
 	@Autowired
 	CookieUtil cookieUtil;

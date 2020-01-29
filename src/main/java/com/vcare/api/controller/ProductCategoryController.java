@@ -2,7 +2,7 @@
  * @author nipunaggarwal
  *
  */
-package com.vcare.api.restController;
+package com.vcare.api.controller;
 
 import java.util.Objects;
 import java.util.Set;
@@ -27,7 +27,7 @@ import com.vcare.api.util.ProductCategoryUtil;
 		"/productCategory",
 		"/productcategory"
 })
-public class ProductCategoryRestController {
+public class ProductCategoryController {
 
 	@Autowired
 	private ProductCategoryUtil productCategoryUtil;

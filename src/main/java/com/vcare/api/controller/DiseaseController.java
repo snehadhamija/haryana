@@ -2,7 +2,7 @@
  * @author nipunaggarwal
  *
  */
-package com.vcare.api.restController;
+package com.vcare.api.controller;
 
 import java.util.List;
 
@@ -26,7 +26,7 @@ import com.vcare.api.util.DiseaseUtil;
 @RequestMapping(value = {
 		"/disease"
 })
-public class DiseaseRestController {
+public class DiseaseController {
 
 	@Autowired
 	private DiseaseUtil diseaseUtil;

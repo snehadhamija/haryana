@@ -2,7 +2,7 @@
  * @author nipunaggarwal
  *
  */
-package com.vcare.api.restController;
+package com.vcare.api.controller;
 
 import java.util.List;
 
@@ -29,7 +29,7 @@ import com.vcare.api.util.SubDiseaseUtil;
 		"/subDisease",
 		"/subdisease"
 })
-public class SubDiseaseRestController {
+public class SubDiseaseController {
 
 	@Autowired
 	private SubDiseaseService subDiseaseService;
