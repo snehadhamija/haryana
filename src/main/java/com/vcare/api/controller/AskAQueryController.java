@@ -12,9 +12,10 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -40,7 +41,7 @@ public class AskAQueryController {
 	private AskAQueryUtil askAQueryUtil;
 
 	// ----- Get Asked Queries -----
-	@RequestMapping(value = "", method = RequestMethod.GET)
+	@GetMapping(value = "")
 	public ResponseEntity<Object> findAskedQueries(
 			@RequestParam(name = "mobileNumber", required = false) String mobileNumber,
 			@RequestParam(name = "email", required = false) String email) {
@@ -50,8 +51,8 @@ public class AskAQueryController {
 				: new ResponseEntity<Object>(HttpStatus.NO_CONTENT);
 	}
 
-	// ----- Save Asked A Query -----
-	@RequestMapping(value = "", method = RequestMethod.POST)
+	// ----- Save Ask A Query -----
+	@PostMapping(value = "")
 	public ResponseEntity<Object> saveAskAQuery(
 			@RequestBody @Valid AskAQueryRequestDTO askAQueryRequestDTO) {
 		AskAQuery askAQuery = askAQueryUtil.saveAskAQueryObject(askAQueryRequestDTO);
