@@ -3,10 +3,10 @@
 
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.vcare.api</groupId>
-	<artifactId>vcare</artifactId>
+	<artifactId>haryana</artifactId>
 	<packaging>jar</packaging>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>vcare</name>
+	<name>haryana</name>
 
 	<url>http://maven.apache.org</url>
 
@@ -261,7 +261,7 @@
 			</plugin>
 		</plugins>
 
-		<finalName>vcare</finalName>
+		<finalName>haryana</finalName>
 	</build>
 
 </project>
