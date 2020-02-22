@@ -24,7 +24,7 @@ public class GenderContoller {
 
 	// ----- Get gender values -----
 	@GetMapping(value = "")
-	public ResponseEntity<Object> findAskedQueries() {
+	public ResponseEntity<Object> findGenders() {
 		return new ResponseEntity<Object>(Gender.values(), HttpStatus.OK);
 	}
 }
